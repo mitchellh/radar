@@ -6,9 +6,9 @@
 Radar is a tool which provides a drop-in solution to catching and reporting
 errors in your Ruby applications in customizable ways.
 
-Radar is different from available tools such as Hoptoad and Exceptional
+Radar is not a typical exception notifier such as Hoptoad and Exceptional
 since the former are built with Rails apps in mind, logging to a central
-server, whereas Radar was initially built for [Vagrant](http://vagrantup.com),
+server. Instead, Radar was initially built for [Vagrant](http://vagrantup.com),
 a command line tool. And instead of solely logging to a central server,
 Radar supports logging in configurable ways (to a file, to a server, to
 a growl notification, etc.)
