@@ -4,16 +4,14 @@
 * IRC: `#vagrant` on Freenode
 
 Radar is a tool which provides a drop-in solution to catching and reporting
-errors in your Ruby libraries and apps to a radar server in the cloud.
+errors in your Ruby applications in customizable ways.
 
 Radar is different from available tools such as Hoptoad and Exceptional
-since the former are built with Rails apps in mind, whereas Radar is
-built for the more general case, and can also handle local logging in
-addition to pushing to a remote server.
-
-**Note:** The server portion of Radar is as of yet incomplete. This is
-planned for the near future but not yet implemented.
-
+since the former are built with Rails apps in mind, logging to a central
+server, whereas Radar was initially built for [Vagrant](http://vagrantup.com),
+a command line tool. And instead of solely logging to a central server,
+Radar supports logging in configurable ways (to a file, to a server, to
+a growl notification, etc.)
 
 ## Quick Start
 
