@@ -21,5 +21,12 @@ class ApplicationTest < Test::Unit::TestCase
         assert_equal "foo", @instance.config.storage_directory
       end
     end
+
+    context "reporting" do
+
+    end
+
+    # Untested: Application#rescue_at_exit! since I'm not aware of an
+    # [easy] way of testing it without spawning out a separate process.
   end
 end
