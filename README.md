@@ -21,14 +21,23 @@ planned for the near future but not yet implemented.
 
 Then just begin logging exceptions in your application:
 
-    Radar.report(exception)
+    $radar = Radar::Application.new
+    $radar.report(exception)
 
 You can also tell Radar to attach itself to Ruby's `at_exit` hook
 so it can catch application-crashing exceptions automatically:
 
-    Radar.rescue_at_exit!
+    $radar.rescue_at_exit!
 
 Both of the above methods can be used together, of course.
+
+The reason for Radar requiring instantiation (rather than exposing
+various class methods) is clear: So that dependencies of a project
+which may also be using Radar don't collide. Imagine you configure
+Radar to dump exception reports to directory `foo`, but one of your
+dependencies configures it to dump to directory `bar`, which overrides
+your configuration. To facilitate multiple Radar instances running
+in a single app, Radar requires instantiating an application.
 
 ## Documentation and User Guide
 

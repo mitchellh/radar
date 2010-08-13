@@ -2,11 +2,13 @@ PATH
   remote: .
   specs:
     radar (0.1.0.dev)
+      json (>= 1.4.6)
 
 GEM
   remote: http://rubygems.org/
   specs:
     bluecloth (2.0.7)
+    json (1.4.6)
     mocha (0.9.8)
       rake
     rake (0.8.7)
@@ -19,6 +21,7 @@ PLATFORMS
 DEPENDENCIES
   bluecloth
   bundler (>= 1.0.0.rc.5)
+  json (>= 1.4.6)
   mocha
   radar!
   rake

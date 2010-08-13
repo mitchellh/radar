@@ -3,3 +3,4 @@ pkg/*
 .bundle/*
 doc/*
 .yardoc/*
+test.rb

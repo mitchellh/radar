@@ -15,6 +15,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "radar"
 
+  s.add_dependency "json", ">= 1.4.6"
+
   s.add_development_dependency "bundler", ">= 1.0.0.rc.5"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "mocha"
