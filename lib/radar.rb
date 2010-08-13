@@ -1,3 +1,3 @@
 module Radar
-  # Your code goes here...
+  autoload :Config, 'radar/config'
 end

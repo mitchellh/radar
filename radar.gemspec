@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "bundler", ">= 1.0.0.rc.5"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "mocha"
+  s.add_development_dependency "yard"
+  s.add_development_dependency "bluecloth"
   s.add_development_dependency "rake"
 
   s.files        = `git ls-files`.split("\n")
