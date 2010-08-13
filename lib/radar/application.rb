@@ -25,7 +25,8 @@ module Radar
     #
     # @param [Exception] exception
     def report(exception)
-      p ExceptionData.new(exception).to_hash
+      # TODO this probably won't stay (needs more context)
+      data = ExceptionData.new(exception)
     end
 
     # Hooks this application into the `at_exit` handler so that

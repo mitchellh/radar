@@ -8,17 +8,21 @@ class ApplicationTest < Test::Unit::TestCase
     end
 
     context "configuration" do
+      setup do
+        @instance.config.reporters.clear
+      end
+
       should "be able to configure an application" do
-        @instance.config.storage_directory = "foo"
-        assert_equal "foo", @instance.config.storage_directory
+        @instance.config.reporter(nil)
+        assert !@instance.config.reporters.empty?
       end
 
       should "be able to configure using a block" do
         @instance.config do |config|
-          config.storage_directory = "foo"
+          config.reporter(nil)
         end
 
-        assert_equal "foo", @instance.config.storage_directory
+        assert !@instance.config.reporters.empty?
       end
     end
 

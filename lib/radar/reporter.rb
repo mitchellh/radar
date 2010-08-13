@@ -21,14 +21,6 @@ module Radar
   # functionality.
   #
   class Reporter
-    attr_reader :app
-
-    # Initialize the reporter with the application. The application is
-    # useful since it may carry configuration information for the reporter.
-    def initialize(app)
-      @app = app
-    end
-
     # Report the environment.
     def report(environment)
       raise "Implement the `report` method in #{self.class}"
