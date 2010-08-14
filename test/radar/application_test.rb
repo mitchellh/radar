@@ -4,7 +4,14 @@ class ApplicationTest < Test::Unit::TestCase
   context "application class" do
     setup do
       @klass = Radar::Application
-      @instance = @klass.new
+      @instance = @klass.new("bar")
+    end
+
+    context "creating" do
+      should "be able to create for a name" do
+        instance = @klass.create("foo")
+        assert_equal "foo", instance.name
+      end
     end
 
     context "configuration" do

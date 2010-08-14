@@ -2,6 +2,28 @@ module Radar
   # Represents an instance of Radar for a given application. Every
   # application which uses Radar must instantiate an {Application}.
   class Application
+    attr_reader :name
+
+    # Creates a new application with the given name and registers
+    # it for lookup later.
+    #
+    # @param [String] name Application name. This must be unique for
+    #   any given application or an exception will be raised.
+    # @return [Application]
+    def self.create(name)
+      new(name)
+    end
+
+    # Initialize a new application instance with the given name. This
+    # method **should not be called** directly. Instead, please use the
+    # {create} method.
+    #
+    # @param [String] name Application name. This must be unique for
+    #   any given application.
+    def initialize(name)
+      @name = name
+    end
+
     # Configures the application by returning the configuration
     # object. If a block is given, the configuration object will be
     # passed into it, allowing for a cleaner way of configuring your
