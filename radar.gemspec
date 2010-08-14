@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Mitchell Hashimoto"]
   s.email       = ["mitchell.hashimoto@gmail.com"]
   s.homepage    = "http://rubygems.org/gems/radar"
-  s.summary     = "Easily report errors in your libraries to the cloud."
-  s.description = "Radar provides a drop-in solution to catching and reporting errors to a radar server in the cloud."
+  s.summary     = "Easily report errors in your Ruby libraries and applications any way you want!"
+  s.description = "Radar provides a drop-in solution to catching and reporting errors in your libraries and applications."
 
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "radar"
