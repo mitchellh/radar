@@ -32,9 +32,7 @@ module Radar
     # Hooks this application into the `at_exit` handler so that
     # application crashing exceptions are properly reported.
     def rescue_at_exit!
-      at_exit do
-        report($!) if $!
-      end
+      at_exit { report($!) if $! }
     end
   end
 end
