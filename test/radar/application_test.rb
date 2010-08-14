@@ -33,6 +33,12 @@ class ApplicationTest < Test::Unit::TestCase
           @klass.create("foo")
         }
       end
+
+      should "yield with the instance if a block is given" do
+        @klass.create("foo") do |instance|
+          assert instance.is_a?(@klass)
+        end
+      end
     end
 
     context "configuration" do

@@ -8,13 +8,16 @@ module Radar
     attr_reader :creation_location
 
     # Creates a new application with the given name and registers
-    # it for lookup later.
+    # it for lookup later. If a block is given, it will be yielded with
+    # the new instantiated {Application} so you can also {#config} it
+    # all in one go.
     #
     # @param [String] name Application name. This must be unique for
     #   any given application or an exception will be raised.
     # @return [Application]
     def self.create(name, register=true)
       result = new(name, caller.first)
+      yield result if block_given?
       @@registered[name] = result if register
       result
     end
