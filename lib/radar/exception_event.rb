@@ -1,7 +1,7 @@
 module Radar
   # Represents the event of an exception being captured. This class
-  # contains references to an {ApplicationEnvironment} and also to
-  # the {ExceptionData}.
+  # contains references to the {Application} and exception which is
+  # raised.
   class ExceptionEvent
     attr_reader :application
     attr_reader :exception

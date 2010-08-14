@@ -1,4 +1,10 @@
 module Radar
+  # A shortcut for {Application.find}.
+  def [](*args)
+    Application.find(*args)
+  end
+  module_function :[]
+
   # Represents an instance of Radar for a given application. Every
   # application which uses Radar must instantiate an {Application}.
   class Application
