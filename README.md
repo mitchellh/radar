@@ -54,3 +54,11 @@ can be installed with a simple `gem install bundler`. Then, do the following:
 
 This will run the test suite, which should come back all green! Then you're
 good to go.
+
+The general steps to contributing a new change are:
+
+1. Fork the repository
+2. Make your changes, writing tests if necessary
+3. Open an [issue](http://github.com/mitchellh/radar/issues) with the feature and
+   a link to your fork or a gist with a patch.
+4. Wait patiently, for I am but one man.
