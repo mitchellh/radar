@@ -25,8 +25,7 @@ module Radar
     #
     # @param [Exception] exception
     def report(exception)
-      # TODO this probably won't stay (needs more context)
-      data = ExceptionData.new(exception)
+      data = ExceptionEvent.new(self, exception)
 
       # Report the exception to each of the reporters
       config.reporters.each do |reporter|
@@ -38,6 +37,12 @@ module Radar
     # application crashing exceptions are properly reported.
     def rescue_at_exit!
       at_exit { report($!) if $! }
+    end
+
+    # Converts application to a serialization-friendly hash.
+    def to_hash
+      # TODO
+      {}
     end
   end
 end

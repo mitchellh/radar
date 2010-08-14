@@ -53,6 +53,10 @@ class ApplicationTest < Test::Unit::TestCase
       end
     end
 
+    context "to_hash" do
+      # TODO
+    end
+
     # Untested: Application#rescue_at_exit! since I'm not aware of an
     # [easy] way of testing it without spawning out a separate process.
   end
