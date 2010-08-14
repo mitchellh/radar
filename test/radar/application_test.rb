@@ -27,7 +27,30 @@ class ApplicationTest < Test::Unit::TestCase
     end
 
     context "reporting" do
+      setup do
+        # The fake reporter class
+        reporter = Class.new do
+          def report(environment)
+            raise "success"
+          end
+        end
 
+        # Setup the application to use the fake reporter
+        @instance.config do |config|
+          config.reporter reporter
+        end
+      end
+
+      should "call report on each registered reporter" do
+        assert_raises(RuntimeError) do
+          begin
+            @instance.report(Exception.new)
+          rescue => e
+            assert_equal "success", e.message
+            raise
+          end
+        end
+      end
     end
 
     # Untested: Application#rescue_at_exit! since I'm not aware of an

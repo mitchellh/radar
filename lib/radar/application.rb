@@ -27,6 +27,11 @@ module Radar
     def report(exception)
       # TODO this probably won't stay (needs more context)
       data = ExceptionData.new(exception)
+
+      # Report the exception to each of the reporters
+      config.reporters.each do |reporter|
+        reporter.instance.report(data)
+      end
     end
 
     # Hooks this application into the `at_exit` handler so that
