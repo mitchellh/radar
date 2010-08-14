@@ -2,7 +2,10 @@ module Radar
   # Represents an instance of Radar for a given application. Every
   # application which uses Radar must instantiate an {Application}.
   class Application
+    @@registered = {}
+
     attr_reader :name
+    attr_reader :creation_location
 
     # Creates a new application with the given name and registers
     # it for lookup later.
@@ -10,8 +13,25 @@ module Radar
     # @param [String] name Application name. This must be unique for
     #   any given application or an exception will be raised.
     # @return [Application]
-    def self.create(name)
-      new(name)
+    def self.create(name, register=true)
+      result = new(name, caller.first)
+      @@registered[name] = result if register
+      result
+    end
+
+    # Looks up an application which was registered with {create} with
+    # the given name.
+    #
+    # @param [String] name Application name.
+    # @return [Application]
+    def self.find(name)
+      @@registered[name]
+    end
+
+    # Removes all registered applications. **This is only exposed for testing
+    # purposes.**
+    def self.clear!
+      @@registered.clear
     end
 
     # Initialize a new application instance with the given name. This
@@ -20,8 +40,10 @@ module Radar
     #
     # @param [String] name Application name. This must be unique for
     #   any given application.
-    def initialize(name)
+    def initialize(name, creation_location)
+      raise "Radar::Application '#{name}' already defined at '#{self.class.find(name).creation_location}'" if self.class.find(name)
       @name = name
+      @creation_location = creation_location
     end
 
     # Configures the application by returning the configuration

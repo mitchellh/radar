@@ -4,13 +4,34 @@ class ApplicationTest < Test::Unit::TestCase
   context "application class" do
     setup do
       @klass = Radar::Application
-      @instance = @klass.new("bar")
+      @instance = @klass.create("bar", false)
     end
 
     context "creating" do
+      teardown do
+        @klass.clear!
+      end
+
       should "be able to create for a name" do
         instance = @klass.create("foo")
         assert_equal "foo", instance.name
+      end
+
+      should "be able to lookup after created" do
+        instance = @klass.create("foo")
+        assert_equal instance, @klass.find("foo")
+      end
+
+      should "allow creation of unregistered applications" do
+        instance = @klass.create("foo", false)
+        assert_nil @klass.find("foo")
+      end
+
+      should "raise an exception if duplicate name is used" do
+        assert_raises(RuntimeError) {
+          @klass.create("foo")
+          @klass.create("foo")
+        }
       end
     end
 
