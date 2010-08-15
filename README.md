@@ -2,6 +2,8 @@
 
 * Source: [http://github.com/mitchellh/radar](http://github.com/mitchellh/radar)
 * IRC: `#vagrant` on Freenode
+* User Guide: [http://mitchellh.github.com/radar/file.user_guide.html](http://mitchellh.github.com/radar/file.user_guide.html)
+* Documentation: [http://mitchellh.github.com/radar](http://mitchellh.github.com/radar)
 
 Radar is a tool which provides a drop-in solution to catching and reporting
 errors in your Ruby applications in customizable ways.
