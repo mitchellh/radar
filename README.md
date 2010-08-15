@@ -13,6 +13,13 @@ a command line tool. And instead of solely logging to a central server,
 Radar supports logging in configurable ways (to a file, to a server, to
 a growl notification, etc.)
 
+Radar was built out of the need for an easy automated solution to catching
+exceptions and gathering information, since I noticed that every time a stack
+trace was outputted for [Vagrant](http://vagrantup.com), I was asking the
+user all the same questions which could've easily have been gathered automatically.
+Now, Vagrant users can simply send me the radar output and I don't have to
+ask for any more information 90% of the time.
+
 ## Quick Start
 
     gem install radar
