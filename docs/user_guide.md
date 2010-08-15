@@ -64,7 +64,33 @@ in the order they are defined when an exception occurs:
 
 ### Built-in Reporters
 
-None yet!
+#### FileReporter
+
+{Radar::Reporter::FileReporter FileReporter} outputs exception information as JSON to a file
+on the local filesystem. The filename is in the format of `timestamp-uniquehash.txt`,
+where `timestamp` is the time that the exception occurred and `uniquehash` is the
+{Radar::ExceptionEvent#uniqueness_hash}.
+
+The directory where these files will be stored is configurable:
+
+    Radar::Application.new(:my_application) do |app|
+      app.config.reporter Radar::Reporter::FileReporter do |reporter|
+        reporter.output_directory = "~/my_application_errors"
+      end
+    end
+
+You may also use a lambda. Below is also the default value for the FileReporter:
+
+    reporter.output_directory = lambda { |event| "~/.radar/#{event.application.name}" }
+
+A few notes:
+
+* The FileReporter does not automatically handle cleaning up old exception files or reporting
+  these files to any remote server. It is up to you, if you wish, to clean up old
+  exception information.
+* The JSON output is compressed JSON, and is not pretty printed. It is up to you to take the
+  JSON and pretty print it if you wish it to be easily human readable. There are
+  [services](http://jsonformatter.curiousconcept.com/) out there to do this.
 
 ### Custom Reporters
 
