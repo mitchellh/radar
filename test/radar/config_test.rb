@@ -46,8 +46,8 @@ class ConfigTest < Test::Unit::TestCase
         @instance.data_extensions.clear
       end
 
-      should "initially have no data extensions" do
-        assert @instance.data_extensions.empty?
+      should "initially have some data extensions" do
+        assert_equal [Radar::DataExtensions::HostEnvironment], @instance.data_extensions
       end
 
       should "be able to add data extensions" do

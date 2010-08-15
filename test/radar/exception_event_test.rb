@@ -36,10 +36,13 @@ class ExceptionEventTest < Test::Unit::TestCase
       end
     end
 
-    context "uniqueness hash" do
-      should "generate a uniqueness hash" do
-        assert @instance.uniqueness_hash, "should have generated a uniqueness hash"
-      end
+    should "generate a uniqueness hash" do
+      assert @instance.uniqueness_hash, "should have generated a uniqueness hash"
+    end
+
+    should "have a timestamp of when the exception occurred" do
+      assert @instance.occurred_at
+      assert @instance.occurred_at.is_a?(Time)
     end
   end
 end

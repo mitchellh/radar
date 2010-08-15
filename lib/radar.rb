@@ -11,4 +11,8 @@ module Radar
   module DataExtensions
     autoload :HostEnvironment, 'radar/data_extensions/host_environment'
   end
+
+  class Reporter
+    autoload :FileReporter, 'radar/reporter/file_reporter'
+  end
 end

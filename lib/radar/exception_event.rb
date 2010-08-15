@@ -8,10 +8,12 @@ module Radar
   class ExceptionEvent
     attr_reader :application
     attr_reader :exception
+    attr_reader :occurred_at
 
     def initialize(application, exception)
       @application = application
       @exception = exception
+      @occurred_at = Time.now
     end
 
     # A hash of information about this exception event. This includes
@@ -27,7 +29,8 @@ module Radar
           :message => exception.message,
           :backtrace => exception.backtrace,
           :uniqueness_hash => uniqueness_hash
-        }
+        },
+        :occurred_at => occurred_at.to_i
       }
 
       if !application.config.data_extensions.empty?
