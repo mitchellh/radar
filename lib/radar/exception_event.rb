@@ -12,13 +12,25 @@ module Radar
     end
 
     def to_hash
-      { :application => application.to_hash,
+      result = { :application => application.to_hash,
         :exception => {
           :klass => exception.class.to_s,
           :message => exception.message,
           :backtrace => exception.backtrace
         }
       }
+
+      if !application.config.data_extensions.empty?
+        # If data extensions are configured, then append those to
+        # the event hash.
+        result[:extension] = {}
+
+        application.config.data_extensions.each do |extension|
+          result[:extension].merge!(extension.new(self).to_hash)
+        end
+      end
+
+      result
     end
   end
 end
