@@ -35,5 +35,11 @@ class ExceptionEventTest < Test::Unit::TestCase
         assert_equal @instance.to_hash.to_json, @instance.to_json
       end
     end
+
+    context "uniqueness hash" do
+      should "generate a uniqueness hash" do
+        assert @instance.uniqueness_hash, "should have generated a uniqueness hash"
+      end
+    end
   end
 end
