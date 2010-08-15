@@ -11,17 +11,25 @@ class ExceptionEventTest < Test::Unit::TestCase
     end
 
     context "to_hash" do
-      should "include data extensions if defined" do
-        extension = Class.new do
-          def initialize(event); @event = event; end
-          def to_hash; { :foo => :bar }; end
+      context "data extensions" do
+        setup do
+          @extension = Class.new do
+            def initialize(event); @event = event; end
+            def to_hash; { :exception => { :foo => :bar } }; end
+          end
+
+          @application.config.data_extension @extension
+          @result = @instance.to_hash
         end
 
-        @application.config.data_extension extension
+        should "include data extensions if defined" do
+          assert @result[:exception].has_key?(:foo), "instance should have key: foo"
+          assert_equal :bar, @result[:exception][:foo]
+        end
 
-        result = @instance.to_hash
-        assert result.has_key?(:foo), "instance should have key: foo"
-        assert_equal :bar, result[:foo]
+        should "deep merge information" do
+          assert @result[:exception].has_key?(:klass)
+        end
       end
     end
 
