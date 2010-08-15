@@ -40,9 +40,13 @@ look it up later anywhere in your application:
 ## Documentation and User Guide
 
 For more details on configuring Radar, please view the user guide
-which is available in the [user_guide](#) file.
+which is available in the [user_guide](https://github.com/mitchellh/radar/blob/master/docs/user_guide.md) file.
 
-^^^ COMING SOON ^^^
+## Reporting Bugs and Requesting Features
+
+Please use the [issues section](http://github.com/mitchellh/radar/issues) to report
+bugs and request features. This section is also used as the TODO area for the
+Radar gem.
 
 ## Contributing
 
