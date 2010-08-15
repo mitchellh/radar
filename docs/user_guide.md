@@ -16,12 +16,50 @@ that the gem is included properly.
 
 ## Basic Usage
 
+### Setup
+
 First, as early as possible in your application so that Radar can begin
 catching exceptions right away, create a new {Radar::Application}
 instance for your own app, replacing `my_application` with a unique name for your
 application.
 
     Radar::Application.new(:my_application)
+
+But this alone won't do anything, since you haven't configured any reporters
+for the application. Reporters are what handle taking an {Radar::ExceptionEvent ExceptionEvent}
+and doing something with it (such as storing it in a file, reporting it to a
+remote server, etc.). Radar comes with some built-in reporters. Below, we configure
+the application to log errors to a file (by default at `~/.radar/errors/my_application`):
+
+    Radar::Application.new(:my_application) do |app|
+      app.config.reporter Radar::Reporter::FileReporter
+    end
+
+### Reporting Errors
+
+Once the application is setup, there are two methods to report errors:
+
+1. Manually call the {Radar::Application#report report} method on the application.
+2. Tell the application to {Radar::Application#rescue_at_exit! rescue at exit} so
+   Radar automatically catches any exceptions before your application crashes.
+
+Calling the report method manually:
+
+    app = Radar::Application.new(:my_application)
+    app.report(exception)
+
+The use case for this is in a `rescue` block somewhere, and forces Radar
+to report the given exception.
+
+Telling Radar to catch exceptions on exit is equally simple, and can be
+used in conjunction with the above method as well:
+
+    app = Radar::Application.new(:my_application)
+    app.rescue_at_exit!
+
+Now, whenever your application is about to crash (an exception not caught by
+a `rescue`), Radar will catch your exception and report it just prior to
+crashing.
 
 # Features
 
