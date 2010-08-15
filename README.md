@@ -75,8 +75,9 @@ look it up later anywhere in your application:
 
 ## Documentation and User Guide
 
-For more details on configuring Radar, please view the user guide
-which is available in the [user_guide](https://github.com/mitchellh/radar/blob/master/docs/user_guide.md) file.
+For more details on configuring Radar, please view the
+[user guide](http://mitchellh.github.com/radar/file.user_guide.html), which
+is a detailed overview of Radar and all of its features.
 
 ## Reporting Bugs and Requesting Features
 
