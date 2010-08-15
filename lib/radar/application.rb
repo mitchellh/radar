@@ -16,25 +16,7 @@ module Radar
     attr_reader :name
     attr_reader :creation_location
 
-    # Creates a new application with the given name and registers
-    # it for lookup later. If a block is given, it will be yielded with
-    # the new instantiated {Application} so you can also {#config} it
-    # all in one go.
-    #
-    # @param [String] name Application name. This must be unique for
-    #   any given application or an exception will be raised.
-    # @return [Application]
-    def self.create(name, register=true)
-      @@mutex.synchronize do
-        result = new(name, caller.first)
-        yield result if block_given?
-        @@registered[name] = result if register
-        result
-      end
-    end
-
-    # Looks up an application which was registered with {create} with
-    # the given name.
+    # Looks up an application which was registered with the given name.
     #
     # @param [String] name Application name.
     # @return [Application]
@@ -48,16 +30,23 @@ module Radar
       @@registered.clear
     end
 
-    # Initialize a new application instance with the given name. This
-    # method **should not be called** directly. Instead, please use the
-    # {create} method.
+    # Creates a new application with the given name and registers
+    # it for lookup later. If a block is given, it will be yielded with
+    # the new instantiated {Application} so you can also {#config} it
+    # all in one go.
     #
     # @param [String] name Application name. This must be unique for
-    #   any given application.
-    def initialize(name, creation_location)
-      raise ApplicationAlreadyExists.new("'#{name}' already defined at '#{self.class.find(name).creation_location}'") if self.class.find(name)
-      @name = name
-      @creation_location = creation_location
+    #   any given application or an exception will be raised.
+    # @return [Application]
+    def initialize(name, register=true)
+      @@mutex.synchronize do
+        raise ApplicationAlreadyExists.new("'#{name}' already defined at '#{self.class.find(name).creation_location}'") if self.class.find(name)
+
+        @name = name
+        @creation_location = caller.first
+        yield self if block_given?
+        @@registered[name] = self if register
+      end
     end
 
     # Configures the application by returning the configuration

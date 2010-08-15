@@ -19,7 +19,7 @@ a growl notification, etc.)
 
 Then just begin logging exceptions in your application:
 
-    r = Radar::Application.create(:my_application)
+    r = Radar::Application.new(:my_application)
     r.report(exception)
 
 You can also tell Radar to attach itself to Ruby's `at_exit` hook

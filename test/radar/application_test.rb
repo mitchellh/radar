@@ -4,38 +4,38 @@ class ApplicationTest < Test::Unit::TestCase
   context "application class" do
     setup do
       @klass = Radar::Application
-      @instance = @klass.create("bar", false)
+      @instance = @klass.new("bar", false)
     end
 
-    context "creating" do
+    context "initializing" do
       teardown do
         @klass.clear!
       end
 
       should "be able to create for a name" do
-        instance = @klass.create("foo")
+        instance = @klass.new("foo")
         assert_equal "foo", instance.name
       end
 
       should "be able to lookup after created" do
-        instance = @klass.create("foo")
+        instance = @klass.new("foo")
         assert_equal instance, @klass.find("foo")
       end
 
       should "allow creation of unregistered applications" do
-        instance = @klass.create("foo", false)
+        instance = @klass.new("foo", false)
         assert_nil @klass.find("foo")
       end
 
       should "raise an exception if duplicate name is used" do
         assert_raises(Radar::ApplicationAlreadyExists) {
-          @klass.create("foo")
-          @klass.create("foo")
+          @klass.new("foo")
+          @klass.new("foo")
         }
       end
 
       should "yield with the instance if a block is given" do
-        @klass.create("foo") do |instance|
+        @klass.new("foo") do |instance|
           assert instance.is_a?(@klass)
         end
       end

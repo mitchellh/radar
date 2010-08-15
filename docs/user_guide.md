@@ -21,7 +21,7 @@ catching exceptions right away, create a new {Radar::Application}
 instance for your own app, replacing `my_application` with a unique name for your
 application.
 
-    Radar::Application.create(:my_application)
+    Radar::Application.new(:my_application)
 
 # Features
 
@@ -41,14 +41,14 @@ of what this means with a few examples:
 
 Reporters are enabled using the appilication configuration:
 
-    Radar::Application.create(:my_application) do |app|
+    Radar::Application.new(:my_application) do |app|
       app.config.reporter FileReporter
     end
 
 And can be configured by passing a block to the reporter, which is yielded with
 the instance of that reporter:
 
-    Radar::Application.create(:my_application) do |app|
+    Radar::Application.new(:my_application) do |app|
       app.config.reporter FileReporter do |reporter|
         reporter.storage_directory = "~/.radar/exceptions"
       end
@@ -57,7 +57,7 @@ the instance of that reporter:
 Radar also allows multiple reporters to be used, which are then called
 in the order they are defined when an exception occurs:
 
-    Radar::Application.create(:my_application) do |app|
+    Radar::Application.new(:my_application) do |app|
       app.config.reporter FileReporter
       app.config.reporter AnotherReporter
     end
@@ -81,7 +81,7 @@ occurred:
 
 And then using that reporter is just as easy:
 
-    Radar::Application.create(:my_application) do |app|
+    Radar::Application.new(:my_application) do |app|
       app.config.reporter StdoutReporter
     end
 
@@ -116,6 +116,6 @@ method. Below is a data extension to add the output of `uname -a` to the event:
 Data extensions are enabled via the application configuration like most other
 things:
 
-    Radar::Application.create(:my_application) do |app|
+    Radar::Application.new(:my_application) do |app|
       app.config.data_extension UnameExtension
     end

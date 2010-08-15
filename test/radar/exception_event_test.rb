@@ -5,7 +5,7 @@ class ExceptionEventTest < Test::Unit::TestCase
     setup do
       @klass = Radar::ExceptionEvent
 
-      @application = Radar::Application.create(:foo, false)
+      @application = Radar::Application.new(:foo, false)
       @exception = StandardError.new("Something bad happened!")
       @instance = @klass.new(@application, @exception)
     end
