@@ -5,7 +5,7 @@ module Radar
 
     def initialize
       @reporters = []
-      @data_extensions = []
+      @data_extensions = [DataExtensions::HostEnvironment]
     end
 
     # Add a reporter to an application. If a block is given, it

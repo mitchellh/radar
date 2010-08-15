@@ -119,3 +119,15 @@ things:
     Radar::Application.new(:my_application) do |app|
       app.config.data_extension UnameExtension
     end
+
+### Built-In Data Extensions
+
+By default, {Radar::ExceptionEvent#to_hash} (view the source) returns very little
+information on its own. To be as general and extensible as possible, even the data
+such as information about the host are created using built-in data extensions.
+Some of these are enabled by default, which are designated by the `*` on the name.
+
+* {Radar::DataExtensions::HostEnvironment HostEnvironment}* - Adds information about the
+  host such as Ruby version and operating system.
+
+`*`: Enabled by default on every application.
