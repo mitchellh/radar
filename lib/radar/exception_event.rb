@@ -29,12 +29,8 @@ module Radar
       }
 
       if !application.config.data_extensions.empty?
-        # If data extensions are configured, then append those to
-        # the event hash.
-        result[:extension] = {}
-
         application.config.data_extensions.each do |extension|
-          result[:extension].merge!(extension.new(self).to_hash)
+          result.merge!(extension.new(self).to_hash)
         end
       end
 

@@ -11,10 +11,6 @@ class ExceptionEventTest < Test::Unit::TestCase
     end
 
     context "to_hash" do
-      should "not include extension key if no data extensions are enabled" do
-        assert !@instance.to_hash.has_key?(:extension), "instance should not have key: extension"
-      end
-
       should "include data extensions if defined" do
         extension = Class.new do
           def initialize(event); @event = event; end
@@ -24,8 +20,8 @@ class ExceptionEventTest < Test::Unit::TestCase
         @application.config.data_extension extension
 
         result = @instance.to_hash
-        assert result.has_key?(:extension), "instance should have key: extension"
-        assert_equal :bar, result[:extension][:foo]
+        assert result.has_key?(:foo), "instance should have key: foo"
+        assert_equal :bar, result[:foo]
       end
     end
 
