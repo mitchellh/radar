@@ -1,3 +1,5 @@
+require 'thread'
+
 module Radar
   # A shortcut for {Application.find}.
   def [](*args)
@@ -9,6 +11,7 @@ module Radar
   # application which uses Radar must instantiate an {Application}.
   class Application
     @@registered = {}
+    @@mutex = Mutex.new
 
     attr_reader :name
     attr_reader :creation_location
@@ -22,10 +25,12 @@ module Radar
     #   any given application or an exception will be raised.
     # @return [Application]
     def self.create(name, register=true)
-      result = new(name, caller.first)
-      yield result if block_given?
-      @@registered[name] = result if register
-      result
+      @@mutex.synchronize do
+        result = new(name, caller.first)
+        yield result if block_given?
+        @@registered[name] = result if register
+        result
+      end
     end
 
     # Looks up an application which was registered with {create} with
