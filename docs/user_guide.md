@@ -2,7 +2,26 @@
 
 ## Overview
 
+Radar is a tool which provides a drop-in solution to catching and reporting
+errors in your Ruby application via customizable mediums.
+
 ## Installation
+
+Install via RubyGems:
+
+    gem install radar
+
+Or specify in your own library or application's `Gemfile` or `gemspec` so
+that the gem is included properly.
+
+## Basic Usage
+
+First, as early as possible in your application so that Radar can begin
+catching exceptions right away, create a new {Radar::Application}
+instance for your own app, replacing `my_application` with a unique name for your
+application.
+
+    Radar::Application.create(:my_application)
 
 # Features
 
