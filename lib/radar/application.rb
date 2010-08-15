@@ -93,9 +93,10 @@ module Radar
     end
 
     # Converts application to a serialization-friendly hash.
+    #
+    # @return [Hash]
     def to_hash
-      # TODO
-      {}
+      { :name => name }
     end
   end
 end

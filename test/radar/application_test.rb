@@ -88,7 +88,13 @@ class ApplicationTest < Test::Unit::TestCase
     end
 
     context "to_hash" do
-      # TODO
+      setup do
+        @hash = @instance.to_hash
+      end
+
+      should "contain name" do
+        assert_equal @instance.name, @hash[:name]
+      end
     end
 
     # Untested: Application#rescue_at_exit! since I'm not aware of an
