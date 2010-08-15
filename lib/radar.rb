@@ -7,4 +7,8 @@ module Radar
   autoload :ExceptionEvent, 'radar/exception_event'
   autoload :Reporter,       'radar/reporter'
   autoload :Support,        'radar/support'
+
+  module DataExtensions
+    autoload :HostEnvironment, 'radar/data_extensions/host_environment'
+  end
 end

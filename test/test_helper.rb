@@ -6,3 +6,20 @@ require "test/unit"
 require "shoulda"
 require "mocha"
 require "radar"
+
+class Test::Unit::TestCase
+  # Returns a real {Radar::ExceptionEvent} object with a newly created
+  # {Radar::Application} and a valid (has a backtrace) exception.
+  def create_exception_event
+    application = Radar::Application.new(:foo, false)
+    exception = nil
+
+    begin
+      raise "Something bad happened!"
+    rescue => e
+      exception = e
+    end
+
+    Radar::ExceptionEvent.new(application, exception)
+  end
+end

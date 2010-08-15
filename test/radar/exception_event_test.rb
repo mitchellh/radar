@@ -4,10 +4,7 @@ class ExceptionEventTest < Test::Unit::TestCase
   context "ExceptionEvent class" do
     setup do
       @klass = Radar::ExceptionEvent
-
-      @application = Radar::Application.new(:foo, false)
-      @exception = StandardError.new("Something bad happened!")
-      @instance = @klass.new(@application, @exception)
+      @instance = create_exception_event
     end
 
     context "to_hash" do
@@ -18,7 +15,7 @@ class ExceptionEventTest < Test::Unit::TestCase
             def to_hash; { :exception => { :foo => :bar } }; end
           end
 
-          @application.config.data_extension @extension
+          @instance.application.config.data_extension @extension
           @result = @instance.to_hash
         end
 
