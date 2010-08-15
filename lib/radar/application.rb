@@ -82,7 +82,7 @@ module Radar
 
       # Report the exception to each of the reporters
       config.reporters.each do |reporter|
-        reporter.instance.report(data)
+        reporter.report(data)
       end
     end
 

@@ -44,16 +44,18 @@ class ApplicationTest < Test::Unit::TestCase
     context "configuration" do
       setup do
         @instance.config.reporters.clear
+
+        @reporter = Class.new
       end
 
       should "be able to configure an application" do
-        @instance.config.reporter(nil)
+        @instance.config.reporter(@reporter)
         assert !@instance.config.reporters.empty?
       end
 
       should "be able to configure using a block" do
         @instance.config do |config|
-          config.reporter(nil)
+          config.reporter(@reporter)
         end
 
         assert !@instance.config.reporters.empty?

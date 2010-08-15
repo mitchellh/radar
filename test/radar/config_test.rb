@@ -5,6 +5,8 @@ class ConfigTest < Test::Unit::TestCase
     setup do
       @klass = Radar::Config
       @instance = @klass.new
+
+      @reporter_klass = Class.new
     end
 
     should "initially have no reporters" do
@@ -12,44 +14,9 @@ class ConfigTest < Test::Unit::TestCase
     end
 
     should "be able to add reporters" do
-      @instance.reporter :foo
+      @instance.reporter @reporter_klass
       assert !@instance.reporters.empty?
-      assert @instance.reporters.first.is_a?(Radar::Config::LazyReporter)
-    end
-  end
-
-  context "lazy reporter" do
-    setup do
-      @klass = Radar::Config::LazyReporter
-    end
-
-    should "not initialize the class on initialization" do
-      klass = Class.new
-      klass.expects(:new).never
-
-      @klass.new(klass)
-    end
-
-    should "load the klass on demand" do
-      klass = Class.new
-      instance = @klass.new(klass)
-
-      klass.expects(:new).once.returns(7)
-      instance.instance
-      instance.instance
-    end
-
-    should "pass instance into block if given" do
-      klass = Class.new
-
-      proc = Proc.new {}
-      proc.expects(:call).once
-      instance = @klass.new(klass) do |r|
-        assert r.is_a?(klass)
-        proc.call
-      end
-
-      instance.instance
+      assert @instance.reporters.first.is_a?(@reporter_klass)
     end
   end
 end
