@@ -11,7 +11,7 @@ module Radar
       attr_accessor :output_directory
 
       def initialize
-        @output_directory = lambda { |event| "~/.radar/#{event.application.name}" }
+        @output_directory = lambda { |event| "~/.radar/errors/#{event.application.name}" }
       end
 
       def report(event)
