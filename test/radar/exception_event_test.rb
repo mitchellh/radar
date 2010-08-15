@@ -28,5 +28,11 @@ class ExceptionEventTest < Test::Unit::TestCase
         assert_equal :bar, result[:extension][:foo]
       end
     end
+
+    context "to_json" do
+      should "just jsonify hash output" do
+        assert_equal @instance.to_hash.to_json, @instance.to_json
+      end
+    end
   end
 end
