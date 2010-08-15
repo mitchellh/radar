@@ -1,3 +1,6 @@
+require 'radar/version'
+require 'radar/error'
+
 module Radar
   autoload :Application, 'radar/application'
   autoload :Config, 'radar/config'

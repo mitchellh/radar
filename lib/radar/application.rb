@@ -50,7 +50,7 @@ module Radar
     # @param [String] name Application name. This must be unique for
     #   any given application.
     def initialize(name, creation_location)
-      raise "Radar::Application '#{name}' already defined at '#{self.class.find(name).creation_location}'" if self.class.find(name)
+      raise ApplicationAlreadyExists.new("'#{name}' already defined at '#{self.class.find(name).creation_location}'") if self.class.find(name)
       @name = name
       @creation_location = creation_location
     end

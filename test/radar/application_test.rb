@@ -28,7 +28,7 @@ class ApplicationTest < Test::Unit::TestCase
       end
 
       should "raise an exception if duplicate name is used" do
-        assert_raises(RuntimeError) {
+        assert_raises(Radar::ApplicationAlreadyExists) {
           @klass.create("foo")
           @klass.create("foo")
         }
