@@ -18,5 +18,12 @@ class ConfigTest < Test::Unit::TestCase
       assert !@instance.reporters.empty?
       assert @instance.reporters.first.is_a?(@reporter_klass)
     end
+
+    should "yield the reporter instance if a block is given" do
+      @reporter_klass.any_instance.expects(:some_method).once
+      @instance.reporter @reporter_klass do |reporter|
+        reporter.some_method
+      end
+    end
   end
 end
