@@ -56,4 +56,78 @@ class ConfigTest < Test::Unit::TestCase
       end
     end
   end
+
+  context "UseArray class" do
+    setup do
+      @klass = Radar::Config::UseArray
+      @instance = @klass.new
+    end
+
+    should "allow inserting objects via use" do
+      assert @instance.empty?
+      @instance.use(:foo)
+      assert !@instance.empty?
+    end
+
+    should "store the length" do
+      assert_equal 0, @instance.length
+      @instance.use(:foo)
+      @instance.use(:bar)
+      assert_equal 2, @instance.length
+    end
+
+    should "allow inserting objects at specific indexes" do
+      @instance.use(:foo)
+      @instance.insert(0, :bar)
+      assert_equal [:bar, :foo], @instance.values
+    end
+
+    should "allow inserting objects at specified key" do
+      @instance.use(:foo)
+      @instance.insert_before(:foo, :bar)
+      assert_equal [:bar, :foo], @instance.values
+    end
+
+    should "allow inserting objects after specified key" do
+      @instance.use(:foo)
+      @instance.insert_after(:foo, :bar)
+      assert_equal [:foo, :bar], @instance.values
+    end
+
+    should "raise an exception if inserting after a nonexistent key" do
+      assert_raises(ArgumentError) {
+        @instance.insert_after(:foo, :bar)
+      }
+    end
+
+    should "allow swapping objects" do
+      @instance.use(:foo)
+      @instance.swap(:foo, :bar)
+      assert_equal :bar, @instance.values.first
+    end
+
+    should "allow deleting objects" do
+      @instance.use(:foo)
+      @instance.delete(:foo)
+      assert @instance.empty?
+    end
+
+    should "allow querying for the values in the array" do
+      @instance.use(:foo)
+      @instance.use(:bar)
+      assert_equal [:foo, :bar], @instance.values
+    end
+
+    should "return the index of the given items" do
+      @instance.use(:foo)
+      @instance.use(:bar)
+
+      assert_equal 0, @instance.index(:foo)
+      assert_equal 1, @instance.index(:bar)
+    end
+
+    should "return the numeric index untouched if given" do
+      assert_equal 12, @instance.index(12)
+    end
+  end
 end
