@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Mitchell Hashimoto"]
   s.email       = ["mitchell.hashimoto@gmail.com"]
   s.homepage    = "http://rubygems.org/gems/radar"
-  s.summary     = "Easily report errors in your Ruby libraries and applications any way you want!"
+  s.summary     = "Easily catch and report errors in your Ruby libraries and applications any way you want!"
   s.description = "Radar provides a drop-in solution to catching and reporting errors in your libraries and applications."
 
   s.required_rubygems_version = ">= 1.3.6"
@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "bundler", ">= 1.0.0.rc.5"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "mocha"
-  s.add_development_dependency "bluecloth"
   s.add_development_dependency "rake"
 
   s.files        = `git ls-files`.split("\n")

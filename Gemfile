@@ -7,4 +7,5 @@ gemspec
 # are useful for development
 group :development do
   gem "yard", :git => "http://github.com/lsegal/yard.git"
+  gem "bluecloth"
 end
