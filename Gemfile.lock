@@ -1,3 +1,9 @@
+GIT
+  remote: http://github.com/lsegal/yard.git
+  revision: bf84275
+  specs:
+    yard (0.6.0.rc1)
+
 PATH
   remote: .
   specs:
@@ -13,7 +19,6 @@ GEM
       rake
     rake (0.8.7)
     shoulda (2.11.3)
-    yard (0.5.8)
 
 PLATFORMS
   ruby
@@ -26,4 +31,4 @@ DEPENDENCIES
   radar!
   rake
   shoulda
-  yard
+  yard!
