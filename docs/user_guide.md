@@ -88,7 +88,7 @@ the instance of that reporter:
 
     Radar::Application.new(:my_application) do |app|
       app.config.reporter FileReporter do |reporter|
-        reporter.storage_directory = "~/.radar/exceptions"
+        reporter.output_directory = "~/.radar/exceptions"
       end
     end
 
