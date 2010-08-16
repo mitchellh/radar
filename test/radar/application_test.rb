@@ -63,21 +63,13 @@ class ApplicationTest < Test::Unit::TestCase
     end
 
     context "reporting" do
-      setup do
-        # The fake reporter class
-        reporter = Class.new do
-          def report(environment)
-            raise "success"
-          end
-        end
-
-        # Setup the application to use the fake reporter
-        @instance.config do |config|
-          config.reporter reporter
-        end
-      end
-
       should "call report on each registered reporter" do
+        reporter = Class.new do
+          def report(environment); raise "success"; end
+        end
+
+        @instance.config.reporter reporter
+
         assert_raises(RuntimeError) do
           begin
             @instance.report(Exception.new)
@@ -85,6 +77,20 @@ class ApplicationTest < Test::Unit::TestCase
             assert_equal "success", e.message
             raise
           end
+        end
+      end
+
+      should "add extra data to the event if given" do
+        reporter = Class.new do
+          def report(event); raise event.extra[:foo]; end
+        end
+
+        @instance.config.reporter reporter
+
+        begin
+          @instance.report(Exception.new, :foo => "BAR")
+        rescue => e
+          assert_equal "BAR", e.message
         end
       end
     end

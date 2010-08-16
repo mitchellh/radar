@@ -9,10 +9,12 @@ module Radar
     attr_reader :application
     attr_reader :exception
     attr_reader :occurred_at
+    attr_reader :extra
 
-    def initialize(application, exception)
+    def initialize(application, exception, extra=nil)
       @application = application
       @exception = exception
+      @extra = extra || {}
       @occurred_at = Time.now
     end
 

@@ -10,7 +10,7 @@ require "radar"
 class Test::Unit::TestCase
   # Returns a real {Radar::ExceptionEvent} object with a newly created
   # {Radar::Application} and a valid (has a backtrace) exception.
-  def create_exception_event
+  def create_exception_event(extra=nil)
     application = Radar::Application.new(:foo, false)
     exception = nil
 
@@ -20,6 +20,6 @@ class Test::Unit::TestCase
       exception = e
     end
 
-    Radar::ExceptionEvent.new(application, exception)
+    Radar::ExceptionEvent.new(application, exception, extra)
   end
 end

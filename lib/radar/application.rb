@@ -71,8 +71,8 @@ module Radar
     # various reporters configured for this application.
     #
     # @param [Exception] exception
-    def report(exception)
-      data = ExceptionEvent.new(self, exception)
+    def report(exception, extra=nil)
+      data = ExceptionEvent.new(self, exception, extra)
 
       # Report the exception to each of the reporters
       config.reporters.each do |reporter|
