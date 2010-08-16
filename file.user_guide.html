@@ -63,7 +63,7 @@ that the gem is included properly.</p>
 <h3>Setup</h3>
 
 <p>First, as early as possible in your application so that Radar can begin
-catching exceptions right away, create a new <tt><a href="Radar/Application.html" title="Radar::Application (class)">Radar::Application</a></tt>
+catching exceptions right away, create a new <span class='object_link'><a href="Radar/Application.html" title="Radar::Application (class)">Radar::Application</a></span>
 instance for your own app, replacing <code>my_application</code> with a unique name for your
 application.</p>
 
@@ -71,7 +71,7 @@ application.</p>
 </pre>
 
 <p>But this alone won't do anything, since you haven't configured any reporters
-for the application. Reporters are what handle taking an <tt><a href="Radar/ExceptionEvent.html" title="Radar::ExceptionEvent (class)">ExceptionEvent</a></tt>
+for the application. Reporters are what handle taking an <span class='object_link'><a href="Radar/ExceptionEvent.html" title="Radar::ExceptionEvent (class)">ExceptionEvent</a></span>
 and doing something with it (such as storing it in a file, reporting it to a
 remote server, etc.). Radar comes with some built-in reporters. Below, we configure
 the application to log errors to a file (by default at <code>~/.radar/errors/my_application</code>):</p>
@@ -86,8 +86,8 @@ the application to log errors to a file (by default at <code>~/.radar/errors/my_
 <p>Once the application is setup, there are two methods to report errors:</p>
 
 <ol>
-<li>Manually call the <tt><a href="Radar/Application.html#report-instance_method" title="Radar::Application#report (method)">report</a></tt> method on the application.</li>
-<li>Tell the application to <tt><a href="Radar/Application.html#rescue_at_exit%21-instance_method" title="Radar::Application#rescue_at_exit! (method)">rescue at exit</a></tt> so
+<li>Manually call the <span class='object_link'><a href="Radar/Application.html#report-instance_method" title="Radar::Application#report (method)">report</a></span> method on the application.</li>
+<li>Tell the application to <span class='object_link'><a href="Radar/Application.html#rescue_at_exit%21-instance_method" title="Radar::Application#rescue_at_exit! (method)">rescue at exit</a></span> so
 Radar automatically catches any exceptions before your application crashes.</li>
 </ol>
 
@@ -118,7 +118,7 @@ crashing.</p>
 
 <p>On its own, Radar does nothing but catch and shuttle exceptions to reporters. Without
 reporters, Radar is basically useless! A reporter is a class which takes an
-<tt><a href="Radar/ExceptionEvent.html" title="Radar::ExceptionEvent (class)">Radar::ExceptionEvent</a></tt> and does something with it. Its easier to get a better idea
+<span class='object_link'><a href="Radar/ExceptionEvent.html" title="Radar::ExceptionEvent (class)">Radar::ExceptionEvent</a></span> and does something with it. Its easier to get a better idea
 of what this means with a few examples:</p>
 
 <ul>
@@ -161,10 +161,10 @@ in the order they are defined when an exception occurs:</p>
 
 <h4>FileReporter</h4>
 
-<p><tt><a href="Radar/Reporter/FileReporter.html" title="Radar::Reporter::FileReporter (class)">FileReporter</a></tt> outputs exception information as JSON to a file
+<p><span class='object_link'><a href="Radar/Reporter/FileReporter.html" title="Radar::Reporter::FileReporter (class)">FileReporter</a></span> outputs exception information as JSON to a file
 on the local filesystem. The filename is in the format of <code>timestamp-uniquehash.txt</code>,
 where <code>timestamp</code> is the time that the exception occurred and <code>uniquehash</code> is the
-<tt><a href="Radar/ExceptionEvent.html#uniqueness_hash-instance_method" title="Radar::ExceptionEvent#uniqueness_hash (method)">Radar::ExceptionEvent#uniqueness_hash</a></tt>.</p>
+<span class='object_link'><a href="Radar/ExceptionEvent.html#uniqueness_hash-instance_method" title="Radar::ExceptionEvent#uniqueness_hash (method)">Radar::ExceptionEvent#uniqueness_hash</a></span>.</p>
 
 <p>The directory where these files will be stored is configurable:</p>
 
@@ -195,7 +195,7 @@ JSON and pretty print it if you wish it to be easily human readable. There are
 <h3>Custom Reporters</h3>
 
 <p>It is very easy to write custom reporters. A reporter is simply a class which
-responds to <code>report</code> and takes a single <tt><a href="Radar/ExceptionEvent.html" title="Radar::ExceptionEvent (class)">Radar::ExceptionEvent</a></tt> as a parameter.
+responds to <code>report</code> and takes a single <span class='object_link'><a href="Radar/ExceptionEvent.html" title="Radar::ExceptionEvent (class)">Radar::ExceptionEvent</a></span> as a parameter.
 Below is an example of a reporter which simply prints out that an error
 occurred:</p>
 
@@ -215,7 +215,7 @@ occurred:</p>
 
 <h2>Data Extensions</h2>
 
-<p>Data extensions allow you to easily extend the data represented by <tt><a href="Radar/ExceptionEvent.html#to_hash-instance_method" title="Radar::ExceptionEvent#to_hash (method)">Radar::ExceptionEvent#to_hash</a></tt>.
+<p>Data extensions allow you to easily extend the data represented by <span class='object_link'><a href="Radar/ExceptionEvent.html#to_hash-instance_method" title="Radar::ExceptionEvent#to_hash (method)">Radar::ExceptionEvent#to_hash</a></span>.
 By default, Radar only sends a small amount of information about the host environment and the
 exception when an exception occurs. Often its more helpful to get more information about the
 environment to more easily track down a bug. Some examples:</p>
@@ -229,7 +229,7 @@ environment to more easily track down a bug. Some examples:</p>
 <h3>Defining Data Extensions</h3>
 
 <p>Data extensions are defined with classes which are expected to be initialized
-with a reference to a <tt><a href="Radar/ExceptionEvent.html" title="Radar::ExceptionEvent (class)">Radar::ExceptionEvent</a></tt> and must implement the <code>to_hash</code>
+with a reference to a <span class='object_link'><a href="Radar/ExceptionEvent.html" title="Radar::ExceptionEvent (class)">Radar::ExceptionEvent</a></span> and must implement the <code>to_hash</code>
 method. Below is a data extension to add the output of <code>uname -a</code> to the event:</p>
 
 <pre class="code"><span class='kw'>class</span> <span class='const'>UnameExtension</span>
@@ -255,13 +255,13 @@ things:</p>
 
 <h3>Built-In Data Extensions</h3>
 
-<p>By default, <tt><a href="Radar/ExceptionEvent.html#to_hash-instance_method" title="Radar::ExceptionEvent#to_hash (method)">Radar::ExceptionEvent#to_hash</a></tt> (view the source) returns very little
+<p>By default, <span class='object_link'><a href="Radar/ExceptionEvent.html#to_hash-instance_method" title="Radar::ExceptionEvent#to_hash (method)">Radar::ExceptionEvent#to_hash</a></span> (view the source) returns very little
 information on its own. To be as general and extensible as possible, even the data
 such as information about the host are created using built-in data extensions.
 Some of these are enabled by default, which are designated by the <code>*</code> on the name.</p>
 
 <ul>
-<li><tt><a href="Radar/DataExtensions/HostEnvironment.html" title="Radar::DataExtensions::HostEnvironment (class)">HostEnvironment</a></tt>* - Adds information about the
+<li><span class='object_link'><a href="Radar/DataExtensions/HostEnvironment.html" title="Radar::DataExtensions::HostEnvironment (class)">HostEnvironment</a></span>* - Adds information about the
 host such as Ruby version and operating system.</li>
 </ul>
 
@@ -269,9 +269,9 @@ host such as Ruby version and operating system.</li>
 <p><code>*</code>: Enabled by default on every application.</p></div></div>
     
     <div id="footer">
-  Generated on Sun Aug 15 12:24:16 2010 by 
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
-  0.5.8 (ruby-1.9.2).
+  Generated on Sun Aug 15 21:53:31 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.0.rc1 (ruby-1.9.2).
 </div>
 
   </body>
