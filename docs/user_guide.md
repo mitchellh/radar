@@ -130,6 +130,9 @@ A few notes:
   JSON and pretty print it if you wish it to be easily human readable. There are
   [services](http://jsonformatter.curiousconcept.com/) out there to do this.
 
+For complete documentation on this reporter, please see the actual {Radar::Reporter::FileReporter}
+page.
+
 ### Custom Reporters
 
 It is very easy to write custom reporters. A reporter is simply a class which
