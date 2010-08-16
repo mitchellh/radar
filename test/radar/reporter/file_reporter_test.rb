@@ -7,6 +7,10 @@ class FileReporterTest < Test::Unit::TestCase
       @instance = @klass.new
     end
 
+    should "default prune time to nil" do
+      assert @instance.prune_time.nil?
+    end
+
     should "allow output directory to be a lambda" do
       @instance.output_directory = lambda { |event| event.application.name }
       event = create_exception_event
