@@ -225,6 +225,23 @@ on writing a custom matcher, see the section below.
 
 If no matchers are specified (the default), then all exceptions are caught.
 
+### Built-in Matchers
+
+#### `:class`
+
+A matcher which matches against the class of the exception. It is configurable
+so it can check against:
+
+* An exact match
+* Match class or any subclasses
+* Match a regexp name of a class
+
+Examples of each are shown below (in the above order):
+
+    app.config.match :class, StandardError
+    app.config.match :class, StandardError, :include_subclasses => true
+    app.config.match :class, /.*Error/
+
 ### Custom Matchers
 
 Matchers are simply classes which respond to `matches?` which returns a boolean
