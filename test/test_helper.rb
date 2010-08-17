@@ -15,6 +15,7 @@ class Test::Unit::TestCase
     exception = nil
 
     begin
+      yield if block_given?
       raise "Something bad happened!"
     rescue => e
       exception = e

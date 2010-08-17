@@ -55,6 +55,27 @@ class ConfigTest < Test::Unit::TestCase
         assert !@instance.data_extensions.empty?
       end
     end
+
+    context "matchers" do
+      setup do
+        @matcher = Class.new do
+          def matches?(event); false; end
+        end
+      end
+
+      teardown do
+        @instance.matchers.clear
+      end
+
+      should "initially have no matchers" do
+        assert @instance.matchers.empty?
+      end
+
+      should "be able to add matchers" do
+        @instance.match @matcher
+        assert !@instance.matchers.empty?
+      end
+    end
   end
 
   context "UseArray class" do

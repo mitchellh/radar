@@ -6,6 +6,7 @@ module Radar
   class Config
     attr_reader :reporters
     attr_reader :data_extensions
+    attr_reader :matchers
 
     def initialize
       @reporters = UseArray.new do |klass, &block|
@@ -16,6 +17,33 @@ module Radar
 
       @data_extensions = UseArray.new
       @data_extensions.use DataExtensions::HostEnvironment
+
+      @matchers = UseArray.new do |matcher, *args|
+        matcher = Support::Inflector.constantize("Radar::Matchers::" + Support::Inflector.camelize(matcher)) if !matcher.is_a?(Class)
+        [matcher, matcher.new(*args)]
+      end
+    end
+
+    # Adds a matcher rule to the application. An application will only
+    # report an exception if the event agrees with at least one of the
+    # matchers.
+    #
+    # To use a matcher, there are two options. The first is to use a
+    # symbol for the name:
+    #
+    #     config.match :class, StandardError
+    #
+    # This will cause Radar to search for a class named "ClassMatcher"
+    # under the namespace {Radar::Matchers}.
+    #
+    # A second option is to use a class itself:
+    #
+    #     config.match Radar::Matchers::ClassMatcher, StandardError
+    #
+    # Radar will then use the specified class as the matcher.
+    #
+    def match(matcher, *args)
+      @matchers.use(matcher, *args)
     end
   end
 

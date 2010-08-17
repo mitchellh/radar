@@ -15,4 +15,8 @@ module Radar
   class Reporter
     autoload :FileReporter, 'radar/reporter/file_reporter'
   end
+
+  module Matchers
+    autoload :ClassMatcher, 'radar/matchers/class_matcher'
+  end
 end
