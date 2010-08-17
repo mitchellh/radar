@@ -36,7 +36,7 @@ module Radar
       }
 
       if !application.config.data_extensions.empty?
-        application.config.data_extensions.each do |extension|
+        application.config.data_extensions.values.each do |extension|
           Support::Hash.deep_merge!(result, extension.new(self).to_hash)
         end
       end

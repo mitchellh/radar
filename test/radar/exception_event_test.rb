@@ -33,7 +33,7 @@ class ExceptionEventTest < Test::Unit::TestCase
             def to_hash; { :exception => { :foo => :bar } }; end
           end
 
-          @instance.application.config.data_extension @extension
+          @instance.application.config.data_extensions.use @extension
           @result = @instance.to_hash
         end
 

@@ -21,14 +21,14 @@ class ConfigTest < Test::Unit::TestCase
       end
 
       should "be able to add reporters" do
-        @instance.reporter @reporter_klass
+        @instance.reporters.use @reporter_klass
         assert !@instance.reporters.empty?
-        assert @instance.reporters.first.is_a?(@reporter_klass)
+        assert @instance.reporters.values.first.is_a?(@reporter_klass)
       end
 
       should "yield the reporter instance if a block is given" do
         @reporter_klass.any_instance.expects(:some_method).once
-        @instance.reporter @reporter_klass do |reporter|
+        @instance.reporters.use @reporter_klass do |reporter|
           reporter.some_method
         end
       end
@@ -47,11 +47,11 @@ class ConfigTest < Test::Unit::TestCase
       end
 
       should "initially have some data extensions" do
-        assert_equal [Radar::DataExtensions::HostEnvironment], @instance.data_extensions
+        assert_equal [Radar::DataExtensions::HostEnvironment], @instance.data_extensions.values
       end
 
       should "be able to add data extensions" do
-        @instance.data_extension @extension
+        @instance.data_extensions.use @extension
         assert !@instance.data_extensions.empty?
       end
     end

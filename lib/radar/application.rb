@@ -75,7 +75,7 @@ module Radar
       data = ExceptionEvent.new(self, exception, extra)
 
       # Report the exception to each of the reporters
-      config.reporters.each do |reporter|
+      config.reporters.values.each do |reporter|
         reporter.report(data)
       end
     end

@@ -49,13 +49,13 @@ class ApplicationTest < Test::Unit::TestCase
       end
 
       should "be able to configure an application" do
-        @instance.config.reporter(@reporter)
+        @instance.config.reporters.use @reporter
         assert !@instance.config.reporters.empty?
       end
 
       should "be able to configure using a block" do
         @instance.config do |config|
-          config.reporter(@reporter)
+          config.reporters.use @reporter
         end
 
         assert !@instance.config.reporters.empty?
@@ -68,7 +68,7 @@ class ApplicationTest < Test::Unit::TestCase
           def report(environment); raise "success"; end
         end
 
-        @instance.config.reporter reporter
+        @instance.config.reporters.use reporter
 
         assert_raises(RuntimeError) do
           begin
@@ -85,7 +85,7 @@ class ApplicationTest < Test::Unit::TestCase
           def report(event); raise event.extra[:foo]; end
         end
 
-        @instance.config.reporter reporter
+        @instance.config.reporters.use reporter
 
         begin
           @instance.report(Exception.new, :foo => "BAR")
