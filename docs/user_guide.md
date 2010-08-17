@@ -32,7 +32,7 @@ remote server, etc.). Radar comes with some built-in reporters. Below, we config
 the application to log errors to a file (by default at `~/.radar/errors/my_application`):
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporter Radar::Reporter::FileReporter
+      app.config.reporters.use Radar::Reporter::FileReporter
     end
 
 ### Reporting Errors
@@ -80,14 +80,14 @@ of what this means with a few examples:
 Reporters are enabled using the appilication configuration:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporter FileReporter
+      app.config.reporters.use FileReporter
     end
 
 And can be configured by passing a block to the reporter, which is yielded with
 the instance of that reporter:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporter FileReporter do |reporter|
+      app.config.reporters.use FileReporter do |reporter|
         reporter.output_directory = "~/.radar/exceptions"
       end
     end
@@ -96,8 +96,8 @@ Radar also allows multiple reporters to be used, which are then called
 in the order they are defined when an exception occurs:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporter FileReporter
-      app.config.reporter AnotherReporter
+      app.config.reporters.use FileReporter
+      app.config.reporters.use AnotherReporter
     end
 
 ### Built-in Reporters
@@ -112,7 +112,7 @@ where `timestamp` is the time that the exception occurred and `uniquehash` is th
 The directory where these files will be stored is configurable:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporter Radar::Reporter::FileReporter do |reporter|
+      app.config.reporters.use Radar::Reporter::FileReporter do |reporter|
         reporter.output_directory = "~/my_application_errors"
       end
     end
@@ -149,7 +149,7 @@ occurred:
 And then using that reporter is just as easy:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporter StdoutReporter
+      app.config.reporters.use StdoutReporter
     end
 
 ## Data Extensions
@@ -184,7 +184,7 @@ Data extensions are enabled via the application configuration like most other
 things:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.data_extension UnameExtension
+      app.config.data_extensions.use UnameExtension
     end
 
 ### Built-In Data Extensions
