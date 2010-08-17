@@ -78,6 +78,10 @@ module Radar
     def report(exception, extra=nil)
       data = ExceptionEvent.new(self, exception, extra)
 
+      # If there are matchers, then verify that at least one matches
+      # before continuing
+      return if !config.matchers.empty? && !config.matchers.values.find { |m| m.matches?(data) }
+
       # Report the exception to each of the reporters
       config.reporters.values.each do |reporter|
         reporter.report(data)

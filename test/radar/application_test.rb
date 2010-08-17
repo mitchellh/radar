@@ -93,6 +93,28 @@ class ApplicationTest < Test::Unit::TestCase
           assert_equal "BAR", e.message
         end
       end
+
+      context "with a matcher" do
+        setup do
+          @matcher = Class.new do
+            def matches?(event); event.extra[:foo] == :bar; end
+          end
+
+          @reporter = Class.new
+          @instance.config.reporters.use @reporter
+          @instance.config.match @matcher
+        end
+
+        should "not report if a matcher is specified and doesn't match" do
+          @reporter.any_instance.expects(:report).never
+          @instance.report(Exception.new, :foo => :wrong)
+        end
+
+        should "report if a matcher matches" do
+          @reporter.any_instance.expects(:report).once
+          @instance.report(Exception.new, :foo => :bar)
+        end
+      end
     end
 
     context "to_hash" do
