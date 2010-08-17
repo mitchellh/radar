@@ -72,7 +72,9 @@ module Radar
     end
 
     # Reports an exception. This will send the exception on to the
-    # various reporters configured for this application.
+    # various reporters configured for this application. If any
+    # matchers are defined, using {Config#match}, then at least one
+    # must match for the report to go forward to reporters.
     #
     # @param [Exception] exception
     def report(exception, extra=nil)

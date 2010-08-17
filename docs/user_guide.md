@@ -198,3 +198,61 @@ Some of these are enabled by default, which are designated by the `*` on the nam
   host such as Ruby version and operating system.
 
 `*`: Enabled by default on every application.
+
+## Matchers
+
+Matchers allow Radar applications to conditionally match exceptions so that
+a Radar application doesn't catch unwanted exceptions, such as exceptions which
+may not be caused by the library in question, or perhaps exceptions which aren't
+really exceptional.
+
+### Enabling a Matcher
+
+Matchers are enabled in the application configuration:
+
+    Radar::Application.new(:app) do |app|
+      app.config.match :class, StandardError
+      app.config.match :backtrace, /file.rb$/
+    end
+
+As you can see, multiple matchers may be enabled. In this case, as long as at
+least one matches, then the exception will be reported. The first argument to
+{Radar::Config#match match} is a symbol or class of a matcher. If it is a symbol,
+the symbol is constantized and expects to exist under the `Radar::Matchers` namespace.
+If it is a class, that class will be used as the matcher. Any additional arguments
+are passed directly into the initializer of the matcher. For more information
+on writing a custom matcher, see the section below.
+
+If no matchers are specified (the default), then all exceptions are caught.
+
+### Custom Matchers
+
+Matchers are simply classes which respond to `matches?` which returns a boolean
+noting if the given {Radar::ExceptionEvent} matches. If true, then the exception
+is reported, otherwise other matchers are tried, or if there are no other matchers,
+the exception is ignored.
+
+Below is a simple custom matcher which only matches exceptions with the
+configured message:
+
+    class ErrorMessageMatcher
+      def initialize(message)
+        @message = message
+      end
+
+      def matches?(event)
+        event.exception.message == @message
+      end
+    end
+
+And the usage is shown below:
+
+    Radar::Application.new(:app) do |app|
+      app.config.match ErrorMessageMatcher, "sample message"
+    end
+
+And this results in the following behavior:
+
+    raise "Hello, World"   # not reported
+    raise "sample message" # reported since it matches the message
+

@@ -20,7 +20,7 @@ module Radar
 
     # A hash of information about this exception event. This includes
     # {Application#to_hash} as well as information about the exception.
-    # This also includes any {Config#data_extension data_extensions} if
+    # This also includes any {Config#data_extensions data_extensions} if
     # specified.
     #
     # @return [Hash]

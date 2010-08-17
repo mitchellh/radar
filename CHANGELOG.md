@@ -1,5 +1,7 @@
 ## 0.2.0 (unreleased)
 
+  - Add `config.match` to conditionally match exceptions before reporting
+    them so that exceptions can be better filtered per application. [GH-11]
   - Changed the way reporters and data extensions are enabled. You must now
     use methods `use`, `swap`, `insert`, `delete`, etc. See the user guide
     for details. [GH-16]
