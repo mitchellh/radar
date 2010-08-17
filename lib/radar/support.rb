@@ -1,10 +1,11 @@
 module Radar
   class Support
+    # Hash support methods:
+    #
+    # * {#deep_merge} and {#deep_merge!} - Does what it says: deep merges a
+    #   hash with another hash. Taken from ActiveSupport in Rails 3.
+    #
     class Hash
-      #----------------------------------------------------------------------
-      # Deep Merging - Taken from Ruby on Rails ActiveSupport
-      #----------------------------------------------------------------------
-
       # Returns a new hash with +self+ and +other_hash+ merged recursively.
       def self.deep_merge(source, other)
         deep_merge!(source.dup, other)
@@ -19,6 +20,30 @@ module Radar
         end
 
         source
+      end
+    end
+
+    # Inflector methods:
+    #
+    # * {#camelize} - Convert a string or symbol to UpperCamelCase.
+    # * {#constantize} - Convert a string to a constant.
+    #
+    # Both of these inflector methods are taken directly from ActiveSupport
+    # in Rails 3.
+    class Inflector
+      def self.camelize(string)
+        string.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
+      end
+
+      def self.constantize(camel_cased_word)
+        names = camel_cased_word.split('::')
+        names.shift if names.empty? || names.first.empty?
+
+        constant = Object
+        names.each do |name|
+          constant = constant.const_defined?(name) ? constant.const_get(name) : constant.const_missing(name)
+        end
+        constant
       end
     end
   end
