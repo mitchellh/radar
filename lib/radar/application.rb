@@ -56,8 +56,12 @@ module Radar
     #
     #     $app = Radar::Application.new
     #     $app.config do |config|
-    #       config.storage_directory = "foo"
+    #       config.reporters.use Radar::Reporter::FileReporter
     #     end
+    #
+    # You can also just use it without a block:
+    #
+    #    $app.config.reporters.use Radar::Reporter::FileReporter
     #
     # @yield [Config] Configuration object, only if block is given.
     # @return [Config]

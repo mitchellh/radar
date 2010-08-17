@@ -1,6 +1,8 @@
 require 'forwardable'
 
 module Radar
+  # The configuration class used for applications. To configure your application
+  # see {Application#config}. This is also where all the examples are.
   class Config
     attr_reader :reporters
     attr_reader :data_extensions
