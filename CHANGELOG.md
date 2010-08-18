@@ -1,7 +1,7 @@
 ## 0.3.0 (unreleased)
 
-  - Sprinkled logger statements around.
-  - Refinements to `FileReporter`.
+  - Rack integration. See user guide for more information. [GH-13]
+  - Refinements to `FileReporter` and sprinkled logger statements around.
   - Lightweight logging mechanism added so that you can verify Radar is doing
     its job. [GH-9]
 

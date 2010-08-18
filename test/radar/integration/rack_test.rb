@@ -1,0 +1,48 @@
+require 'test_helper'
+
+class RackIntegrationTest < Test::Unit::TestCase
+  context "rack integration class" do
+    setup do
+      @klass = Radar::Integration::Rack
+    end
+
+    should "not allow integration via the actual integration test" do
+      assert_raises(RuntimeError) {
+        @klass.integrate!(nil)
+      }
+    end
+  end
+
+  context "rack middleware" do
+    setup do
+      require 'rack'
+      @klass = Rack::Radar
+      @rack_app = mock("rack_app")
+      @application = Radar::Application.new(:app, false)
+    end
+
+    should "raise an exception if no application is specified" do
+      assert_raises(ArgumentError) {
+        @klass.new(nil)
+      }
+    end
+
+    should "call the next middleware properly" do
+      @rack_app.expects(:call).returns(:result)
+      assert_equal :result, @klass.new(@rack_app, :application => @application).call({})
+    end
+
+    should "report and reraise any exceptions raised" do
+      @rack_app.expects(:call).raises(RuntimeError)
+      @application.expects(:report).with() do |exception, extra|
+        assert exception.is_a?(RuntimeError)
+        assert extra[:rack_request]
+        true
+      end
+
+      assert_raises(RuntimeError) {
+        @klass.new(@rack_app, :application => @application).call({})
+      }
+    end
+  end
+end

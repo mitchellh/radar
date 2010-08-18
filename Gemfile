@@ -8,4 +8,7 @@ gemspec
 group :development do
   gem "yard", :git => "http://github.com/lsegal/yard.git"
   gem "bluecloth"
+
+  # For rack integration
+  gem "rack"
 end

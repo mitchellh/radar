@@ -26,3 +26,7 @@ module Radar
     autoload :FileReporter, 'radar/reporter/file_reporter'
   end
 end
+
+module Rack
+  autoload :Radar, 'radar/integration/rack'
+end
