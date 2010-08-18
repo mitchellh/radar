@@ -76,7 +76,7 @@ ask for any more information 90% of the time.</p>
 <p>Then just begin logging exceptions in your application:</p>
 
 <pre class="code"><span class='id r'>r</span> <span class='op'>=</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span>
-<span class='id r'>r</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporter'>reporter</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Reporter</span><span class='op'>::</span><span class='const'>FileReporter</span>
+<span class='id r'>r</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Reporter</span><span class='op'>::</span><span class='const'>FileReporter</span>
 <span class='id r'>r</span><span class='period'>.</span><span class='id report'>report</span><span class='lparen'>(</span><span class='id exception'>exception</span><span class='rparen'>)</span>
 </pre>
 
@@ -162,7 +162,7 @@ a link to your fork or a gist with a patch.</li>
 </div></div>
     
     <div id="footer">
-  Generated on Sun Aug 15 21:53:31 2010 by 
+  Generated on Tue Aug 17 20:00:27 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.0.rc1 (ruby-1.9.2).
 </div>

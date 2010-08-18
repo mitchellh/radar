@@ -83,40 +83,29 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>
-This class defines the interface for a <span class='object_link'><a href="" title="Radar::Reporter (class)">Reporter</a></span>. A reporter is a class
-which takes exception information and &#8220;reports&#8221; it in some way.
-Examples of reporters (note that not all of these may be implemented; they
-are ideas):
-</p>
-<ul>
-<li><p>
-FileReporter - Logs the exception out to a timestamped file in a specified
-directory.
-</p>
-</li>
-<li><p>
-ServerReporter - Logs the exception to a server somewhere for later
-retrieval.
-</p>
-</li>
-<li><p>
-GrowlReporter - Causes a Growl notification to occur, noting that an
-exception occurred.
-</p>
-</li>
-</ul>
-<p>
-From the examples above it is clear to see that the reporter doesn&#8217;t
-necessarilly need to store the exception information anywhere, it is simply
-required to take some action in the event that an exception occurred.
-</p>
-<p>
-Radar allows for multiple reporters to be used together, so a reporter
-doesn&#8217;t need to do everything. They&#8217;re meant to be small units
-of functionality.
-</p>
+    <p>This class defines the interface for a <span class='object_link'><a href="" title="Radar::Reporter (class)">Reporter</a></span>. A reporter
+is a class which takes exception information and "reports" it
+in some way. Examples of reporters (note that not all of these
+may be implemented; they are ideas):</p>
 
+<ul>
+<li>FileReporter - Logs the exception out to a timestamped
+file in a specified directory.</li>
+<li>ServerReporter - Logs the exception to a server somewhere for
+later retrieval.</li>
+<li>GrowlReporter - Causes a Growl notification to occur, noting
+that an exception occurred.</li>
+</ul>
+
+
+<p>From the examples above it is clear to see that the reporter doesn't
+necessarilly need to store the exception information anywhere, it
+is simply required to take some action in the event that an exception
+occurred.</p>
+
+<p>Radar allows for multiple reporters to be used together, so a reporter
+doesn't need to do everything. They're meant to be small units of
+functionality.</p>
 
   </div>
 </div>
@@ -159,10 +148,7 @@ of functionality.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Report the environment.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Report the environment.</p></div></span>
   
 </li>
 
@@ -185,10 +171,7 @@ Report the environment.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Report the environment.
-</p>
-
+    <p>Report the environment.</p>
 
   </div>
 </div>
@@ -220,7 +203,7 @@ Report the environment.
 </div>
     
     <div id="footer">
-  Generated on Sun Aug 15 21:53:31 2010 by 
+  Generated on Tue Aug 17 20:00:27 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.0.rc1 (ruby-1.9.2).
 </div>

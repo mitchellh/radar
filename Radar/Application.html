@@ -81,11 +81,8 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>
-Represents an instance of Radar for a given application. Every application
-which uses Radar must instantiate an <span class='object_link'><a href="" title="Radar::Application (class)">Application</a></span>.
-</p>
-
+    <p>Represents an instance of Radar for a given application. Every
+application which uses Radar must instantiate an <span class='object_link'><a href="" title="Radar::Application (class)">Application</a></span>.</p>
 
   </div>
 </div>
@@ -132,10 +129,7 @@ which uses Radar must instantiate an <span class='object_link'><a href="" title=
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Returns the value of attribute creation_location.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute creation_location.</p></div></span>
   
 </li>
 
@@ -159,10 +153,7 @@ Returns the value of attribute creation_location.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Returns the value of attribute name.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute name.</p></div></span>
   
 </li>
 
@@ -194,10 +185,7 @@ Returns the value of attribute name.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Removes all registered applications.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Removes all registered applications.</p></div></span>
   
 </li>
 
@@ -218,10 +206,7 @@ Removes all registered applications.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Looks up an application which was registered with the given name.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Looks up an application which was registered with the given name.</p></div></span>
   
 </li>
 
@@ -251,10 +236,8 @@ Looks up an application which was registered with the given name.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Configures the application by returning the configuration object.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Configures the application by returning the configuration
+object.</p></div></span>
   
 </li>
 
@@ -277,11 +260,8 @@ Configures the application by returning the configuration object.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Creates a new application with the given name and registers it for lookup
-later.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates a new application with the given name and registers
+it for lookup later.</p></div></span>
   
 </li>
 
@@ -289,7 +269,7 @@ later.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#report-instance_method" title="#report (instance method)">- (Object) <strong>report</strong>(exception) </a>
+      <a href="#report-instance_method" title="#report (instance method)">- (Object) <strong>report</strong>(exception, extra = nil) </a>
     
 
     
@@ -302,10 +282,7 @@ later.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Reports an exception.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Reports an exception.</p></div></span>
   
 </li>
 
@@ -326,11 +303,8 @@ Reports an exception.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Hooks this application into the `at_exit` handler so that application
-crashing exceptions are properly reported.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Hooks this application into the <code>at_exit</code> handler so that
+application crashing exceptions are properly reported.</p></div></span>
   
 </li>
 
@@ -351,10 +325,7 @@ crashing exceptions are properly reported.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>
-Converts application to a serialization-friendly hash.
-</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Converts application to a serialization-friendly hash.</p></div></span>
   
 </li>
 
@@ -374,12 +345,10 @@ Converts application to a serialization-friendly hash.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Creates a new application with the given name and registers it for lookup
-later. If a block is given, it will be yielded with the new instantiated
-<span class='object_link'><a href="" title="Radar::Application (class)"></a></span> so you can also <span class='object_link'><a href="#config-instance_method" title="Radar::Application#config (method)">#config</a></span> it all in one go.
-</p>
-
+    <p>Creates a new application with the given name and registers
+it for lookup later. If a block is given, it will be yielded with
+the new instantiated <span class='object_link'><a href="" title="Radar::Application (class)"></a></span> so you can also <span class='object_link'><a href="#config-instance_method" title="Radar::Application#config (method)">#config</a></span> it
+all in one go.</p>
 
   </div>
 </div>
@@ -397,11 +366,8 @@ later. If a block is given, it will be yielded with the new instantiated
       
       
         &mdash;
-        <div class='inline'><p>
-Application name. This must be unique for any given application or an
-exception will be raised.
-</p>
-</div>
+        <div class='inline'><p>Application name. This must be unique for
+any given application or an exception will be raised.</p></div>
       
     </li>
   
@@ -459,10 +425,7 @@ exception will be raised.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Returns the value of attribute creation_location
-</p>
-
+    <p>Returns the value of attribute creation_location</p>
 
   </div>
 </div>
@@ -501,10 +464,7 @@ Returns the value of attribute creation_location
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Returns the value of attribute name
-</p>
-
+    <p>Returns the value of attribute name</p>
 
   </div>
 </div>
@@ -547,11 +507,8 @@ Returns the value of attribute name
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Removes all registered applications. **This is only exposed for testing
-purposes.**
-</p>
-
+    <p>Removes all registered applications. <strong>This is only exposed for testing
+purposes.</strong></p>
 
   </div>
 </div>
@@ -587,10 +544,7 @@ purposes.**
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Looks up an application which was registered with the given name.
-</p>
-
+    <p>Looks up an application which was registered with the given name.</p>
 
   </div>
 </div>
@@ -608,10 +562,7 @@ Looks up an application which was registered with the given name.
       
       
         &mdash;
-        <div class='inline'><p>
-Application name.
-</p>
-</div>
+        <div class='inline'><p>Application name.</p></div>
       
     </li>
   
@@ -666,17 +617,20 @@ Application name.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Configures the application by returning the configuration object. If a
-block is given, the configuration object will be passed into it, allowing
-for a cleaner way of configuring your applications.
-</p>
-<pre class="code">
-    <span class='gvar'>$app</span> <span class='op'>=</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span>
-    <span class='gvar'>$app</span><span class='period'>.</span><span class='id config'>config</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id config'>config</span><span class='op'>|</span>
-      <span class='id config'>config</span><span class='period'>.</span><span class='id storage_directory'>storage_directory</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span></pre>
+    <p>Configures the application by returning the configuration
+object. If a block is given, the configuration object will be
+passed into it, allowing for a cleaner way of configuring your
+applications.</p>
 
+<pre class="code"><span class='gvar'>$app</span> <span class='op'>=</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span>
+<span class='gvar'>$app</span><span class='period'>.</span><span class='id config'>config</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id config'>config</span><span class='op'>|</span>
+  <span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Reporter</span><span class='op'>::</span><span class='const'>FileReporter</span>
+<span class='kw'>end</span>
+</pre>
+
+<p>You can also just use it without a block:</p>
+
+<p>   $app.config.reporters.use Radar::Reporter::FileReporter</p>
 
   </div>
 </div>
@@ -692,10 +646,7 @@ for a cleaner way of configuring your applications.
       
       
         &mdash;
-        <div class='inline'><p>
-Configuration object, only if block is given.
-</p>
-</div>
+        <div class='inline'><p>Configuration object, only if block is given.</p></div>
       
     </li>
   
@@ -720,14 +671,14 @@ Configuration object, only if block is given.
       <pre class="lines">
 
 
-64
-65
-66
-67
-68</pre>
+68
+69
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/application.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/application.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id config'>config</span>
   <span class='ivar'>@_config</span> <span class='op'>||=</span> <span class='const'>Config</span><span class='period'>.</span><span class='id new'>new</span>
@@ -742,17 +693,16 @@ Configuration object, only if block is given.
       <div class="method_details ">
   <p class="signature " id="report-instance_method">
   
-    - (<tt>Object</tt>) <strong>report</strong>(exception) 
+    - (<tt>Object</tt>) <strong>report</strong>(exception, extra = nil) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Reports an exception. This will send the exception on to the various
-reporters configured for this application.
-</p>
-
+    <p>Reports an exception. This will send the exception on to the
+various reporters configured for this application. If any
+matchers are defined, using <span class='object_link'><a href="Config.html#match-instance_method" title="Radar::Config#match (method)">Radar::Config#match</a></span>, then at least one
+must match for the report to go forward to reporters.</p>
 
   </div>
 </div>
@@ -779,23 +729,31 @@ reporters configured for this application.
       <pre class="lines">
 
 
-74
-75
-76
-77
-78
-79
 80
-81</pre>
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/application.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/application.rb', line 80</span>
 
-<span class='kw'>def</span> <span class='id report'>report</span><span class='lparen'>(</span><span class='id exception'>exception</span><span class='rparen'>)</span>
-  <span class='id data'>data</span> <span class='op'>=</span> <span class='const'>ExceptionEvent</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id exception'>exception</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id report'>report</span><span class='lparen'>(</span><span class='id exception'>exception</span><span class='comma'>,</span> <span class='id extra'>extra</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='const'>ExceptionEvent</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id exception'>exception</span><span class='comma'>,</span> <span class='id extra'>extra</span><span class='rparen'>)</span>
+
+  <span class='comment'># If there are matchers, then verify that at least one matches
+</span>  <span class='comment'># before continuing
+</span>  <span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id config'>config</span><span class='period'>.</span><span class='id matchers'>matchers</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id config'>config</span><span class='period'>.</span><span class='id matchers'>matchers</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id m'>m</span><span class='op'>|</span> <span class='id m'>m</span><span class='period'>.</span><span class='id matches?'>matches?</span><span class='lparen'>(</span><span class='id data'>data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
 
   <span class='comment'># Report the exception to each of the reporters
-</span>  <span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id reporter'>reporter</span><span class='op'>|</span>
+</span>  <span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id reporter'>reporter</span><span class='op'>|</span>
     <span class='id reporter'>reporter</span><span class='period'>.</span><span class='id report'>report</span><span class='lparen'>(</span><span class='id data'>data</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -813,11 +771,8 @@ reporters configured for this application.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Hooks this application into the `at_exit` handler so that application
-crashing exceptions are properly reported.
-</p>
-
+    <p>Hooks this application into the <code>at_exit</code> handler so that
+application crashing exceptions are properly reported.</p>
 
   </div>
 </div>
@@ -829,12 +784,12 @@ crashing exceptions are properly reported.
       <pre class="lines">
 
 
-85
-86
-87</pre>
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/application.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/application.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id rescue_at_exit!'>rescue_at_exit!</span>
   <span class='id at_exit'>at_exit</span> <span class='lbrace'>{</span> <span class='id report'>report</span><span class='lparen'>(</span><span class='gvar'>$!</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='gvar'>$!</span> <span class='rbrace'>}</span>
@@ -853,10 +808,7 @@ crashing exceptions are properly reported.
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>
-Converts application to a serialization-friendly hash.
-</p>
-
+    <p>Converts application to a serialization-friendly hash.</p>
 
   </div>
 </div>
@@ -881,12 +833,12 @@ Converts application to a serialization-friendly hash.
       <pre class="lines">
 
 
-92
-93
-94</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/application.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/application.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id to_hash'>to_hash</span>
   <span class='lbrace'>{</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='id name'>name</span> <span class='rbrace'>}</span>
@@ -901,7 +853,7 @@ Converts application to a serialization-friendly hash.
 </div>
     
     <div id="footer">
-  Generated on Sun Aug 15 21:53:31 2010 by 
+  Generated on Tue Aug 17 20:00:27 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.0.rc1 (ruby-1.9.2).
 </div>
