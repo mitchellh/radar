@@ -41,6 +41,7 @@ module Radar
       end
 
       def report(event)
+        @event = event
         output_file = File.join(File.expand_path(output_directory(event)), "#{event.occurred_at.to_i}-#{event.uniqueness_hash}.txt")
         directory = File.dirname(output_file)
 
@@ -51,6 +52,7 @@ module Radar
         prune(directory) if prune_time
 
         # Write out the JSON to the output file
+        log("#{self.class}: Reported to #{output_file}")
         File.open(output_file, 'w') { |f| f.write(event.to_json) }
       end
 
@@ -59,11 +61,19 @@ module Radar
       #
       # @param [String] directory Directory to prune
       def prune(directory)
-        Dir[File.join(directory, "*.txt")].each do |file|
-          next unless File.file?(file)
-          next unless (Time.now.to_i - File.ctime(file).to_i) >= prune_time.to_i
+        count = Dir[File.join(directory, "*.txt")].inject(0) do |acc, file|
+          next acc unless File.file?(file)
+          next acc unless (Time.now.to_i - File.ctime(file).to_i) >= prune_time.to_i
           File.delete(file)
+          acc + 1
         end
+
+        log("Pruned #{count} file(s) in #{directory}.") if count > 0
+      end
+
+      # Convenience method for logging.
+      def log(message)
+        @event.application.logger.info("#{self.class}: #{message}") if @event
       end
 
       # Returns the currently configured output directory. If `event` is given

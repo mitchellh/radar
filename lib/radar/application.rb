@@ -92,9 +92,14 @@ module Radar
 
       # If there are matchers, then verify that at least one matches
       # before continuing
-      return if !config.matchers.empty? && !config.matchers.values.find { |m| m.matches?(data) }
+      if !config.matchers.empty?
+        return if !config.matchers.values.find do |m|
+          m.matches?(data) && logger.info("Reporting exception. Matches: #{m}")
+        end
+      end
 
       # Report the exception to each of the reporters
+      logger.info "Invoking reporters for exception: #{exception.class}"
       config.reporters.values.each do |reporter|
         reporter.report(data)
       end
@@ -103,6 +108,7 @@ module Radar
     # Hooks this application into the `at_exit` handler so that
     # application crashing exceptions are properly reported.
     def rescue_at_exit!
+      logger.info "Attached to application exit."
       at_exit { report($!) if $! }
     end
 

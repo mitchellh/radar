@@ -25,8 +25,12 @@ module Radar
     def log_location
       location = @application.config.log_location
       location = location.is_a?(Proc) ? location.call(application) : location
-      directory = File.dirname(location)
-      FileUtils.mkdir_p(directory) if !File.directory?(directory)
+
+      if location.is_a?(String)
+        directory = File.dirname(location)
+        FileUtils.mkdir_p(directory) if !File.directory?(directory)
+      end
+
       location
     end
   end
