@@ -112,6 +112,14 @@ module Radar
       at_exit { report($!) if $! }
     end
 
+    # Integrate this application with some external system, such as
+    # Rack, Rails, Sinatra, etc. For more information on Radar integrations,
+    # please read the user guide.
+    def integrate(integrator)
+      integrator = Support::Inflector.constantize("Radar::Integration::#{Support::Inflector.camelize(integrator)}") if !integrator.is_a?(Class)
+      integrator.integrate!(self)
+    end
+
     # Converts application to a serialization-friendly hash.
     #
     # @return [Hash]

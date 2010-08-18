@@ -125,6 +125,18 @@ class ApplicationTest < Test::Unit::TestCase
       end
     end
 
+    context "integrations" do
+      should "integrate with built-in integrators" do
+        Radar::Integration::Rack.expects(:integrate!).with(@instance)
+        @instance.integrate(:rack)
+      end
+
+      should "integrate with specified classes" do
+        Radar::Integration::Rack.expects(:integrate!).with(@instance)
+        @instance.integrate(Radar::Integration::Rack)
+      end
+    end
+
     context "to_hash" do
       setup do
         @hash = @instance.to_hash

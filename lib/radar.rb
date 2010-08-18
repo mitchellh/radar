@@ -13,12 +13,16 @@ module Radar
     autoload :HostEnvironment, 'radar/data_extensions/host_environment'
   end
 
-  class Reporter
-    autoload :FileReporter, 'radar/reporter/file_reporter'
+  module Integration
+    autoload :Rack, 'radar/integration/rack'
   end
 
   module Matchers
     autoload :BacktraceMatcher, 'radar/matchers/backtrace_matcher'
     autoload :ClassMatcher,     'radar/matchers/class_matcher'
+  end
+
+  class Reporter
+    autoload :FileReporter, 'radar/reporter/file_reporter'
   end
 end
