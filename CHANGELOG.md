@@ -1,5 +1,7 @@
 ## 0.2.0 (unreleased)
 
+  - Built in matcher: `:backtrace` (or `BacktraceMatcher`) which checks that
+    the backtrace includes the given text. [GH-18]
   - Built in matcher: `:class` (or `ClassMatcher`) which checks against the
     exception class. [GH-17]
   - Add `config.match` to conditionally match exceptions before reporting

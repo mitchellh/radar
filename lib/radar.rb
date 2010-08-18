@@ -17,6 +17,7 @@ module Radar
   end
 
   module Matchers
-    autoload :ClassMatcher, 'radar/matchers/class_matcher'
+    autoload :BacktraceMatcher, 'radar/matchers/backtrace_matcher'
+    autoload :ClassMatcher,     'radar/matchers/class_matcher'
   end
 end
