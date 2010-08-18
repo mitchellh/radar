@@ -16,7 +16,10 @@ module Radar
         [klass, instance]
       end
 
-      @data_extensions = UseArray.new
+      @data_extensions = UseArray.new do |ext, *args|
+        ext = Support::Inflector.constantize("Radar::DataExtensions::#{Support::Inflector.camelize(ext)}") if !ext.is_a?(Class)
+        [ext, ext]
+      end
       @data_extensions.use DataExtensions::HostEnvironment
 
       @matchers = UseArray.new do |matcher, *args|

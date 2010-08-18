@@ -54,6 +54,11 @@ class ConfigTest < Test::Unit::TestCase
         @instance.data_extensions.use @extension
         assert !@instance.data_extensions.empty?
       end
+
+      should "be able to add built-in extensions via symbols" do
+        @instance.data_extensions.use :rack
+        assert_equal Radar::DataExtensions::Rack, @instance.data_extensions.values.last
+      end
     end
 
     context "matchers" do
