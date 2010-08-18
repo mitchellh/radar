@@ -24,7 +24,7 @@ module Radar
         [matcher, matcher.new(*args)]
       end
 
-      @log_location = lambda { |application| File.expand_path("~/.radar/logs/#{application.name.to_s}.log") }
+      @log_location = nil
     end
 
     # Adds a matcher rule to the application. An application will only
