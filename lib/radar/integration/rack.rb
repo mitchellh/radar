@@ -34,7 +34,7 @@ module Rack
     def call(env)
       @app.call(env)
     rescue Exception => e
-      @opts[:application].report(e, :rack_request => Rack::Request.new(e))
+      @opts[:application].report(e, :rack_request => Rack::Request.new(env))
       raise
     end
   end
