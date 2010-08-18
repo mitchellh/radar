@@ -17,8 +17,6 @@ module Radar
               :remote_ip  => request.ip
             }
           }
-
-          # TODO headers and session data
         end
       end
     end
