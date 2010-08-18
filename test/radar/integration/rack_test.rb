@@ -23,8 +23,19 @@ class RackIntegrationTest < Test::Unit::TestCase
 
     should "raise an exception if no application is specified" do
       assert_raises(ArgumentError) {
-        @klass.new(nil)
+        @klass.new(@rack_app)
       }
+    end
+
+    should "raise an exception if invalid application is specified" do
+      assert_raises(ArgumentError) {
+        @klass.new(@rack_app, :application => 7)
+      }
+    end
+
+    should "enable the rack data extension" do
+      @klass.new(@rack_app, :application => @application)
+      assert @application.config.data_extensions.values.include?(Radar::DataExtensions::Rack)
     end
 
     should "call the next middleware properly" do

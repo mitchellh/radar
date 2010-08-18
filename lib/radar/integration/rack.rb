@@ -26,6 +26,9 @@ module Rack
       @app = app
       @opts = { :application => nil }.merge(opts || {})
       raise ArgumentError.new("Must provide a radar application in `:application`") if !@opts[:application] || !@opts[:application].is_a?(::Radar::Application)
+
+      # Enable the rack data extension
+      @opts[:application].config.data_extensions.use :rack
     end
 
     def call(env)

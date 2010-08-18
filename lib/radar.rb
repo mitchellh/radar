@@ -11,6 +11,7 @@ module Radar
 
   module DataExtensions
     autoload :HostEnvironment, 'radar/data_extensions/host_environment'
+    autoload :Rack, 'radar/data_extensions/rack'
   end
 
   module Integration
