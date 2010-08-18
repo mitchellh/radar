@@ -7,6 +7,7 @@ module Radar
     attr_reader :reporters
     attr_reader :data_extensions
     attr_reader :matchers
+    attr_accessor :log_location
 
     def initialize
       @reporters = UseArray.new do |klass, &block|
@@ -22,6 +23,8 @@ module Radar
         matcher = Support::Inflector.constantize("Radar::Matchers::" + Support::Inflector.camelize(matcher)) if !matcher.is_a?(Class)
         [matcher, matcher.new(*args)]
       end
+
+      @log_location = lambda { |application| File.expand_path("~/.radar/logs/#{application.name.to_s}.log") }
     end
 
     # Adds a matcher rule to the application. An application will only

@@ -5,6 +5,7 @@ module Radar
   autoload :Application,    'radar/application'
   autoload :Config,         'radar/config'
   autoload :ExceptionEvent, 'radar/exception_event'
+  autoload :Logger,         'radar/logger'
   autoload :Reporter,       'radar/reporter'
   autoload :Support,        'radar/support'
 

@@ -1,6 +1,7 @@
 ## 0.3.0 (unreleased)
 
-
+  - Lightweight logging mechanism added so that you can verify Radar is doing
+    its job. [GH-9]
 
 ## 0.2.0 (August 17, 2010)
 

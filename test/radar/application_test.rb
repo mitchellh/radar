@@ -62,6 +62,14 @@ class ApplicationTest < Test::Unit::TestCase
       end
     end
 
+    context "logger" do
+      should "provide a logger which is initialized on access" do
+        Radar::Logger.expects(:new).with(@instance).once.returns("foo")
+        @instance.logger
+        @instance.logger
+      end
+    end
+
     context "reporting" do
       should "call report on each registered reporter" do
         reporter = Class.new do

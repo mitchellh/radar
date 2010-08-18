@@ -71,6 +71,16 @@ module Radar
       @_config
     end
 
+    # Returns the logger for the application. Each application gets
+    # their own logger which is used for lightweight (single line)
+    # logging so users can sanity check that Radar is working as
+    # expected.
+    #
+    # @returns [Logger]
+    def logger
+      @_logger ||= Logger.new(self)
+    end
+
     # Reports an exception. This will send the exception on to the
     # various reporters configured for this application. If any
     # matchers are defined, using {Config#match}, then at least one
