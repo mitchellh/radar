@@ -45,6 +45,11 @@ class ExceptionEventTest < Test::Unit::TestCase
         should "deep merge information" do
           assert @result[:exception].has_key?(:klass)
         end
+
+        should "deep merge properly even if to_hash returns nil" do
+          @extension.any_instance.stubs(:to_hash).returns(nil)
+          assert_nothing_raised { @instance.to_hash }
+        end
       end
     end
 
