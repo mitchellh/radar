@@ -1,4 +1,8 @@
-## 0.2.0 (unreleased)
+## 0.3.0 (unreleased)
+
+
+
+## 0.2.0 (August 17, 2010)
 
   - Built in matcher: `:backtrace` (or `BacktraceMatcher`) which checks that
     the backtrace includes the given text. [GH-18]
