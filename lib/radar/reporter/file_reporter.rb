@@ -45,7 +45,7 @@ module Radar
         directory = File.dirname(output_file)
 
         # Attempt to make the directory if it doesn't exist
-        FileUtils.mkdir_p directory
+        FileUtils.mkdir_p(directory) if !File.directory?(directory)
 
         # Prune files if enabled
         prune(directory) if prune_time

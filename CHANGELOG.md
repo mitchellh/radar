@@ -1,5 +1,6 @@
 ## 0.3.0 (unreleased)
 
+  - Refinements to `FileReporter`.
   - Lightweight logging mechanism added so that you can verify Radar is doing
     its job. [GH-9]
 
