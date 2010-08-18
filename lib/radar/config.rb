@@ -20,7 +20,7 @@ module Radar
       @data_extensions.use DataExtensions::HostEnvironment
 
       @matchers = UseArray.new do |matcher, *args|
-        matcher = Support::Inflector.constantize("Radar::Matchers::" + Support::Inflector.camelize(matcher)) if !matcher.is_a?(Class)
+        matcher = Support::Inflector.constantize("Radar::Matchers::#{Support::Inflector.camelize(matcher)}Matcher") if !matcher.is_a?(Class)
         [matcher, matcher.new(*args)]
       end
 

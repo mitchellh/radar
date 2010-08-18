@@ -75,6 +75,11 @@ class ConfigTest < Test::Unit::TestCase
         @instance.match @matcher
         assert !@instance.matchers.empty?
       end
+
+      should "be able to use built-in matchers as symbols" do
+        @instance.match :class, Object
+        assert @instance.matchers.values.first.is_a?(Radar::Matchers::ClassMatcher)
+      end
     end
   end
 
