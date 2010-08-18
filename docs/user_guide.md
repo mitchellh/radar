@@ -227,6 +227,24 @@ If no matchers are specified (the default), then all exceptions are caught.
 
 ### Built-in Matchers
 
+#### `:backtrace`
+
+A matcher which matches against the backtrace of the exception. It allows:
+
+* Match that a string is a substring of a line in the backtrace
+* Match that a regexp matches a line in the backtrace
+* Match one of the above up to a maximum depth in the backtrace
+
+Examples of each are shown below (respective to the above order):
+
+    app.config.match :backtrace, "my_file.rb"
+    app.config.match :backtrace, /.+_test.rb/
+    app.config.match :backtrace, /.+_test.rb/, :depth => 5
+
+If an exception doesn't have a backtrace (can happen if you don't actually
+`raise` an exception, but instantiate one) then the matcher always returns
+`false`.
+
 #### `:class`
 
 A matcher which matches against the class of the exception. It is configurable
