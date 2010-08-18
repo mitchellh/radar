@@ -21,7 +21,7 @@ module Radar
     # Returns the location of the logfile. This is configurable using
     # {Config#log_location=}.
     #
-    # @returns [String]
+    # @return [String]
     def log_location
       location = @application.config.log_location
       location = location.is_a?(Proc) ? location.call(application) : location

@@ -291,3 +291,20 @@ And this results in the following behavior:
     raise "Hello, World"   # not reported
     raise "sample message" # reported since it matches the message
 
+## Internals Logging
+
+Radar provides a lightweight internal log which logs information which
+can be used to easily solve the following problems:
+
+* Verifying that Radar is working
+* Investigating why Radar is/isn't reporting certain exceptions
+* Storing more information _in case_ something goes wrong
+
+By default, the logger is disabled, but it can easily be enabled on a
+per-application basis by specifying where it should log:
+
+    Radar::Application.new(:app) do |app|
+      app.config.log_location = "/var/log/radar/my_app.log"
+    end
+
+Multiple applications may be logged to the same place without issue.

@@ -76,7 +76,7 @@ module Radar
     # logging so users can sanity check that Radar is working as
     # expected.
     #
-    # @returns [Logger]
+    # @return [Logger]
     def logger
       @_logger ||= Logger.new(self)
     end
