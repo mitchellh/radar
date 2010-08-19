@@ -46,15 +46,21 @@ module Radar
         output_file = File.join(File.expand_path(output_directory(event)), "#{event.occurred_at.to_i}-#{event.uniqueness_hash}.txt")
         directory = File.dirname(output_file)
 
-        # Attempt to make the directory if it doesn't exist
-        FileUtils.mkdir_p(directory) if !File.directory?(directory)
+        begin
+          # Attempt to make the directory if it doesn't exist
+          FileUtils.mkdir_p(directory) if !File.directory?(directory)
 
-        # Prune files if enabled
-        prune(directory) if prune_time
+          # Prune files if enabled
+          prune(directory) if prune_time
 
-        # Write out the JSON to the output file
-        log("#{self.class}: Reported to #{output_file}")
-        File.open(output_file, 'w') { |f| f.write(event.to_json) }
+          # Write out the JSON to the output file
+          log("#{self.class}: Reported to #{output_file}")
+          File.open(output_file, 'w') { |f| f.write(event.to_json) }
+        rescue Errno::EACCES
+          # Rebrand the exception so its easier to tell what exactly
+          # is going on.
+          raise ReporterError.new("#{self.class}: Failed to create directory or log to: #{output_file}")
+        end
       end
 
       # Prunes the files in the given directory according to the age limit

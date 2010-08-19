@@ -3,4 +3,5 @@ module Radar
   # for users of radar to catch all radar related errors.
   class Error < StandardError; end
   class ApplicationAlreadyExists < Error; end
+  class ReporterError < Error; end
 end
