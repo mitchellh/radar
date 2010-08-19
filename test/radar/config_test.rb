@@ -26,6 +26,12 @@ class ConfigTest < Test::Unit::TestCase
         assert @instance.reporters.values.first.is_a?(@reporter_klass)
       end
 
+      should "be able to add reporters via built-in symbols" do
+        @instance.reporters.use :file
+        assert !@instance.reporters.empty?
+        assert @instance.reporters.values.first.is_a?(Radar::Reporter::FileReporter)
+      end
+
       should "yield the reporter instance if a block is given" do
         @reporter_klass.any_instance.expects(:some_method).once
         @instance.reporters.use @reporter_klass do |reporter|

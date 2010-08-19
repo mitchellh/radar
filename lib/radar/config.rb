@@ -10,8 +10,9 @@ module Radar
     attr_accessor :log_location
 
     def initialize
-      @reporters = UseArray.new do |klass, &block|
-        instance = klass.new
+      @reporters = UseArray.new do |klass, *args, &block|
+        klass = Support::Inflector.constantize("Radar::Reporter::#{Support::Inflector.camelize(klass)}Reporter") if !klass.is_a?(Class)
+        instance = klass.new(*args)
         block.call(instance) if block
         [klass, instance]
       end
