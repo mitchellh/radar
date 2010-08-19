@@ -48,11 +48,13 @@ class RackIntegrationTest < Test::Unit::TestCase
       @application.expects(:report).with() do |exception, extra|
         assert exception.is_a?(RuntimeError)
         assert extra[:rack_request]
+        assert extra[:rack_env]
+        assert_equal({:foo => :bar}, extra[:rack_env])
         true
       end
 
       assert_raises(RuntimeError) {
-        @klass.new(@rack_app, :application => @application).call({})
+        @klass.new(@rack_app, :application => @application).call(:foo => :bar)
       }
     end
   end

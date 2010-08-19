@@ -343,7 +343,8 @@ of only the additional information is shown below:
         "request_method": "GET",
         "url": "http://localhost:9292/favicon.ico",
         "parameters": {},
-        "remote_ip": "127.0.0.1"
+        "remote_ip": "127.0.0.1",
+        "rack_env": { ... }
       }
     }
 
