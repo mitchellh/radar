@@ -356,16 +356,15 @@ when the exception was raised. First, add Radar to your `Gemfile`:
 
     gem "radar"
 
-Then, create an initializer for radar. Any filename will work but in
-general `config/initializers/radar.rb` is a good start. In this file,
-create the Radar application and tell Radar to integrate with Rails 3.
+Then `bundle install` so you pull down the gem. Then install Radar by
+running the built-in generator:
 
-    Radar::Application.new(:my_app) do |app|
-      # Do any normal reporter/matcher/data extension configuration...
+    rails generate radar
 
-      # Integrate with rails 3
-      app.integrate :rails3
-    end
+This will create the necessary initializer and let you know what further
+steps to take to setup Radar. Radar will already work with your application at this point,
+but it won't report to anywhere by default, so at the very least you must
+open up `config/initializers/radar.rb` and add a reporter.
 
 ## Internals Logging
 

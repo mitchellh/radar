@@ -1,3 +1,4 @@
 -m markdown
+--exclude 'lib/radar/integration/rails3/templates/*'
 --files
 docs/user_guide.md
