@@ -13,4 +13,5 @@ end
 
 group :examples do
   gem "rack"
+  gem "rails"
 end

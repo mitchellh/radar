@@ -11,7 +11,7 @@ breakdown of Radar:
   - Matchers to filter exceptions which Radar reports
   - Run multiple Radar "applications" side-by-side to catch and report
     different exceptions to different places
-  - Integration with 3rd party software: Rack
+  - Integration with 3rd party software: Rack, Rails 3.
 
 ## Installation
 
@@ -347,6 +347,25 @@ of only the additional information is shown below:
         "rack_env": { ... }
       }
     }
+
+### Rails 3
+
+Radar can integrate very easily with any Rails 3 application to automatically
+catch any Rails exceptions as well as provide additional information captured
+when the exception was raised. First, add Radar to your `Gemfile`:
+
+    gem "radar"
+
+Then, create an initializer for radar. Any filename will work but in
+general `config/initializers/radar.rb` is a good start. In this file,
+create the Radar application and tell Radar to integrate with Rails 3.
+
+    Radar::Application.new(:my_app) do |app|
+      # Do any normal reporter/matcher/data extension configuration...
+
+      # Integrate with rails 3
+      app.integrate :rails3
+    end
 
 ## Internals Logging
 

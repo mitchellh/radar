@@ -29,7 +29,7 @@ ask for any more information 90% of the time.
   - Matchers to filter exceptions which Radar reports
   - Run multiple Radar "applications" side-by-side to catch and report
     different exceptions to different places
-  - Integration with 3rd party software: Rack
+  - Integration with 3rd party software: Rack, Rails 3.
 
 ## Quick Start
 
