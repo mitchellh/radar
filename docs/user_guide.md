@@ -32,7 +32,7 @@ remote server, etc.). Radar comes with some built-in reporters. Below, we config
 the application to log errors to a file (by default at `~/.radar/errors/my_application`):
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use Radar::Reporter::FileReporter
+      app.config.reporters.use :file
     end
 
 ### Reporting Errors
@@ -80,14 +80,14 @@ of what this means with a few examples:
 Reporters are enabled using the appilication configuration:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use FileReporter
+      app.config.reporters.use :file
     end
 
 And can be configured by passing a block to the reporter, which is yielded with
 the instance of that reporter:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use FileReporter do |reporter|
+      app.config.reporters.use :file do |reporter|
         reporter.output_directory = "~/.radar/exceptions"
       end
     end
@@ -99,6 +99,13 @@ in the order they are defined when an exception occurs:
       app.config.reporters.use FileReporter
       app.config.reporters.use AnotherReporter
     end
+
+As you can see from the above examples, a reporter takes both a symbol
+or a class. If a symbol is given, Radar expects the class to be camelcased
+suffixed with `Reporter` and be under the `Radar::Reporter` namespace.
+For example, if you used the symbol `:my_place`, it would expect the reporter
+to be at `Radar::Reporter::MyPlaceReporter`. To avoid this, you can always
+use the class explicitly.
 
 ### Built-in Reporters
 
@@ -112,7 +119,7 @@ where `timestamp` is the time that the exception occurred and `uniquehash` is th
 The directory where these files will be stored is configurable:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use Radar::Reporter::FileReporter do |reporter|
+      app.config.reporters.use :file do |reporter|
         reporter.output_directory = "~/my_application_errors"
       end
     end
@@ -132,6 +139,15 @@ A few notes:
 
 For complete documentation on this reporter, please see the actual {Radar::Reporter::FileReporter}
 page.
+
+#### IoReporter
+
+{Radar::Reporter::IoReporter IoReporter} outputs the exception event JSON to
+any IO object (`stdout`, `stderr`, a net stream, etc.).
+
+    Radar::Application.new(:my_application) do |app|
+      app.config.reporters.use :io, :io_object => STDOUT
+    end
 
 ### Custom Reporters
 

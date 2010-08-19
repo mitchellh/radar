@@ -22,6 +22,9 @@ module Radar
       end
 
       def report(event)
+        return if !io_object
+        raise ArgumentError.new("IoReporter `io_object` must be an IO object.") if !io_object.is_a?(IO)
+
         # Straight push the object to the object and flush immediately
         io_object.puts(event.to_json)
         io_object.flush

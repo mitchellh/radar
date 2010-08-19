@@ -1,5 +1,6 @@
 ## 0.3.0 (unreleased)
 
+  - Added `IoReporter` to log to any `IO` object.
   - Rack integration. See user guide for more information. [GH-13]
   - Refinements to `FileReporter` and sprinkled logger statements around.
   - Lightweight logging mechanism added so that you can verify Radar is doing
