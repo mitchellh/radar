@@ -3,7 +3,15 @@
 ## Overview
 
 Radar is a tool which provides a drop-in solution to catching and reporting
-errors in your Ruby application via customizable mediums.
+errors in your Ruby application via customizable mediums. A quick feature
+breakdown of Radar:
+
+  - Reporters allow Radar to report anywhere: a file, a server, email, etc.
+  - Data extensions to add additional contextual data to exceptions
+  - Matchers to filter exceptions which Radar reports
+  - Run multiple Radar "applications" side-by-side to catch and report
+    different exceptions to different places
+  - Integration with 3rd party software: Rack
 
 ## Installation
 
@@ -306,6 +314,38 @@ And this results in the following behavior:
 
     raise "Hello, World"   # not reported
     raise "sample message" # reported since it matches the message
+
+## Integration with Other Software
+
+### Rack
+
+Radar provides a lightweight Rack middleware to catch and report errors to a
+specified Radar application. Below is a sample `config.ru` file which would
+catch any exceptions by the rack application:
+
+    require "rubygems"
+    require "radar"
+
+    app = Radar::Application.new(:my_app)
+    app.config.reporters.use :io, :io_object => STDOUT
+
+    use Rack::Radar, :application => app
+    run YourWebApp
+
+If `YourWebApp` were to throw any exceptions, `Rack::Radar` would catch it,
+report it to `app`, and reraise the exception.
+
+Using the Rack middleware also enables the rack data extension, which provides
+additional information about the rack request and environment. Sample output
+of only the additional information is shown below:
+
+    { "request": {
+        "request_method": "GET",
+        "url": "http://localhost:9292/favicon.ico",
+        "parameters": {},
+        "remote_ip": "127.0.0.1"
+      }
+    }
 
 ## Internals Logging
 
