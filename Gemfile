@@ -1,4 +1,4 @@
-source :gemcutter
+source "http://rubygems.org"
 
 # Specify the path directly so that files in the examples/
 # directory just work.
@@ -9,7 +9,8 @@ gemspec :path => File.expand_path("../", __FILE__)
 group :development do
   gem "yard", :git => "http://github.com/lsegal/yard.git"
   gem "bluecloth"
+end
 
-  # For rack integration
+group :examples do
   gem "rack"
 end

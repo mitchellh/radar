@@ -15,7 +15,8 @@ module Radar
   end
 
   module Integration
-    autoload :Rack, 'radar/integration/rack'
+    autoload :Rack,   'radar/integration/rack'
+    autoload :Rails3, 'radar/integration/rails3'
   end
 
   module Matchers
