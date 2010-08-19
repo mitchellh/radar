@@ -21,7 +21,25 @@ module Radar
           })
         end
 
-        Support::Hash.deep_merge!(result, :request => { :rack_env => @event.extra[:rack_env] }) if @event.extra[:rack_env]
+        Support::Hash.deep_merge!(result, :request => { :headers => extract_http_headers(@event.extra[:rack_env]) }) if @event.extra[:rack_env]
+        result
+      end
+
+      protected
+
+      def extract_http_headers(env)
+        env.inject({}) do |acc, data|
+          k, v = data
+
+          if k =~ /^HTTP_(.+)$/
+            # Convert things like HTTP_CONTENT_TYPE to Content-Type (standard
+            # HTTP header style)
+            k = $1.to_s.split("_").map { |c| c.capitalize }.join("-")
+            acc[k] = v
+          end
+
+          acc
+        end
       end
     end
   end
