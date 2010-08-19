@@ -1,5 +1,6 @@
 require 'radar/version'
 require 'radar/error'
+require 'radar/integration/rails3/railtie' if defined?(Rails::Railtie)
 
 module Radar
   autoload :Application,    'radar/application'

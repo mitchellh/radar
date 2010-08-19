@@ -1,0 +1,17 @@
+
+================================================================================
+
+Radar has been setup for this Rails 3 project! BUT...
+
+Some manual work you must complete before Radar is completely prepared:
+
+  * Open `config/initializers/radar.rb` and add at least one reporter to
+    the Radar application so Radar knows how you'd like your exceptions
+    handled. Example (this would go in the block in that file):
+
+      app.config.reporters.use :file
+
+Once a reporter is added, Radar has already been setup to integrate with
+Rails 3, so you may use your application like normal.
+
+================================================================================
