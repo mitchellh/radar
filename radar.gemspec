@@ -1,6 +1,4 @@
-# -*- encoding: utf-8 -*-
-$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
-require 'radar/version'
+require File.expand_path("../lib/radar/version", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "radar"
@@ -23,6 +21,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake"
 
   s.files        = `git ls-files`.split("\n")
-  s.executables  = `git ls-files`.split("\n").select{|f| f =~ /^bin/}
+  s.executables  = `git ls-files`.split("\n").map{|f| f =~ /^bin\/(.*)/ ? $1 : nil}.compact
   s.require_path = 'lib'
 end
