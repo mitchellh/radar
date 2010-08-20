@@ -1,4 +1,5 @@
 require 'thread'
+require 'forwardable'
 
 module Radar
   # A shortcut for {Application.find}.
@@ -10,11 +11,15 @@ module Radar
   # Represents an instance of Radar for a given application. Every
   # application which uses Radar must instantiate an {Application}.
   class Application
+    extend Forwardable
+
     @@registered = {}
     @@mutex = Mutex.new
 
     attr_reader :name
     attr_reader :creation_location
+
+    def_delegators :config, :reporters, :data_extensions, :matchers
 
     # Looks up an application which was registered with the given name.
     #

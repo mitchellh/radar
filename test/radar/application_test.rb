@@ -147,6 +147,20 @@ class ApplicationTest < Test::Unit::TestCase
       end
     end
 
+    context "delegation to config" do
+      should "delegate reporters" do
+        assert_equal @instance.config.reporters, @instance.reporters
+      end
+
+      should "delegate data extensions" do
+        assert_equal @instance.config.data_extensions, @instance.data_extensions
+      end
+
+      should "delegate matchers" do
+        assert_equal @instance.config.matchers, @instance.matchers
+      end
+    end
+
     # Untested: Application#rescue_at_exit! since I'm not aware of an
     # [easy] way of testing it without spawning out a separate process.
   end
