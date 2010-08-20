@@ -17,8 +17,9 @@ module Radar
       attr_accessor :io_object
 
       def initialize(opts=nil)
-        opts ||= {}
-        @io_object = opts[:io_object]
+        (opts || {}).each do |k,v|
+          send("#{k}=", v)
+        end
       end
 
       def report(event)

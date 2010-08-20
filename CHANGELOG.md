@@ -1,5 +1,6 @@
 ## 0.3.0 (unreleased)
 
+  - Added `LoggerReporter` to log to any `Logger` object. [GH-20]
   - Rails 3 integration. See user guide for more information.
   - Rack integration. See user guide for more information. [GH-13]
   - Added `IoReporter` to log to any `IO` object.

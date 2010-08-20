@@ -36,9 +36,11 @@ module Radar
       attr_accessor :prune_time
 
       def initialize(opts=nil)
-        opts ||= {}
-        @output_directory = opts[:output_directory] || lambda { |event| "~/.radar/errors/#{event.application.name}" }
-        @prune_time = opts[:prune_time]
+        (opts || {}).each do |k,v|
+          send("#{k}=", v)
+        end
+
+        @output_directory ||= lambda { |event| "~/.radar/errors/#{event.application.name}" }
       end
 
       def report(event)

@@ -26,8 +26,9 @@ module Radar
   end
 
   class Reporter
-    autoload :FileReporter, 'radar/reporter/file_reporter'
-    autoload :IoReporter,   'radar/reporter/io_reporter'
+    autoload :FileReporter,   'radar/reporter/file_reporter'
+    autoload :IoReporter,     'radar/reporter/io_reporter'
+    autoload :LoggerReporter, 'radar/reporter/logger_reporter'
   end
 end
 
