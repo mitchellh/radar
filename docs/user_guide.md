@@ -157,6 +157,19 @@ any IO object (`stdout`, `stderr`, a net stream, etc.).
       app.config.reporters.use :io, :io_object => STDOUT
     end
 
+#### LoggerReporter
+
+{Radar::Reporter::LoggerReporter LoggerReporter} outputs the exception event JSON
+to any `Logger` object. This is useful if you want to integrate Radar with an
+existing logging system, or if you simply want a backup for your exceptions (e.g.
+report to both a server and a logger).
+
+    Radar::Application.new(:my_application) do |app|
+      app.config.reporters.use :logger, :log_object => Logger.new(STDOUT), :log_level => :error
+    end
+
+`log_level` will default to `:error` if not specified.
+
 ### Custom Reporters
 
 It is very easy to write custom reporters. A reporter is simply a class which

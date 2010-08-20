@@ -16,6 +16,8 @@ module Radar
         (opts || {}).each do |k,v|
           send("#{k}=", v)
         end
+
+        @log_level ||= :error
       end
 
       def report(event)
