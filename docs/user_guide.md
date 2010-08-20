@@ -40,7 +40,7 @@ remote server, etc.). Radar comes with some built-in reporters. Below, we config
 the application to log errors to a file (by default at `~/.radar/errors/my_application`):
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use :file
+      app.reporters.use :file
     end
 
 ### Reporting Errors
@@ -88,14 +88,14 @@ of what this means with a few examples:
 Reporters are enabled using the appilication configuration:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use :file
+      app.reporters.use :file
     end
 
 And can be configured by passing a block to the reporter, which is yielded with
 the instance of that reporter:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use :file do |reporter|
+      app.reporters.use :file do |reporter|
         reporter.output_directory = "~/.radar/exceptions"
       end
     end
@@ -104,8 +104,8 @@ Radar also allows multiple reporters to be used, which are then called
 in the order they are defined when an exception occurs:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use FileReporter
-      app.config.reporters.use AnotherReporter
+      app.reporters.use FileReporter
+      app.reporters.use AnotherReporter
     end
 
 As you can see from the above examples, a reporter takes both a symbol
@@ -127,7 +127,7 @@ where `timestamp` is the time that the exception occurred and `uniquehash` is th
 The directory where these files will be stored is configurable:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use :file do |reporter|
+      app.reporters.use :file do |reporter|
         reporter.output_directory = "~/my_application_errors"
       end
     end
@@ -154,7 +154,7 @@ page.
 any IO object (`stdout`, `stderr`, a net stream, etc.).
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use :io, :io_object => STDOUT
+      app.reporters.use :io, :io_object => STDOUT
     end
 
 #### LoggerReporter
@@ -165,7 +165,7 @@ existing logging system, or if you simply want a backup for your exceptions (e.g
 report to both a server and a logger).
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use :logger, :log_object => Logger.new(STDOUT), :log_level => :error
+      app.reporters.use :logger, :log_object => Logger.new(STDOUT), :log_level => :error
     end
 
 `log_level` will default to `:error` if not specified.
@@ -186,7 +186,7 @@ occurred:
 And then using that reporter is just as easy:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.reporters.use StdoutReporter
+      app.reporters.use StdoutReporter
     end
 
 ## Data Extensions
@@ -221,7 +221,7 @@ Data extensions are enabled via the application configuration like most other
 things:
 
     Radar::Application.new(:my_application) do |app|
-      app.config.data_extensions.use UnameExtension
+      app.data_extensions.use UnameExtension
     end
 
 ### Built-In Data Extensions
@@ -248,8 +248,8 @@ really exceptional.
 Matchers are enabled in the application configuration:
 
     Radar::Application.new(:app) do |app|
-      app.config.match :class, StandardError
-      app.config.match :backtrace, /file.rb$/
+      app.match :class, StandardError
+      app.match :backtrace, /file.rb$/
     end
 
 As you can see, multiple matchers may be enabled. In this case, as long as at
@@ -274,9 +274,9 @@ A matcher which matches against the backtrace of the exception. It allows:
 
 Examples of each are shown below (respective to the above order):
 
-    app.config.match :backtrace, "my_file.rb"
-    app.config.match :backtrace, /.+_test.rb/
-    app.config.match :backtrace, /.+_test.rb/, :depth => 5
+    app.match :backtrace, "my_file.rb"
+    app.match :backtrace, /.+_test.rb/
+    app.match :backtrace, /.+_test.rb/, :depth => 5
 
 If an exception doesn't have a backtrace (can happen if you don't actually
 `raise` an exception, but instantiate one) then the matcher always returns
@@ -293,9 +293,9 @@ so it can check against:
 
 Examples of each are shown below (in the above order):
 
-    app.config.match :class, StandardError
-    app.config.match :class, StandardError, :include_subclasses => true
-    app.config.match :class, /.*Error/
+    app.match :class, StandardError
+    app.match :class, StandardError, :include_subclasses => true
+    app.match :class, /.*Error/
 
 ### Custom Matchers
 
@@ -320,7 +320,7 @@ configured message:
 And the usage is shown below:
 
     Radar::Application.new(:app) do |app|
-      app.config.match ErrorMessageMatcher, "sample message"
+      app.match ErrorMessageMatcher, "sample message"
     end
 
 And this results in the following behavior:
@@ -340,7 +340,7 @@ catch any exceptions by the rack application:
     require "radar"
 
     app = Radar::Application.new(:my_app)
-    app.config.reporters.use :io, :io_object => STDOUT
+    app.reporters.use :io, :io_object => STDOUT
 
     use Rack::Radar, :application => app
     run YourWebApp

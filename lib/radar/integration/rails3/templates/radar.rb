@@ -8,7 +8,7 @@ Radar::Application.new(:<%= Rails.application.class.to_s.underscore.tr('/', '_')
   # is required for Radar to do something with your exceptions. By default,
   # Radar reports to the Rails logger. Change this if you want to report to
   # a file, a server, etc.
-  app.config.reporters.use :logger, :log_object => Rails.logger, :log_level => :error
+  app.reporters.use :logger, :log_object => Rails.logger, :log_level => :error
 
   # Tell Radar to integrate this application with Rails 3.
   app.integrate :rails3
