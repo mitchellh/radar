@@ -5,7 +5,10 @@ Radar::Application.new(:<%= Rails.application.class.to_s.underscore.tr('/', '_')
   # ==> Reporter Configuration
   # Configure any reporters here. Reporters tell Radar how to report exceptions.
   # This may be to a file, to a server, to a stream, etc. At least one reporter
-  # is required for Radar to do somethign with your exceptions.
+  # is required for Radar to do something with your exceptions. By default,
+  # Radar reports to the Rails logger. Change this if you want to report to
+  # a file, a server, etc.
+  app.config.reporters.use :logger, :log_object => Rails.logger, :log_level => :error
 
   # Tell Radar to integrate this application with Rails 3.
   app.integrate :rails3
