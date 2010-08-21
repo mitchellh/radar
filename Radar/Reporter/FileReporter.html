@@ -184,7 +184,7 @@ the specified amount. By default this is <code>nil</code> (no pruning occurs).</
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (FileReporter) <strong>initialize</strong> </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (FileReporter) <strong>initialize</strong>(opts = nil) </a>
     
 
     
@@ -200,6 +200,27 @@ the specified amount. By default this is <code>nil</code> (no pruning occurs).</
 
   
     <span class="summary_desc"><div class='inline'><p>A new instance of FileReporter.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#log-instance_method" title="#log (instance method)">- (Object) <strong>log</strong>(message) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Convenience method for logging.</p></div></span>
   
 </li>
 
@@ -256,7 +277,7 @@ set by the <span class='object_link'><a href="#prune_time-instance_method" title
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Radar::Reporter::FileReporter (class)">FileReporter</a></span></tt>) <strong>initialize</strong> 
+    - (<tt><span class='object_link'><a href="" title="Radar::Reporter::FileReporter (class)">FileReporter</a></span></tt>) <strong>initialize</strong>(opts = nil) 
   
 
   
@@ -277,14 +298,20 @@ set by the <span class='object_link'><a href="#prune_time-instance_method" title
 38
 39
 40
-41</pre>
+41
+42
+43
+44</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/radar/reporter/file_reporter.rb', line 38</span>
 
-<span class='kw'>def</span> <span class='id initialize'>initialize</span>
-  <span class='ivar'>@output_directory</span> <span class='op'>=</span> <span class='id lambda'>lambda</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id event'>event</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>~/.radar/errors/</span><span class='embexpr_beg'>#{</span><span class='id event'>event</span><span class='period'>.</span><span class='id application'>application</span><span class='period'>.</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
-  <span class='ivar'>@prune_time</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='lparen'>(</span><span class='id opts'>opts</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span><span class='id v'>v</span><span class='op'>|</span>
+    <span class='id send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id v'>v</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@output_directory</span> <span class='op'>||=</span> <span class='id lambda'>lambda</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id event'>event</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>~/.radar/errors/</span><span class='embexpr_beg'>#{</span><span class='id event'>event</span><span class='period'>.</span><span class='id application'>application</span><span class='period'>.</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -323,13 +350,13 @@ is returned as-is.</p>
       <pre class="lines">
 
 
-73
-74
-75
-76</pre>
+92
+93
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/reporter/file_reporter.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/file_reporter.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id output_directory'>output_directory</span><span class='lparen'>(</span><span class='id event'>event</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='ivar'>@output_directory</span><span class='period'>.</span><span class='id call'>call</span><span class='lparen'>(</span><span class='id event'>event</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id event'>event</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@output_directory</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Proc</span><span class='rparen'>)</span>
@@ -387,7 +414,43 @@ is returned as-is.</p>
     
     
       <div class="method_details first">
-  <p class="signature first" id="prune-instance_method">
+  <p class="signature first" id="log-instance_method">
+  
+    - (<tt>Object</tt>) <strong>log</strong>(message) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Convenience method for logging.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/file_reporter.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id log'>log</span><span class='lparen'>(</span><span class='id message'>message</span><span class='rparen'>)</span>
+  <span class='ivar'>@event</span><span class='period'>.</span><span class='id application'>application</span><span class='period'>.</span><span class='id logger'>logger</span><span class='period'>.</span><span class='id info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id message'>message</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@event</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="prune-instance_method">
   
     - (<tt>Object</tt>) <strong>prune</strong>(directory) 
   
@@ -426,23 +489,29 @@ set by the <span class='object_link'><a href="#prune_time-instance_method" title
       <pre class="lines">
 
 
-61
-62
-63
-64
-65
-66
-67</pre>
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/reporter/file_reporter.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/file_reporter.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id prune'>prune</span><span class='lparen'>(</span><span class='id directory'>directory</span><span class='rparen'>)</span>
-  <span class='const'>Dir</span><span class='lbracket'>[</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='id directory'>directory</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>*.txt</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id file'>file</span><span class='op'>|</span>
-    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id file?'>file?</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
-    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='lparen'>(</span><span class='const'>Time</span><span class='period'>.</span><span class='id now'>now</span><span class='period'>.</span><span class='id to_i'>to_i</span> <span class='op'>-</span> <span class='const'>File</span><span class='period'>.</span><span class='id ctime'>ctime</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_i'>to_i</span><span class='rparen'>)</span> <span class='op'>&gt;=</span> <span class='id prune_time'>prune_time</span><span class='period'>.</span><span class='id to_i'>to_i</span>
+  <span class='id count'>count</span> <span class='op'>=</span> <span class='const'>Dir</span><span class='lbracket'>[</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='id directory'>directory</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>*.txt</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id inject'>inject</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id acc'>acc</span><span class='comma'>,</span> <span class='id file'>file</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='id acc'>acc</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id file?'>file?</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
+    <span class='kw'>next</span> <span class='id acc'>acc</span> <span class='kw'>unless</span> <span class='lparen'>(</span><span class='const'>Time</span><span class='period'>.</span><span class='id now'>now</span><span class='period'>.</span><span class='id to_i'>to_i</span> <span class='op'>-</span> <span class='const'>File</span><span class='period'>.</span><span class='id ctime'>ctime</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_i'>to_i</span><span class='rparen'>)</span> <span class='op'>&gt;=</span> <span class='id prune_time'>prune_time</span><span class='period'>.</span><span class='id to_i'>to_i</span>
     <span class='const'>File</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
+    <span class='id acc'>acc</span> <span class='op'>+</span> <span class='int'>1</span>
   <span class='kw'>end</span>
+
+  <span class='id log'>log</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Pruned </span><span class='embexpr_beg'>#{</span><span class='id count'>count</span><span class='rbrace'>}</span><span class='tstring_content'> file(s) in </span><span class='embexpr_beg'>#{</span><span class='id directory'>directory</span><span class='rbrace'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id count'>count</span> <span class='op'>&gt;</span> <span class='int'>0</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -462,9 +531,6 @@ set by the <span class='object_link'><a href="#prune_time-instance_method" title
       <pre class="lines">
 
 
-43
-44
-45
 46
 47
 48
@@ -474,23 +540,42 @@ set by the <span class='object_link'><a href="#prune_time-instance_method" title
 52
 53
 54
-55</pre>
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/reporter/file_reporter.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/file_reporter.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id report'>report</span><span class='lparen'>(</span><span class='id event'>event</span><span class='rparen'>)</span>
+  <span class='ivar'>@event</span> <span class='op'>=</span> <span class='id event'>event</span>
   <span class='id output_file'>output_file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='id output_directory'>output_directory</span><span class='lparen'>(</span><span class='id event'>event</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id event'>event</span><span class='period'>.</span><span class='id occurred_at'>occurred_at</span><span class='period'>.</span><span class='id to_i'>to_i</span><span class='rbrace'>}</span><span class='tstring_content'>-</span><span class='embexpr_beg'>#{</span><span class='id event'>event</span><span class='period'>.</span><span class='id uniqueness_hash'>uniqueness_hash</span><span class='rbrace'>}</span><span class='tstring_content'>.txt</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id directory'>directory</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='id output_file'>output_file</span><span class='rparen'>)</span>
 
-  <span class='comment'># Attempt to make the directory if it doesn't exist
-</span>  <span class='const'>FileUtils</span><span class='period'>.</span><span class='id mkdir_p'>mkdir_p</span> <span class='id directory'>directory</span>
+  <span class='kw'>begin</span>
+    <span class='comment'># Attempt to make the directory if it doesn't exist
+</span>    <span class='const'>FileUtils</span><span class='period'>.</span><span class='id mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='id directory'>directory</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id directory'>directory</span><span class='rparen'>)</span>
 
-  <span class='comment'># Prune files if enabled
-</span>  <span class='id prune'>prune</span><span class='lparen'>(</span><span class='id directory'>directory</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id prune_time'>prune_time</span>
+    <span class='comment'># Prune files if enabled
+</span>    <span class='id prune'>prune</span><span class='lparen'>(</span><span class='id directory'>directory</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id prune_time'>prune_time</span>
 
-  <span class='comment'># Write out the JSON to the output file
-</span>  <span class='const'>File</span><span class='period'>.</span><span class='id open'>open</span><span class='lparen'>(</span><span class='id output_file'>output_file</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>w</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id f'>f</span><span class='period'>.</span><span class='id write'>write</span><span class='lparen'>(</span><span class='id event'>event</span><span class='period'>.</span><span class='id to_json'>to_json</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='comment'># Write out the JSON to the output file
+</span>    <span class='id log'>log</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_content'>: Reported to </span><span class='embexpr_beg'>#{</span><span class='id output_file'>output_file</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='const'>File</span><span class='period'>.</span><span class='id open'>open</span><span class='lparen'>(</span><span class='id output_file'>output_file</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>w</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id f'>f</span><span class='period'>.</span><span class='id write'>write</span><span class='lparen'>(</span><span class='id event'>event</span><span class='period'>.</span><span class='id to_json'>to_json</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>rescue</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>EACCES</span>
+    <span class='comment'># Rebrand the exception so its easier to tell what exactly
+</span>    <span class='comment'># is going on.
+</span>    <span class='id raise'>raise</span> <span class='const'>ReporterError</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_content'>: Failed to create directory or log to: </span><span class='embexpr_beg'>#{</span><span class='id output_file'>output_file</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -502,7 +587,7 @@ set by the <span class='object_link'><a href="#prune_time-instance_method" title
 </div>
     
     <div id="footer">
-  Generated on Tue Aug 17 20:00:27 2010 by 
+  Generated on Sat Aug 21 10:46:23 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.0.rc1 (ruby-1.9.2).
 </div>

@@ -68,6 +68,18 @@ user all the same questions which could've easily have been gathered automatical
 Now, Vagrant users can simply send me the radar output and I don't have to
 ask for any more information 90% of the time.</p>
 
+<h2>Brief Feature Breakdown</h2>
+
+<ul>
+<li>Reporters allow Radar to report anywhere: a file, a server, email, etc.</li>
+<li>Data extensions to add additional contextual data to exceptions</li>
+<li>Matchers to filter exceptions which Radar reports</li>
+<li>Run multiple Radar "applications" side-by-side to catch and report
+different exceptions to different places</li>
+<li>Integration with 3rd party software: Rack, Rails 3.</li>
+</ul>
+
+
 <h2>Quick Start</h2>
 
 <pre class="code"><span class='id gem'>gem</span> <span class='id install'>install</span> <span class='id radar'>radar</span>
@@ -76,7 +88,7 @@ ask for any more information 90% of the time.</p>
 <p>Then just begin logging exceptions in your application:</p>
 
 <pre class="code"><span class='id r'>r</span> <span class='op'>=</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span>
-<span class='id r'>r</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Reporter</span><span class='op'>::</span><span class='const'>FileReporter</span>
+<span class='id r'>r</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:file</span>
 <span class='id r'>r</span><span class='period'>.</span><span class='id report'>report</span><span class='lparen'>(</span><span class='id exception'>exception</span><span class='rparen'>)</span>
 </pre>
 
@@ -162,7 +174,7 @@ a link to your fork or a gist with a patch.</li>
 </div></div>
     
     <div id="footer">
-  Generated on Tue Aug 17 20:00:27 2010 by 
+  Generated on Sat Aug 21 10:46:23 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.0.rc1 (ruby-1.9.2).
 </div>

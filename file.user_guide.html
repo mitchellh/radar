@@ -46,7 +46,18 @@
 <h2>Overview</h2>
 
 <p>Radar is a tool which provides a drop-in solution to catching and reporting
-errors in your Ruby application via customizable mediums.</p>
+errors in your Ruby application via customizable mediums. A quick feature
+breakdown of Radar:</p>
+
+<ul>
+<li>Reporters allow Radar to report anywhere: a file, a server, email, etc.</li>
+<li>Data extensions to add additional contextual data to exceptions</li>
+<li>Matchers to filter exceptions which Radar reports</li>
+<li>Run multiple Radar "applications" side-by-side to catch and report
+different exceptions to different places</li>
+<li>Integration with 3rd party software: Rack, Rails 3.</li>
+</ul>
+
 
 <h2>Installation</h2>
 
@@ -77,7 +88,7 @@ remote server, etc.). Radar comes with some built-in reporters. Below, we config
 the application to log errors to a file (by default at <code>~/.radar/errors/my_application</code>):</p>
 
 <pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Reporter</span><span class='op'>::</span><span class='const'>FileReporter</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:file</span>
 <span class='kw'>end</span>
 </pre>
 
@@ -112,6 +123,29 @@ used in conjunction with the above method as well:</p>
 a <code>rescue</code>), Radar will catch your exception and report it just prior to
 crashing.</p>
 
+<h2>Terminology</h2>
+
+<p>Although you've already seen a basic example, I think its a good idea to
+go over terminology quickly before moving onto to the details of every feature:</p>
+
+<ul>
+<li><strong>application</strong> - A single exception reporter which can contain its own
+set of matchers, reporters, data extensions, etc.</li>
+<li><strong>reporter</strong> - A reporter takes Radar-generated exception data when an
+exception is reported and does <em>something</em> with it such as save it to a file,
+store it on a server, etc.</li>
+<li><strong>data extension</strong> - Adds additional contextual information to the exception
+event hash before it is sent to the reporters.</li>
+<li><strong>matcher</strong> - An exception must adhere to at least one matcher for Radar
+to send the exception to reporters. This allows for filtering of specific
+exceptions.</li>
+<li><strong>filter</strong> - A class or proc that filters the data before it is reported.
+This allows you to filter passwords, for example.</li>
+<li><strong>integration</strong> - The act of integrating Radar with 3rd party software,
+such as Rack or Rails.</li>
+</ul>
+
+
 <h1>Features</h1>
 
 <h2>Reporters</h2>
@@ -134,7 +168,7 @@ server.</li>
 <p>Reporters are enabled using the appilication configuration:</p>
 
 <pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>FileReporter</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:file</span>
 <span class='kw'>end</span>
 </pre>
 
@@ -142,7 +176,7 @@ server.</li>
 the instance of that reporter:</p>
 
 <pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>FileReporter</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id reporter'>reporter</span><span class='op'>|</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:file</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id reporter'>reporter</span><span class='op'>|</span>
     <span class='id reporter'>reporter</span><span class='period'>.</span><span class='id output_directory'>output_directory</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>~/.radar/exceptions</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
@@ -152,10 +186,17 @@ the instance of that reporter:</p>
 in the order they are defined when an exception occurs:</p>
 
 <pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>FileReporter</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>AnotherReporter</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>FileReporter</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>AnotherReporter</span>
 <span class='kw'>end</span>
 </pre>
+
+<p>As you can see from the above examples, a reporter takes both a symbol
+or a class. If a symbol is given, Radar expects the class to be camelcased
+suffixed with <code>Reporter</code> and be under the <code>Radar::Reporter</code> namespace.
+For example, if you used the symbol <code>:my_place</code>, it would expect the reporter
+to be at <code>Radar::Reporter::MyPlaceReporter</code>. To avoid this, you can always
+use the class explicitly.</p>
 
 <h3>Built-in Reporters</h3>
 
@@ -169,7 +210,7 @@ where <code>timestamp</code> is the time that the exception occurred and <code>u
 <p>The directory where these files will be stored is configurable:</p>
 
 <pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Reporter</span><span class='op'>::</span><span class='const'>FileReporter</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id reporter'>reporter</span><span class='op'>|</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:file</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id reporter'>reporter</span><span class='op'>|</span>
     <span class='id reporter'>reporter</span><span class='period'>.</span><span class='id output_directory'>output_directory</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>~/my_application_errors</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
@@ -195,6 +236,30 @@ JSON and pretty print it if you wish it to be easily human readable. There are
 <p>For complete documentation on this reporter, please see the actual <span class='object_link'><a href="Radar/Reporter/FileReporter.html" title="Radar::Reporter::FileReporter (class)">Radar::Reporter::FileReporter</a></span>
 page.</p>
 
+<h4>IoReporter</h4>
+
+<p><span class='object_link'><a href="Radar/Reporter/IoReporter.html" title="Radar::Reporter::IoReporter (class)">IoReporter</a></span> outputs the exception event JSON to
+any IO object (<code>stdout</code>, <code>stderr</code>, a net stream, etc.).</p>
+
+<pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:io</span><span class='comma'>,</span> <span class='symbol'>:io_object</span> <span class='op'>=&gt;</span> <span class='const'>STDOUT</span>
+<span class='kw'>end</span>
+</pre>
+
+<h4>LoggerReporter</h4>
+
+<p><span class='object_link'><a href="Radar/Reporter/LoggerReporter.html" title="Radar::Reporter::LoggerReporter (class)">LoggerReporter</a></span> outputs the exception event JSON
+to any <code>Logger</code> object. This is useful if you want to integrate Radar with an
+existing logging system, or if you simply want a backup for your exceptions (e.g.
+report to both a server and a logger).</p>
+
+<pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:logger</span><span class='comma'>,</span> <span class='symbol'>:log_object</span> <span class='op'>=&gt;</span> <span class='const'>Logger</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='const'>STDOUT</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:log_level</span> <span class='op'>=&gt;</span> <span class='symbol'>:error</span>
+<span class='kw'>end</span>
+</pre>
+
+<p><code>log_level</code> will default to <code>:error</code> if not specified.</p>
+
 <h3>Custom Reporters</h3>
 
 <p>It is very easy to write custom reporters. A reporter is simply a class which
@@ -212,7 +277,7 @@ occurred:</p>
 <p>And then using that reporter is just as easy:</p>
 
 <pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>StdoutReporter</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>StdoutReporter</span>
 <span class='kw'>end</span>
 </pre>
 
@@ -252,7 +317,7 @@ method. Below is a data extension to add the output of <code>uname -a</code> to 
 things:</p>
 
 <pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id data_extensions'>data_extensions</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>UnameExtension</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id data_extensions'>data_extensions</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>UnameExtension</span>
 <span class='kw'>end</span>
 </pre>
 
@@ -283,8 +348,8 @@ really exceptional.</p>
 <p>Matchers are enabled in the application configuration:</p>
 
 <pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:app</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:class</span><span class='comma'>,</span> <span class='const'>StandardError</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:backtrace</span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>file.rb$</span><span class='regexp_end'>/</span></span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:class</span><span class='comma'>,</span> <span class='const'>StandardError</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:backtrace</span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>file.rb$</span><span class='regexp_end'>/</span></span>
 <span class='kw'>end</span>
 </pre>
 
@@ -313,9 +378,9 @@ on writing a custom matcher, see the section below.</p>
 
 <p>Examples of each are shown below (respective to the above order):</p>
 
-<pre class="code"><span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:backtrace</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_file.rb</span><span class='tstring_end'>&quot;</span></span>
-<span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:backtrace</span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.+_test.rb</span><span class='regexp_end'>/</span></span>
-<span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:backtrace</span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.+_test.rb</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='symbol'>:depth</span> <span class='op'>=&gt;</span> <span class='int'>5</span>
+<pre class="code"><span class='id app'>app</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:backtrace</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>my_file.rb</span><span class='tstring_end'>&quot;</span></span>
+<span class='id app'>app</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:backtrace</span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.+_test.rb</span><span class='regexp_end'>/</span></span>
+<span class='id app'>app</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:backtrace</span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.+_test.rb</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='symbol'>:depth</span> <span class='op'>=&gt;</span> <span class='int'>5</span>
 </pre>
 
 <p>If an exception doesn't have a backtrace (can happen if you don't actually
@@ -336,9 +401,9 @@ so it can check against:</p>
 
 <p>Examples of each are shown below (in the above order):</p>
 
-<pre class="code"><span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:class</span><span class='comma'>,</span> <span class='const'>StandardError</span>
-<span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:class</span><span class='comma'>,</span> <span class='const'>StandardError</span><span class='comma'>,</span> <span class='symbol'>:include_subclasses</span> <span class='op'>=&gt;</span> <span class='kw'>true</span>
-<span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:class</span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.*Error</span><span class='regexp_end'>/</span></span>
+<pre class="code"><span class='id app'>app</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:class</span><span class='comma'>,</span> <span class='const'>StandardError</span>
+<span class='id app'>app</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:class</span><span class='comma'>,</span> <span class='const'>StandardError</span><span class='comma'>,</span> <span class='symbol'>:include_subclasses</span> <span class='op'>=&gt;</span> <span class='kw'>true</span>
+<span class='id app'>app</span><span class='period'>.</span><span class='id match'>match</span> <span class='symbol'>:class</span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.*Error</span><span class='regexp_end'>/</span></span>
 </pre>
 
 <h3>Custom Matchers</h3>
@@ -365,7 +430,7 @@ configured message:</p>
 <p>And the usage is shown below:</p>
 
 <pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:app</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
-  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id match'>match</span> <span class='const'>ErrorMessageMatcher</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sample message</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id match'>match</span> <span class='const'>ErrorMessageMatcher</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sample message</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span>
 </pre>
 
@@ -373,10 +438,163 @@ configured message:</p>
 
 <pre class="code"><span class='id raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello, World</span><span class='tstring_end'>&quot;</span></span>   <span class='comment'># not reported
 </span><span class='id raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sample message</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># reported since it matches the message
-</span></pre></div></div>
+</span></pre>
+
+<h2>Filters</h2>
+
+<p>Filters provide a method of filtering the data hash just before it is sent
+to any reporters. This allows you to filter passwords, modify fields, etc.</p>
+
+<h3>Using a Filter</h3>
+
+<p>There are two ways to use a filter: as a class or as a lambda.</p>
+
+<h4>Lambda</h4>
+
+<p>The easiest way, if the filtering is really simple, is to just
+use a lambda. Below is a small example:</p>
+
+<pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_app</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id filters'>filters</span><span class='period'>.</span><span class='id use'>use</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id data'>data</span><span class='op'>|</span>
+    <span class='id data'>data</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:password</span><span class='rparen'>)</span>
+    <span class='id data'>data</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</pre>
+
+<p>This filter would delete the <code>:password</code> key from the data hash, and returns
+the new data hash.</p>
+
+<h4>Class</h4>
+
+<p>You can also create a filtering class if that is more convenient or if
+there is more complex logic in the filtering. The class must respond to
+<code>filter</code>.</p>
+
+<pre class="code"><span class='kw'>class</span> <span class='const'>MyPasswordFilter</span>
+  <span class='kw'>def</span> <span class='id filter'>filter</span><span class='lparen'>(</span><span class='id data'>data</span><span class='rparen'>)</span>
+    <span class='id data'>data</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:password</span><span class='rparen'>)</span>
+    <span class='id data'>data</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_app</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id filters'>filters</span><span class='period'>.</span><span class='id use'>use</span> <span class='const'>MyPasswordFilter</span>
+<span class='kw'>end</span>
+</pre>
+
+<p>This does the same thing, functionally, as the previous lambda example. However,
+it is clear to see how a class would enable you to more easily encapsulate more
+complex filtering logic.</p>
+
+<h3>Built-in Filters</h3>
+
+<h4>KeyFilter</h4>
+
+<p>The <span class='object_link'><a href="Radar/Filters/KeyFilter.html" title="Radar::Filters::KeyFilter (class)">KeyFilter</a></span> filters specific keys out of the result
+data and replaces it with specified text ("[FILTERED]" by default). Below we
+configure the key filter to filter passwords:</p>
+
+<pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_app</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id filters'>filters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:key</span><span class='comma'>,</span> <span class='symbol'>:key</span> <span class='op'>=&gt;</span> <span class='symbol'>:password</span>
+<span class='kw'>end</span>
+</pre>
+
+<p>Then, assuming an exception is raised at some point and the following event data
+is created:</p>
+
+<pre class="code"><span class='lbrace'>{</span> <span class='symbol'>:request</span>  <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:password</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='symbol'>:rack_env</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:password</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
+</pre>
+
+<p>Then before it is sent to reporters it will be filtered into this:</p>
+
+<pre class="code"><span class='lbrace'>{</span> <span class='symbol'>:request</span>  <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:password</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[FILTERED]</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='symbol'>:rack_env</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:password</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[FILTERED]</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
+</pre>
+
+<p>There are many options which can be sent to <code>KeyFilter</code>, please see the
+class documentation for more details.</p>
+
+<h2>Integration with Other Software</h2>
+
+<h3>Rack</h3>
+
+<p>Radar provides a lightweight Rack middleware to catch and report errors to a
+specified Radar application. Below is a sample <code>config.ru</code> file which would
+catch any exceptions by the rack application:</p>
+
+<pre class="code"><span class='id require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rubygems</span><span class='tstring_end'>&quot;</span></span>
+<span class='id require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>radar</span><span class='tstring_end'>&quot;</span></span>
+
+<span class='id app'>app</span> <span class='op'>=</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_app</span><span class='rparen'>)</span>
+<span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:io</span><span class='comma'>,</span> <span class='symbol'>:io_object</span> <span class='op'>=&gt;</span> <span class='const'>STDOUT</span>
+
+<span class='id use'>use</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Radar</span><span class='comma'>,</span> <span class='symbol'>:application</span> <span class='op'>=&gt;</span> <span class='id app'>app</span>
+<span class='id run'>run</span> <span class='const'>YourWebApp</span>
+</pre>
+
+<p>If <code>YourWebApp</code> were to throw any exceptions, <code>Rack::Radar</code> would catch it,
+report it to <code>app</code>, and reraise the exception.</p>
+
+<p>Using the Rack middleware also enables the rack data extension, which provides
+additional information about the rack request and environment. Sample output
+of only the additional information is shown below:</p>
+
+<pre class="code">{ &quot;request&quot;: {
+    &quot;request_method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;http://localhost:9292/favicon.ico&quot;,
+    &quot;parameters&quot;: {},
+    &quot;remote_ip&quot;: &quot;127.0.0.1&quot;,
+    &quot;rack_env&quot;: { ... }
+  }
+}
+</pre>
+
+<h3>Rails 3</h3>
+
+<p>Radar can integrate very easily with any Rails 3 application to automatically
+catch any Rails exceptions as well as provide additional information captured
+when the exception was raised. First, add Radar to your <code>Gemfile</code>:</p>
+
+<pre class="code"><span class='id gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>radar</span><span class='tstring_end'>&quot;</span></span>
+</pre>
+
+<p>Then <code>bundle install</code> so you pull down the gem. Then install Radar by
+running the built-in generator:</p>
+
+<pre class="code"><span class='id rails'>rails</span> <span class='id generate'>generate</span> <span class='id radar'>radar</span>
+</pre>
+
+<p>This will create the necessary initializer and let you know what further
+steps to take to setup Radar. Radar will already work with your application at this point,
+but it won't report to anywhere by default, so at the very least you must
+open up <code>config/initializers/radar.rb</code> and add a reporter.</p>
+
+<h2>Internals Logging</h2>
+
+<p>Radar provides a lightweight internal log which logs information which
+can be used to easily solve the following problems:</p>
+
+<ul>
+<li>Verifying that Radar is working</li>
+<li>Investigating why Radar is/isn't reporting certain exceptions</li>
+<li>Storing more information <em>in case</em> something goes wrong</li>
+</ul>
+
+
+<p>By default, the logger is disabled, but it can easily be enabled on a
+per-application basis by specifying where it should log:</p>
+
+<pre class="code"><span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:app</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id app'>app</span><span class='op'>|</span>
+  <span class='id app'>app</span><span class='period'>.</span><span class='id config'>config</span><span class='period'>.</span><span class='id log_location'>log_location</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/var/log/radar/my_app.log</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+</pre>
+
+<p>Multiple applications may be logged to the same place without issue.</p></div></div>
     
     <div id="footer">
-  Generated on Tue Aug 17 20:00:27 2010 by 
+  Generated on Sat Aug 21 10:46:23 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.0.rc1 (ruby-1.9.2).
 </div>

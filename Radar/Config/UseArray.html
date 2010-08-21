@@ -320,13 +320,13 @@ how the <span class='object_link'><a href="#use-instance_method" title="Radar::C
       <pre class="lines">
 
 
-69
-70
-71
-72</pre>
+110
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@_array</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -365,12 +365,12 @@ how the <span class='object_link'><a href="#use-instance_method" title="Radar::C
       <pre class="lines">
 
 
-104
-105
-106</pre>
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id delete'>delete</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span>
   <span class='ivar'>@_array</span><span class='period'>.</span><span class='id delete_at'>delete_at</span><span class='lparen'>(</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -403,17 +403,17 @@ the given key and return the index of it.</p>
       <pre class="lines">
 
 
-111
-112
-113
-114
-115
-116
-117
-118</pre>
+153
+154
+155
+156
+157
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id index'>index</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id key'>key</span> <span class='kw'>if</span> <span class='id key'>key</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span>
@@ -454,15 +454,17 @@ given object (by key).</p>
       <pre class="lines">
 
 
-82
-83
-84</pre>
+123
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id insert'>insert</span><span class='lparen'>(</span><span class='id key'>key</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
-  <span class='ivar'>@_array</span><span class='period'>.</span><span class='id insert'>insert</span><span class='lparen'>(</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='ivar'>@_use_block</span><span class='period'>.</span><span class='id call'>call</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id args'>args</span><span class='period'>.</span><span class='id push'>push</span><span class='lparen'>(</span><span class='id block'>block</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id block'>block</span>
+  <span class='ivar'>@_array</span><span class='period'>.</span><span class='id insert'>insert</span><span class='lparen'>(</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='ivar'>@_use_block</span><span class='period'>.</span><span class='id call'>call</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -503,14 +505,14 @@ given object (by key).</p>
       <pre class="lines">
 
 
-88
-89
-90
-91
-92</pre>
+130
+131
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id insert_after'>insert_after</span><span class='lparen'>(</span><span class='id key'>key</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
   <span class='id i'>i</span> <span class='op'>=</span> <span class='id index'>index</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span>
@@ -557,15 +559,15 @@ object.</p>
       <pre class="lines">
 
 
-96
-97
-98
-99
-100
-101</pre>
+138
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 138</span>
 
 <span class='kw'>def</span> <span class='id swap'>swap</span><span class='lparen'>(</span><span class='id key'>key</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
   <span class='id i'>i</span> <span class='op'>=</span> <span class='id index'>index</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span>
@@ -600,12 +602,12 @@ the initializer) to generate the actual key/value stored in the array.</p>
       <pre class="lines">
 
 
-76
-77
-78</pre>
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id use'>use</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
   <span class='id insert'>insert</span><span class='lparen'>(</span><span class='id length'>length</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
@@ -636,15 +638,15 @@ the initializer) to generate the actual key/value stored in the array.</p>
       <pre class="lines">
 
 
-121
-122
-123
-124
-125
-126</pre>
+163
+164
+165
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 163</span>
 
 <span class='kw'>def</span> <span class='id values'>values</span>
   <span class='ivar'>@_array</span><span class='period'>.</span><span class='id inject'>inject</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id acc'>acc</span><span class='comma'>,</span> <span class='id data'>data</span><span class='op'>|</span>
@@ -662,7 +664,7 @@ the initializer) to generate the actual key/value stored in the array.</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Aug 17 20:00:27 2010 by 
+  Generated on Sat Aug 21 10:46:23 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.0.rc1 (ruby-1.9.2).
 </div>
