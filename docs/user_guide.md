@@ -69,6 +69,24 @@ Now, whenever your application is about to crash (an exception not caught by
 a `rescue`), Radar will catch your exception and report it just prior to
 crashing.
 
+## Terminology
+
+Although you've already seen a basic example, I think its a good idea to
+go over terminology quickly before moving onto to the details of every feature:
+
+  - **application** - A single exception reporter which can contain its own
+    set of matchers, reporters, data extensions, etc.
+  - **reporter** - A reporter takes Radar-generated exception data when an
+    exception is reported and does _something_ with it such as save it to a file,
+    store it on a server, etc.
+  - **data extension** - Adds additional contextual information to the exception
+    event hash before it is sent to the reporters.
+  - **matcher** - An exception must adhere to at least one matcher for Radar
+    to send the exception to reporters. This allows for filtering of specific
+    exceptions.
+  - **integration** - The act of integrating Radar with 3rd party software,
+    such as Rack or Rails.
+
 # Features
 
 ## Reporters

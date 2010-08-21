@@ -6,6 +6,8 @@ class LoggerTest < Test::Unit::TestCase
       @klass = Radar::Logger
     end
 
-    # TODO. This is a tough one to test.
+    should "return true, temporarily" do
+      assert true
+    end
   end
 end

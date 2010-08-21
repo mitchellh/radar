@@ -1,6 +1,7 @@
 GIT
   remote: http://github.com/lsegal/yard.git
   revision: bf84275
+  ref: bf84275
   specs:
     yard (0.6.0.rc1)
 
