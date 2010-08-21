@@ -11,27 +11,12 @@ module Radar
     attr_accessor :log_location
 
     def initialize
-      @reporters = UseArray.new do |klass, *args|
-        klass = Support::Inflector.constantize("Radar::Reporter::#{Support::Inflector.camelize(klass)}Reporter") if !klass.is_a?(Class)
-        block = args.pop if args.last.is_a?(Proc)
-        instance = klass.new(*args)
-        block.call(instance) if block
-        [klass, instance]
-      end
+      @reporters       = UseArray.new(&method(:add_reporter))
+      @data_extensions = UseArray.new(&method(:add_data_extension))
+      @matchers        = UseArray.new(&method(:add_matcher))
+      @filters         = UseArray.new(&method(:add_filter))
+      @log_location    = nil
 
-      @data_extensions = UseArray.new do |ext, *args|
-        ext = Support::Inflector.constantize("Radar::DataExtensions::#{Support::Inflector.camelize(ext)}") if !ext.is_a?(Class)
-        [ext, ext]
-      end
-
-      @matchers = UseArray.new do |matcher, *args|
-        matcher = Support::Inflector.constantize("Radar::Matchers::#{Support::Inflector.camelize(matcher)}Matcher") if !matcher.is_a?(Class)
-        [matcher, matcher.new(*args)]
-      end
-
-      @filters = UseArray.new(&method(:add_filter))
-
-      @log_location = nil
       @data_extensions.use DataExtensions::HostEnvironment
     end
 
@@ -58,6 +43,32 @@ module Radar
     end
 
     protected
+
+    # The callback that is used to add a reporter to the {UseArray}
+    # when `reporters.use` is called.
+    def add_reporter(klass, *args)
+      klass = Support::Inflector.constantize("Radar::Reporter::#{Support::Inflector.camelize(klass)}Reporter") if !klass.is_a?(Class)
+
+      block = args.pop if args.last.is_a?(Proc)
+      instance = klass.new(*args)
+      block.call(instance) if block
+
+      [klass, instance]
+    end
+
+    # The callback that is used to add a data extension to the {UseArray}
+    # when `data_extensions.use` is called.
+    def add_data_extension(ext, *args)
+      ext = Support::Inflector.constantize("Radar::DataExtensions::#{Support::Inflector.camelize(ext)}") if !ext.is_a?(Class)
+      [ext, ext]
+    end
+
+    # The callback that is used to add a matcher to the {UseArray}
+    # when `matchers.use` is called.
+    def add_matcher(matcher, *args)
+      matcher = Support::Inflector.constantize("Radar::Matchers::#{Support::Inflector.camelize(matcher)}Matcher") if !matcher.is_a?(Class)
+      [matcher, matcher.new(*args)]
+    end
 
     # The callback that is used to add a filter to the {UseArray}
     # when `filters.use` is called.
