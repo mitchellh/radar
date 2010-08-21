@@ -393,6 +393,32 @@ This does the same thing, functionally, as the previous lambda example. However,
 it is clear to see how a class would enable you to more easily encapsulate more
 complex filtering logic.
 
+### Built-in Filters
+
+#### KeyFilter
+
+The {Radar::Filters::KeyFilter KeyFilter} filters specific keys out of the result
+data and replaces it with specified text ("[FILTERED]" by default). Below we
+configure the key filter to filter passwords:
+
+    Radar::Application.new(:my_app) do |app|
+      app.filters.use :key, :key => :password
+    end
+
+Then, assuming an exception is raised at some point and the following event data
+is created:
+
+    { :request  => { :password => "foo" },
+      :rack_env => { :query => { :password => "foo" } } }
+
+Then before it is sent to reporters it will be filtered into this:
+
+    { :request  => { :password => "[FILTERED]" },
+      :rack_env => { :query => { :password => "[FILTERED]" } } }
+
+There are many options which can be sent to `KeyFilter`, please see the
+class documentation for more details.
+
 ## Integration with Other Software
 
 ### Rack

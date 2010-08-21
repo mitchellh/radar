@@ -16,6 +16,13 @@ module Radar
     #     { :request  => { :password => "[FILTERED]" },
     #       :rack_env => { :params => { :password => "[FILTERED]" } } }
     #
+    # ## Options
+    #
+    # * `:key` - A single element or array of elements which represent the
+    #   keys to filter out of the event hash.
+    # * `:filter_text` - The text which replaces keys which are caught by the
+    #   filter. This defaults to "[FILTERED]"
+    #
     class KeyFilter
       attr_accessor :key
       attr_accessor :filter_text
