@@ -15,6 +15,10 @@ module Radar
     autoload :Rack, 'radar/data_extensions/rack'
   end
 
+  module Filters
+    autoload :KeyFilter, 'radar/filters/key_filter'
+  end
+
   module Integration
     autoload :Rack,   'radar/integration/rack'
     autoload :Rails3, 'radar/integration/rails3'

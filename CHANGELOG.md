@@ -1,5 +1,6 @@
 ## 0.3.0 (unreleased)
 
+  - Added `KeyFilter` to filter out specific keys in the data hash.
   - Added filters, which are called after data extensions as a way
     to filter out information (passwords, shorten backtrace, etc.) [GH-19]
   - Added `LoggerReporter` to log to any `Logger` object. [GH-20]
