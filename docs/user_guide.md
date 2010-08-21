@@ -84,6 +84,8 @@ go over terminology quickly before moving onto to the details of every feature:
   - **matcher** - An exception must adhere to at least one matcher for Radar
     to send the exception to reporters. This allows for filtering of specific
     exceptions.
+  - **filter** - A class or proc that filters the data before it is reported.
+    This allows you to filter passwords, for example.
   - **integration** - The act of integrating Radar with 3rd party software,
     such as Rack or Rails.
 
@@ -345,6 +347,51 @@ And this results in the following behavior:
 
     raise "Hello, World"   # not reported
     raise "sample message" # reported since it matches the message
+
+## Filters
+
+Filters provide a method of filtering the data hash just before it is sent
+to any reporters. This allows you to filter passwords, modify fields, etc.
+
+### Using a Filter
+
+There are two ways to use a filter: as a class or as a lambda.
+
+#### Lambda
+
+The easiest way, if the filtering is really simple, is to just
+use a lambda. Below is a small example:
+
+    Radar::Application.new(:my_app) do |app|
+      app.filters.use do |data|
+        data.delete(:password)
+        data
+      end
+    end
+
+This filter would delete the `:password` key from the data hash, and returns
+the new data hash.
+
+#### Class
+
+You can also create a filtering class if that is more convenient or if
+there is more complex logic in the filtering. The class must respond to
+`filter`.
+
+    class MyPasswordFilter
+      def filter(data)
+        data.delete(:password)
+        data
+      end
+    end
+
+    Radar::Application.new(:my_app) do |app|
+      app.filters.use MyPasswordFilter
+    end
+
+This does the same thing, functionally, as the previous lambda example. However,
+it is clear to see how a class would enable you to more easily encapsulate more
+complex filtering logic.
 
 ## Integration with Other Software
 
