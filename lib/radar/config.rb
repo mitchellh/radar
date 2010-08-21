@@ -7,11 +7,13 @@ module Radar
     attr_reader :reporters
     attr_reader :data_extensions
     attr_reader :matchers
+    attr_reader :filters
     attr_accessor :log_location
 
     def initialize
-      @reporters = UseArray.new do |klass, *args, &block|
+      @reporters = UseArray.new do |klass, *args|
         klass = Support::Inflector.constantize("Radar::Reporter::#{Support::Inflector.camelize(klass)}Reporter") if !klass.is_a?(Class)
+        block = args.pop if args.last.is_a?(Proc)
         instance = klass.new(*args)
         block.call(instance) if block
         [klass, instance]
@@ -21,14 +23,16 @@ module Radar
         ext = Support::Inflector.constantize("Radar::DataExtensions::#{Support::Inflector.camelize(ext)}") if !ext.is_a?(Class)
         [ext, ext]
       end
-      @data_extensions.use DataExtensions::HostEnvironment
 
       @matchers = UseArray.new do |matcher, *args|
         matcher = Support::Inflector.constantize("Radar::Matchers::#{Support::Inflector.camelize(matcher)}Matcher") if !matcher.is_a?(Class)
         [matcher, matcher.new(*args)]
       end
 
+      @filters = UseArray.new(&method(:add_filter))
+
       @log_location = nil
+      @data_extensions.use DataExtensions::HostEnvironment
     end
 
     # Adds a matcher rule to the application. An application will only
@@ -51,6 +55,25 @@ module Radar
     #
     def match(matcher, *args)
       @matchers.use(matcher, *args)
+    end
+
+    protected
+
+    # The callback that is used to add a filter to the {UseArray}
+    # when `filters.use` is called.
+    def add_filter(*args)
+      block = args.pop if args.last.is_a?(Proc)
+      raise ArgumentError.new("`filters.use` requires at least a class or a lambda to be given.") if args.empty? && !block
+
+      if !args.empty?
+        # Detect the proper class then get the `filter` method from it,
+        # since that is all we care about
+        klass = args.shift
+        klass = Support::Inflector.constantize("Radar::Filters::#{Support::Inflector.camelize(klass)}Filter") if !klass.is_a?(Class)
+        block = klass.new.method(:filter)
+      end
+
+      [block, block]
     end
   end
 
@@ -87,7 +110,8 @@ module Radar
       # Insert the given key at the given index or directly before the
       # given object (by key).
       def insert(key, *args, &block)
-        @_array.insert(index(key), @_use_block.call(*args, &block))
+        args.push(block) if block
+        @_array.insert(index(key), @_use_block.call(*args))
       end
       alias_method :insert_before, :insert
 

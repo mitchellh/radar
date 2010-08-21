@@ -159,6 +159,10 @@ class ApplicationTest < Test::Unit::TestCase
       should "delegate matchers" do
         assert_equal @instance.config.matchers, @instance.matchers
       end
+
+      should "delegate filters" do
+        assert_equal @instance.config.filters, @instance.filters
+      end
     end
 
     # Untested: Application#rescue_at_exit! since I'm not aware of an

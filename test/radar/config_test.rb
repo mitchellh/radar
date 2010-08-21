@@ -92,6 +92,24 @@ class ConfigTest < Test::Unit::TestCase
         assert @instance.matchers.values.first.is_a?(Radar::Matchers::ClassMatcher)
       end
     end
+
+    context "filters" do
+      teardown do
+        @instance.filters.clear
+      end
+
+      should "raise an ArgumentError if no class or lambda is given" do
+        assert_raises(ArgumentError) { @instance.filters.use }
+      end
+
+      should "be able to use just a block" do
+        assert_nothing_raised {
+          @instance.filters.use do |foo|
+          end
+        }
+        assert_equal 1, @instance.filters.length
+      end
+    end
   end
 
   context "UseArray class" do

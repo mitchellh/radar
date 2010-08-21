@@ -35,10 +35,12 @@ module Radar
         :occurred_at => occurred_at.to_i
       }
 
-      if !application.config.data_extensions.empty?
-        application.config.data_extensions.values.each do |extension|
-          Support::Hash.deep_merge!(result, extension.new(self).to_hash || {})
-        end
+      application.config.data_extensions.values.each do |extension|
+        Support::Hash.deep_merge!(result, extension.new(self).to_hash || {})
+      end
+
+      application.config.filters.values.each do |filter|
+        result = filter.call(result)
       end
 
       result

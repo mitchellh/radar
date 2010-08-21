@@ -1,5 +1,7 @@
 ## 0.3.0 (unreleased)
 
+  - Added filters, which are called after data extensions as a way
+    to filter out information (passwords, shorten backtrace, etc.) [GH-19]
   - Added `LoggerReporter` to log to any `Logger` object. [GH-20]
   - Rails 3 integration. See user guide for more information.
   - Rack integration. See user guide for more information. [GH-13]

@@ -51,6 +51,21 @@ class ExceptionEventTest < Test::Unit::TestCase
           assert_nothing_raised { @instance.to_hash }
         end
       end
+
+      context "filters" do
+        should "have an application key by default" do
+          assert @instance.to_hash.has_key?(:application)
+        end
+
+        should "not filter out the application key with filter" do
+          @instance.application.config.filters.use do |data|
+            data.delete(:application)
+            data
+          end
+
+          assert !@instance.to_hash.has_key?(:application)
+        end
+      end
     end
 
     context "to_json" do
