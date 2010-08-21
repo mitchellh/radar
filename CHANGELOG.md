@@ -1,4 +1,4 @@
-## 0.3.0 (unreleased)
+## 0.3.0 (August 21, 2010)
 
   - Added `KeyFilter` to filter out specific keys in the data hash.
   - Added filters, which are called after data extensions as a way

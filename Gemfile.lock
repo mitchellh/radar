@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    radar (0.3.0.dev)
+    radar (0.3.0)
       json (>= 1.4.6)
 
 GEM
