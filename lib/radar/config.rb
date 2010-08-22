@@ -38,8 +38,8 @@ module Radar
     #
     # Radar will then use the specified class as the matcher.
     #
-    def match(matcher, *args)
-      @matchers.use(matcher, *args)
+    def match(matcher, *args, &block)
+      @matchers.use(matcher, *args, &block)
     end
 
     protected
@@ -65,9 +65,18 @@ module Radar
 
     # The callback that is used to add a matcher to the {UseArray}
     # when `matchers.use` is called.
-    def add_matcher(matcher, *args)
-      matcher = Support::Inflector.constantize("Radar::Matchers::#{Support::Inflector.camelize(matcher)}Matcher") if !matcher.is_a?(Class)
-      [matcher, matcher.new(*args)]
+    def add_matcher(*args)
+      block = args.pop if args.last.is_a?(Proc)
+      raise ArgumentError.new("`matchers.use` requires at least a class or a lambda to be given.") if args.empty? && !block
+      name = block || args.first
+
+      if !args.empty?
+        klass = args.shift
+        klass = Support::Inflector.constantize("Radar::Matchers::#{Support::Inflector.camelize(klass)}Matcher") if !klass.is_a?(Class)
+        block = klass.new(*args).method(:matches?)
+      end
+
+      [name, block]
     end
 
     # The callback that is used to add a filter to the {UseArray}
@@ -75,6 +84,7 @@ module Radar
     def add_filter(*args)
       block = args.pop if args.last.is_a?(Proc)
       raise ArgumentError.new("`filters.use` requires at least a class or a lambda to be given.") if args.empty? && !block
+      name = block || args.first
 
       if !args.empty?
         # Detect the proper class then get the `filter` method from it,
@@ -84,7 +94,7 @@ module Radar
         block = klass.new.method(:filter)
       end
 
-      [block, block]
+      [name, block]
     end
   end
 

@@ -99,7 +99,7 @@ module Radar
       # before continuing
       if !config.matchers.empty?
         return if !config.matchers.values.find do |m|
-          m.matches?(data) && logger.info("Reporting exception. Matches: #{m}")
+          m.call(data) && logger.info("Reporting exception. Matches: #{m}")
         end
       end
 

@@ -89,7 +89,12 @@ class ConfigTest < Test::Unit::TestCase
 
       should "be able to use built-in matchers as symbols" do
         @instance.match :class, Object
-        assert @instance.matchers.values.first.is_a?(Radar::Matchers::ClassMatcher)
+        assert @instance.matchers.values.first
+      end
+
+      should "key the matchers by name if given" do
+        @instance.match :class, Object
+        assert @instance.matchers.index(:class)
       end
     end
 

@@ -1,5 +1,6 @@
 ## 0.4.0 (unreleased)
 
+  - Matchers can now take just a block which takes a single parameter `event`. [GH-24]
   - Added a `Hoptoad` reporter! Radar is now a drop-in replacement for
     Hoptoad. [GH-21]
   - Fixed issue with `LoggerReporter` not being able to use the Rails
