@@ -1,5 +1,3 @@
-require "rails"
-
 module Radar
   # The Radar Railtie allows Radar to integrate with Rails 3 by
   # adding generators. **This file is only loaded automatically

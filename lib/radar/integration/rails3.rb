@@ -1,5 +1,3 @@
-require "rails"
-
 module Radar
   module Integration
     # Allows drop-in integration with Rails 3 for Radar. This
