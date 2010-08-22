@@ -66,32 +66,29 @@ module Radar
     # The callback that is used to add a matcher to the {UseArray}
     # when `matchers.use` is called.
     def add_matcher(*args)
-      block = args.pop if args.last.is_a?(Proc)
-      raise ArgumentError.new("`matchers.use` requires at least a class or a lambda to be given.") if args.empty? && !block
-      name = block || args.first
-
-      if !args.empty?
-        klass = args.shift
-        klass = Support::Inflector.constantize("Radar::Matchers::#{Support::Inflector.camelize(klass)}Matcher") if !klass.is_a?(Class)
-        block = klass.new(*args).method(:matches?)
-      end
-
-      [name, block]
+      callable_method(:matches?, "Radar::Matchers::%sMatcher",  *args)
     end
 
     # The callback that is used to add a filter to the {UseArray}
     # when `filters.use` is called.
     def add_filter(*args)
+      callable_method(:filter, "Radar::Filters::%sFilter",  *args)
+    end
+
+    def callable_method(method, inflectorspace, *args)
       block = args.pop if args.last.is_a?(Proc)
-      raise ArgumentError.new("`filters.use` requires at least a class or a lambda to be given.") if args.empty? && !block
+      raise ArgumentError.new("Requires at least a class or a lambda to be given.") if args.empty? && !block
       name = block || args.first
 
       if !args.empty?
-        # Detect the proper class then get the `filter` method from it,
-        # since that is all we care about
         klass = args.shift
-        klass = Support::Inflector.constantize("Radar::Filters::#{Support::Inflector.camelize(klass)}Filter") if !klass.is_a?(Class)
-        block = klass.new.method(:filter)
+
+        if !klass.is_a?(Class)
+          space = inflectorspace % Support::Inflector.camelize(klass)
+          klass = Support::Inflector.constantize(space)
+        end
+
+        block = klass.new(*args).method(method)
       end
 
       [name, block]
