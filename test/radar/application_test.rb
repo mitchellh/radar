@@ -45,7 +45,9 @@ class ApplicationTest < Test::Unit::TestCase
       setup do
         @instance.config.reporters.clear
 
-        @reporter = Class.new
+        @reporter = Class.new do
+          def report(event); end
+        end
       end
 
       should "be able to configure an application" do
@@ -108,19 +110,20 @@ class ApplicationTest < Test::Unit::TestCase
             def matches?(event); event.extra[:foo] == :bar; end
           end
 
-          @reporter = Class.new
+          @reporter = Class.new do
+            def report(event); raise "Reported"; end
+          end
+
           @instance.config.reporters.use @reporter
           @instance.config.match @matcher
         end
 
         should "not report if a matcher is specified and doesn't match" do
-          @reporter.any_instance.expects(:report).never
-          @instance.report(Exception.new, :foo => :wrong)
+          assert_nothing_raised { @instance.report(Exception.new, :foo => :wrong) }
         end
 
         should "report if a matcher matches" do
-          @reporter.any_instance.expects(:report).once
-          @instance.report(Exception.new, :foo => :bar)
+          assert_raises(RuntimeError) { @instance.report(Exception.new, :foo => :bar) }
         end
       end
     end

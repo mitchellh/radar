@@ -106,7 +106,7 @@ module Radar
       # Report the exception to each of the reporters
       logger.info "Invoking reporters for exception: #{exception.class}"
       config.reporters.values.each do |reporter|
-        reporter.report(data)
+        reporter.call(data)
       end
     end
 

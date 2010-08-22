@@ -1,5 +1,7 @@
 ## 0.4.0 (unreleased)
 
+  - Reporters can now take just a block which takes a single parameter
+    `event`.
   - Matchers can now take just a block which takes a single parameter `event`. [GH-24]
   - Added a `Hoptoad` reporter! Radar is now a drop-in replacement for
     Hoptoad. [GH-21]

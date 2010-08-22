@@ -46,14 +46,8 @@ module Radar
 
     # The callback that is used to add a reporter to the {UseArray}
     # when `reporters.use` is called.
-    def add_reporter(klass, *args)
-      klass = Support::Inflector.constantize("Radar::Reporter::#{Support::Inflector.camelize(klass)}Reporter") if !klass.is_a?(Class)
-
-      block = args.pop if args.last.is_a?(Proc)
-      instance = klass.new(*args)
-      block.call(instance) if block
-
-      [klass, instance]
+    def add_reporter(*args)
+      callable_method(:report, "Radar::Reporter::%sReporter", *args)
     end
 
     # The callback that is used to add a data extension to the {UseArray}
@@ -76,7 +70,7 @@ module Radar
     end
 
     def callable_method(method, inflectorspace, *args)
-      block = args.pop if args.last.is_a?(Proc)
+      block = args.pop if args.length == 1 && args.first.is_a?(Proc)
       raise ArgumentError.new("Requires at least a class or a lambda to be given.") if args.empty? && !block
       name = block || args.first
 
@@ -88,7 +82,14 @@ module Radar
           klass = Support::Inflector.constantize(space)
         end
 
-        block = klass.new(*args).method(method)
+        # Instantiate the class and yield the block if it was given
+        # with the instance.
+        instance_block = args.pop if args.last.is_a?(Proc)
+        instance = klass.new(*args)
+        instance_block.call(instance) if instance_block
+
+        # Store the callable method away as the callable for later.
+        block = instance.method(method)
       end
 
       [name, block]
