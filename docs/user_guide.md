@@ -69,6 +69,14 @@ Now, whenever your application is about to crash (an exception not caught by
 a `rescue`), Radar will catch your exception and report it just prior to
 crashing.
 
+### Framework Integration
+
+Radar provides framework integration out of the box for Rack, Rails 3, and
+Sinatra. These all require little or no extra configuration to your Radar
+applications.
+
+For more information on framework integration, see the [framework integration section](#__toc__section33).
+
 ## Terminology
 
 Although you've already seen a basic example, I think its a good idea to
@@ -506,6 +514,30 @@ This will create the necessary initializer and let you know what further
 steps to take to setup Radar. Radar will already work with your application at this point,
 but it won't report to anywhere by default, so at the very least you must
 open up `config/initializers/radar.rb` and add a reporter.
+
+### Sinatra
+
+Radar can easily integrate with Sinatra, since Sinatra is built on top of
+Rack. Below is a very simple example Sinatra application showing Radar
+integration:
+
+    require "rubygems"
+    require "sinatra"
+    require "radar"
+
+    # First define the Radar application, like normal.
+    Radar::Application.new(:my_app) do |app|
+      # ...
+    end
+
+    # And the Sinatra application
+    class MyApp < Sinatra::Base
+      use Rack::Radar, :application => Radar[:my_app]
+
+      get "/" do
+        raise "BOOM!"
+      end
+    end
 
 ## Internals Logging
 
