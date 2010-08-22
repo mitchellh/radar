@@ -83,7 +83,9 @@ module Radar
             error.tag!("class", event.exception.class.to_s)
             error.message(event.exception.message)
             error.backtrace do |backtrace|
-              backtrace.line(:number => 42, :file => "/foo/bar/baz", :method => "bob")
+              event.backtrace.each do |entry|
+                backtrace.line(:number => entry.line, :file => entry.file, :method => entry.method)
+              end
             end
           end
 
