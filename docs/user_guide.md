@@ -210,18 +210,25 @@ likely won't be sent to Hoptoad.
 
 ### Custom Reporters
 
-It is very easy to write custom reporters. A reporter is simply a class which
-responds to `report` and takes a single {Radar::ExceptionEvent} as a parameter.
-Below is an example of a reporter which simply prints out that an error
-occurred:
+It is very easy to write custom reporters. A reporter is either a class which
+responds to `report` and takes a single {Radar::ExceptionEvent} as a parameter,
+or it is a lambda function which takes a single {Radar::ExceptionEvent} as a
+parameter. Below is an example of a lambda function reporter which simply
+prints out that an error occurred to `stdout`:
+
+    Radar::Application.new(:my_application) do |app|
+      app.reporters.use do |event|
+        puts "An exception occurred! Message: #{event.exception.message}"
+      end
+    end
+
+And the same example as above except implemented using a class:
 
     class StdoutReporter
       def report(event)
         puts "An exception occurred! Message: #{event.exception.message}"
       end
     end
-
-And then using that reporter is just as easy:
 
     Radar::Application.new(:my_application) do |app|
       app.reporters.use StdoutReporter
@@ -337,13 +344,23 @@ Examples of each are shown below (in the above order):
 
 ### Custom Matchers
 
-Matchers are simply classes which respond to `matches?` which returns a boolean
-noting if the given {Radar::ExceptionEvent} matches. If true, then the exception
+Matchers are simply classes which respond to `matches?` or a lambda function,
+both of which are expected to take a single {Radar::ExceptionEvent} as a
+parameter and must return a boolean `true` or `false. If true, then the exception
 is reported, otherwise other matchers are tried, or if there are no other matchers,
 the exception is ignored.
 
-Below is a simple custom matcher which only matches exceptions with the
-configured message:
+Below is a simple custom matcher which only matches exceptions with a
+specific message, implemented using a lambda function:
+
+    Radar::Application.new(:app) do |app|
+      app.match do |event|
+        event.exception.message == "Hello"
+      end
+    end
+
+And now the same matcher as above is implemented using a class, with a
+little more flexibility:
 
     class ErrorMessageMatcher
       def initialize(message)
@@ -355,16 +372,18 @@ configured message:
       end
     end
 
-And the usage is shown below:
-
     Radar::Application.new(:app) do |app|
-      app.match ErrorMessageMatcher, "sample message"
+      app.match ErrorMessageMatcher, "Hello"
     end
 
-And this results in the following behavior:
+Both of the above result in the following behavior:
 
     raise "Hello, World"   # not reported
-    raise "sample message" # reported since it matches the message
+    raise "Hello"          # reported since it matches the message
+
+As you can see, for quick, easy matchers, lambda functions are the way to
+go and provide an easy solution to matching. However, if you need more
+customizability or complex logic, classes are the ideal solution.
 
 ## Filters
 
