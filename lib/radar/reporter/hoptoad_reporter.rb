@@ -1,5 +1,6 @@
 require 'builder'
 require 'net/http'
+require 'net/https'
 
 module Radar
   class Reporter
@@ -94,6 +95,8 @@ module Radar
       # Converts an event to the properly formatted XML for transmission
       # to Hoptoad.
       def event_xml(event)
+        request_data = request_info(event)
+
         builder = Builder::XmlMarkup.new
         builder.instruct!
         xml = builder.notice(:version => API_VERSION) do |notice|
@@ -115,6 +118,30 @@ module Radar
             end
           end
 
+          if !request_data.empty?
+            notice.request do |request|
+              request.url(request_data[:url])
+              request.component(request_data[:controller])
+              request.action(request_data[:action])
+
+              if !request_data[:parameters].empty?
+                request.params do |params|
+                  xml_vars_for_hash(params, request_data[:parameters])
+                end
+              end
+
+=begin
+              # TODO: Session
+              # TODO: This is not working:
+              if !request_data[:cgi_data].empty?
+                request.tag!("cgi-data") do |cgi|
+                  xml_vars_for_hash(cgi, request_data[:cgi_data])
+                end
+              end
+=end
+            end
+          end
+
           notice.tag!("server-environment") do |env|
             env.tag!("project-root", project_root)
             env.tag!("environment-name", environment_name)
@@ -131,6 +158,44 @@ module Radar
         port     = secure ? 443 : 80
 
         URI.parse("#{protocol}://#{host}:#{port}").merge(NOTICES_URL)
+      end
+
+      # Returns information about the request based on the event, such
+      # as URL, controller, action, parameters, etc.
+      def request_info(event)
+        return @_request_info if @_request_info
+
+        # Use the hash of the event so that if any filters deleted data, it is properly
+        # removed.
+        hash = event.to_hash.dup
+        hash[:request] ||= {}
+        hash[:request][:rack_env] ||= {}
+
+        @_request_info = {}
+
+        if hash[:request]
+          @_request_info[:url]        = hash[:request][:url]
+          @_request_info[:parameters] = hash[:request][:rack_env]['action_dispatch.request.parameters'] ||
+            hash[:request][:parameters] ||
+            {}
+          @_request_info[:controller] = @_request_info[:parameters]['controller']
+          @_request_info[:action]     = @_request_info[:parameters]['action']
+          @_request_info[:cgi_data]   = hash[:request][:rack_env] || {}
+          # TODO: Session
+        end
+
+        @_request_info
+      end
+
+      # Turns a hash into the proper XML vars
+      def xml_vars_for_hash(builder, hash)
+        hash.each do |k,v|
+          if v.is_a?(Hash)
+            builder.var(:key => k.to_s) { |b| xml_vars_for_hash(b, v) }
+          else
+            builder.var(v.to_s, :key => k.to_s)
+          end
+        end
       end
     end
   end
