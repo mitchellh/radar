@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project         = "radar"
 
   s.add_dependency "json", ">= 1.4.6"
+  s.add_dependency "builder", "~> 2.0"
 
   s.add_development_dependency "bundler", ">= 1.0.0.rc.5"
   s.add_development_dependency "shoulda"

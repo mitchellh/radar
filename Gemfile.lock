@@ -8,7 +8,8 @@ GIT
 PATH
   remote: .
   specs:
-    radar (0.3.0)
+    radar (0.4.0.dev)
+      builder (~> 2.0)
       json (>= 1.4.6)
 
 GEM
@@ -87,6 +88,7 @@ PLATFORMS
 
 DEPENDENCIES
   bluecloth
+  builder (~> 2.0)
   bundler (>= 1.0.0.rc.5)
   json (>= 1.4.6)
   mocha

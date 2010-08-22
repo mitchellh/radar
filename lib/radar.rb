@@ -31,6 +31,7 @@ module Radar
 
   class Reporter
     autoload :FileReporter,   'radar/reporter/file_reporter'
+    autoload :HoptoadReporter,'radar/reporter/hoptoad_reporter'
     autoload :IoReporter,     'radar/reporter/io_reporter'
     autoload :LoggerReporter, 'radar/reporter/logger_reporter'
   end
