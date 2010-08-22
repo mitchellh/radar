@@ -58,8 +58,8 @@ module Radar
           send("#{k}=", v)
         end
 
-        @project_root      ||= '/not/set'
-        @environment_name  ||= 'radar'
+        @project_root      ||= defined?(Rails) ? Rails.root.to_s : '/not/set'
+        @environment_name  ||= defined?(Rails) ? Rails.env.to_s  : 'radar'
 
         @host              ||= 'hoptoadapp.com'
         @headers           ||= { 'Content-type' => 'text/xml', 'Accept' => 'text/xml, application/xml' }
