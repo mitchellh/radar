@@ -202,12 +202,13 @@ blockquote {
 
     #header #logo .title {
       float: left;
+      margin-top: 0px;
     }
 
     #header #logo a {
       font-family: Helvetica, Arial, Verdana, sans-serif;
       vertical-align: top;
-      font-size: 60px;
+      font-size: 70px;
       color: #111;
       letter-spacing: -.05em;
       font-weight: bold;
@@ -237,7 +238,7 @@ blockquote {
   }
 
     #header #navigation ul {
-      padding: 2em 0 1em 100px;
+      padding: 2.75em 0 1em 100px;
       margin: 0;
       list-style-type: none;
     }
