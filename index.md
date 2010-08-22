@@ -48,5 +48,5 @@ Radar is customizable in almost every way:
 
 # User Guide
 
-For all the details on how to use Radar, please see the [user guide](#),
+For all the details on how to use Radar, please see the [user guide](/doc/file.user_guide.html),
 which covers everything in great detail.
