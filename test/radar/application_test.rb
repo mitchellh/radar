@@ -166,6 +166,11 @@ class ApplicationTest < Test::Unit::TestCase
       should "delegate filters" do
         assert_equal @instance.config.filters, @instance.filters
       end
+
+      should "delegate `match` method" do
+        @instance.config.expects(:match).once
+        @instance.match
+      end
     end
 
     # Untested: Application#rescue_at_exit! since I'm not aware of an

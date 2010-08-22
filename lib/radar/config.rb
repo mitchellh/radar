@@ -38,8 +38,8 @@ module Radar
     #
     # Radar will then use the specified class as the matcher.
     #
-    def match(matcher, *args, &block)
-      @matchers.use(matcher, *args, &block)
+    def match(*args, &block)
+      @matchers.use(*args, &block)
     end
 
     protected

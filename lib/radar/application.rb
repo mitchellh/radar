@@ -19,7 +19,7 @@ module Radar
     attr_reader :name
     attr_reader :creation_location
 
-    def_delegators :config, :reporters, :data_extensions, :matchers, :filters
+    def_delegators :config, :reporters, :data_extensions, :matchers, :filters, :match
 
     # Looks up an application which was registered with the given name.
     #
