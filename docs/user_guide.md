@@ -190,6 +190,24 @@ report to both a server and a logger).
 
 `log_level` will default to `:error` if not specified.
 
+#### HoptoadReporter
+
+{Radar::Reporter::HoptoadReporter HoptoadReporter} sends an exception event to
+the [Hoptoad service](http://hoptoadapp.com). If Radar is integrated with a Rack
+or Rails application, then the reporter will automatically add request information
+to the Hoptoad notice as well.
+
+    Radar::Application.new(:my_application) do |app|
+      app.reporters.use :hoptoad, :api_key => "your_key_here"
+    end
+
+There are many other options which can be set, though `api_key` is the only required
+one. See the class docs for more information.
+
+**Note:** Due to a limitation of the Hoptoad service, only a very specific
+set of data can be sent to the service. Therefore, your data extension information
+likely won't be sent to Hoptoad.
+
 ### Custom Reporters
 
 It is very easy to write custom reporters. A reporter is simply a class which

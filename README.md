@@ -30,6 +30,7 @@ ask for any more information 90% of the time.
   - Run multiple Radar "applications" side-by-side to catch and report
     different exceptions to different places
   - Integration with 3rd party software: Rack, Rails 3.
+  - Drop-in replacement and integration with [Hoptoad](http://hoptoadapp.com)
 
 ## Quick Start
 

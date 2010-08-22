@@ -1,5 +1,7 @@
 ## 0.4.0 (unreleased)
 
+  - Added a `Hoptoad` reporter! Radar is now a drop-in replacement for
+    Hoptoad. [GH-21]
   - Fixed issue with `LoggerReporter` not being able to use the Rails
     logger.
   - The backtrace in an `ExceptionEvent` is now a `Backtrace` object,
