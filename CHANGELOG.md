@@ -1,3 +1,9 @@
+## 0.4.0 (unreleased)
+
+  - The backtrace in an `ExceptionEvent` is now a `Backtrace` object,
+    which is a subclass of Array. This is because backtraces are now
+    parsed to extract the file, line, and method of each entry.
+
 ## 0.3.0 (August 21, 2010)
 
   - Added `KeyFilter` to filter out specific keys in the data hash.

@@ -4,6 +4,7 @@ require 'radar/integration/rails3/railtie' if defined?(Rails::Railtie)
 
 module Radar
   autoload :Application,    'radar/application'
+  autoload :Backtrace,      'radar/backtrace'
   autoload :Config,         'radar/config'
   autoload :ExceptionEvent, 'radar/exception_event'
   autoload :Logger,         'radar/logger'

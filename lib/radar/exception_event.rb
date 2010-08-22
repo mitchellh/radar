@@ -8,13 +8,15 @@ module Radar
   class ExceptionEvent
     attr_reader :application
     attr_reader :exception
-    attr_reader :occurred_at
+    attr_reader :backtrace
     attr_reader :extra
+    attr_reader :occurred_at
 
     def initialize(application, exception, extra=nil)
       @application = application
-      @exception = exception
-      @extra = extra || {}
+      @exception   = exception
+      @backtrace   = Backtrace.new(exception.backtrace)
+      @extra       = extra || {}
       @occurred_at = Time.now
     end
 
@@ -29,7 +31,7 @@ module Radar
         :exception => {
           :klass => exception.class.to_s,
           :message => exception.message,
-          :backtrace => exception.backtrace,
+          :backtrace => backtrace,
           :uniqueness_hash => uniqueness_hash
         },
         :occurred_at => occurred_at.to_i

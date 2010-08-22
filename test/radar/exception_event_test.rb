@@ -16,6 +16,11 @@ class ExceptionEventTest < Test::Unit::TestCase
       assert @instance.occurred_at.is_a?(Time)
     end
 
+    should "include a backtrace from the exception" do
+      assert @instance.backtrace
+      assert_equal @instance.exception.backtrace, @instance.backtrace.original
+    end
+
     should "not have extra data by default" do
       assert @instance.extra.empty?
     end
