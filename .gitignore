@@ -2,3 +2,4 @@
 .yardoc
 doc/
 test.rb
+_site/*
