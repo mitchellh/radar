@@ -5,8 +5,8 @@ module Radar
     # if you wish to integrate Radar into your already existing logging
     # systems.
     #
-    #     app.config.reporters.use :logger, :log_object => Logger.new(STDOUT)
-    #     app.config.reporters.use :logger, :log_object => Logger.new(STDOUT), :log_level => :warn
+    #     app.reporters.use :logger, :log_object => Logger.new(STDOUT)
+    #     app.reporters.use :logger, :log_object => Logger.new(STDOUT), :log_level => :warn
     #
     class LoggerReporter
       attr_accessor :log_object

@@ -3,14 +3,37 @@ require 'net/http'
 
 module Radar
   class Reporter
-    # Reports exceptions to the Hoptoad server (http://hoptoadapp.com).
+    # Thanks to the Hoptoad Notifier library for the format of the XML and
+    # also the `net/http` code. Writing this reporter would have been much
+    # more trying if Thoughtbot's code wasn't open.
+
+    # Reports exceptions to the Hoptoad server (http://hoptoadapp.com). Enabling
+    # this in your Radar application is easy:
+    #
+    #     app.reporters.use :hoptoad, :api_key => "hoptoad-api-key"
+    #
+    # The API key is your project's API key which can be found on the Hoptoad
+    # website. There are many additional options which can be set, but the most
+    # useful are probably `project_root` and `environment_name`. These will be
+    # auto-detected in a Rails application but for all others, its helpful
+    # to set them:
+    #
+    #     app.reporters.use :hoptoad do |r|
+    #       r.api_key          = "api-key"
+    #       r.project_root     = File.expand_path("../../", __FILE__)
+    #       r.environment_name = "development"
+    #     end
+    #
     class HoptoadReporter
       API_VERSION = "2.0"
       NOTICES_URL = "/notifier_api/v2/notices/"
 
-      # Hoptoad service API key
+      # Options which should be set:
       attr_accessor :api_key
+      attr_accessor :project_root
+      attr_accessor :environment_name
 
+      # The rest can probably be left alone:
       # HTTP settings
       attr_accessor :host
       attr_accessor :headers
@@ -33,6 +56,9 @@ module Radar
         (opts || {}).each do |k,v|
           send("#{k}=", v)
         end
+
+        @project_root      ||= '/not/set'
+        @environment_name  ||= 'radar'
 
         @host              ||= 'hoptoadapp.com'
         @headers           ||= { 'Content-type' => 'text/xml', 'Accept' => 'text/xml, application/xml' }
@@ -90,8 +116,8 @@ module Radar
           end
 
           notice.tag!("server-environment") do |env|
-            env.tag!("project-root", "TODO")
-            env.tag!("environment-name", "TODO")
+            env.tag!("project-root", project_root)
+            env.tag!("environment-name", environment_name)
           end
         end
 
