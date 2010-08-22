@@ -78,6 +78,8 @@ GEM
       thor (~> 0.14.0)
     rake (0.8.7)
     shoulda (2.11.3)
+    sinatra (1.0)
+      rack (>= 1.0)
     thor (0.14.0)
     treetop (1.4.8)
       polyglot (>= 0.3.1)
@@ -97,4 +99,5 @@ DEPENDENCIES
   rails
   rake
   shoulda
+  sinatra
   yard!
