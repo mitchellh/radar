@@ -9,8 +9,7 @@ title: Welcome
   behind Radar.
 </div>
 
-
-## Getting Started
+# Getting Started
 
 Enabling Radar in an existing application is a snap:
 
@@ -31,4 +30,23 @@ This alone will begin catching and recording exceptions to the filesystem
 (by default at `~/.radar/errors/my_app`). The `rescue_at_exit!` call on the
 app tells Radar to catch any application-crashing exceptions as well.
 
-# MORE COMING SOON
+# More Power!
+
+Radar is customizable in almost every way:
+
+* **Reporters** allow you to configure where Radar sends exceptions to:
+  a file, a server, email, Hoptoad, etc. Anywhere you want!
+* **Data Extensions** enable you to add more information to exception
+  events, such as application configuration, environmental information,
+  etc.
+* **Matchers** will tell an application exactly what kind of exceptions
+  to report. Only interested in exceptions from a specific file? No problem.
+* **Filters** allow you to filter the exception data before it is sent
+  to the reporters. This lets you filter out sensitive information such
+  as passwords, or if you just want to remove a field since its unnecessary,
+  you can do that here, as well.
+
+# User Guide
+
+For all the details on how to use Radar, please see the [user guide](#),
+which covers everything in great detail.
