@@ -7,16 +7,13 @@ module Radar
     class HoptoadReporter
       API_VERSION = "2.0"
       NOTICES_URL = "/notifier_api/v2/notices/"
-      HEADERS     = {
-        'Content-type' => 'text/xml',
-        'Accept'       => 'text/xml, application/xml'
-      }
 
       # Hoptoad service API key
       attr_accessor :api_key
 
       # HTTP settings
       attr_accessor :host
+      attr_accessor :headers
       attr_accessor :secure
       attr_accessor :http_open_timeout
       attr_accessor :http_read_timeout
@@ -38,6 +35,7 @@ module Radar
         end
 
         @host              ||= 'hoptoadapp.com'
+        @headers           ||= { 'Content-type' => 'text/xml', 'Accept' => 'text/xml, application/xml' }
         @secure            ||= false
         @http_open_timeout ||= 2
         @http_read_timeout ||= 5
@@ -56,7 +54,7 @@ module Radar
         http.use_ssl      = secure
 
         response = begin
-                     http.post(url.path, event_xml(event), HEADERS)
+                     http.post(url.path, event_xml(event), headers)
                    rescue TimeoutError => e
                      event.application.logger.error("#{self.class}: POST timeout.")
                      nil
