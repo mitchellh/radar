@@ -130,15 +130,13 @@ module Radar
                 end
               end
 
-=begin
               # TODO: Session
-              # TODO: This is not working:
+
               if !request_data[:cgi_data].empty?
                 request.tag!("cgi-data") do |cgi|
                   xml_vars_for_hash(cgi, request_data[:cgi_data])
                 end
               end
-=end
             end
           end
 
