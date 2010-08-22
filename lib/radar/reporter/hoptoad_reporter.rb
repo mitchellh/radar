@@ -130,7 +130,11 @@ module Radar
                 end
               end
 
-              # TODO: Session
+              if !request_data[:session].empty?
+                request.session do |session|
+                  xml_vars_for_hash(session, request_data[:session])
+                end
+              end
 
               if !request_data[:cgi_data].empty?
                 request.tag!("cgi-data") do |cgi|
@@ -179,7 +183,7 @@ module Radar
           @_request_info[:controller] = @_request_info[:parameters]['controller']
           @_request_info[:action]     = @_request_info[:parameters]['action']
           @_request_info[:cgi_data]   = hash[:request][:rack_env] || {}
-          # TODO: Session
+          @_request_info[:session]    = hash[:request][:rack_env]['rack.session'] || {}
         end
 
         @_request_info
