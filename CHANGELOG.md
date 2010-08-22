@@ -1,5 +1,7 @@
 ## 0.4.0 (unreleased)
 
+  - Fixed issue with `LoggerReporter` not being able to use the Rails
+    logger.
   - The backtrace in an `ExceptionEvent` is now a `Backtrace` object,
     which is a subclass of Array. This is because backtraces are now
     parsed to extract the file, line, and method of each entry.

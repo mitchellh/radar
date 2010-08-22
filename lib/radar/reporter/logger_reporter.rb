@@ -21,7 +21,6 @@ module Radar
       end
 
       def report(event)
-        raise ArgumentError.new("#{self.class} `log_object` must be set to a valid logger.") if !log_object.is_a?(Logger)
         raise ArgumentError.new("#{self.class} `log_object` must respond to specified `log_level`.") if !log_object.respond_to?(log_level)
 
         log_object.send(log_level, event.to_json)
