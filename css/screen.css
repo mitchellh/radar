@@ -12,7 +12,6 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: Georgia, "bitstream vera serif", Times, serif;
   letter-spacing: -.03em;
   color: #000;
   font-weight: normal;
@@ -20,7 +19,6 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   font-size: 220%;
-  margin: 1em 0 .5em 0;
   line-height: 1.25em;
 }
 
@@ -61,12 +59,6 @@ hr {
   height: 1px;
   background-color: #FFF;
 }
-
-.container_12 h1 {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
 
 /* -------------------------------
           MISCELLANEOUS
@@ -201,6 +193,16 @@ blockquote {
   #header #logo {
     float: left;
   }
+
+    #header #logo .logo {
+      float: left;
+      margin-top: 13px;
+      margin-right: 10px;
+    }
+
+    #header #logo .title {
+      float: left;
+    }
 
     #header #logo a {
       font-family: Helvetica, Arial, Verdana, sans-serif;
@@ -364,4 +366,33 @@ blockquote {
 
   #footer #copy {
     /*font-size: 80%;*/
+  }
+
+/* ------------------------------
+             Welcome
+------------------------------ */
+.banner {
+  border-bottom: 1px solid #DDD;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: 17px;
+  margin-top: -5px;
+  padding-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 20px;
+}
+
+.box {
+  float: right;
+  width: 300px;
+  border: 1px solid #CCC;
+  background: #DDD;
+  margin-left: 15px;
+  margin-bottom: 15px;
+}
+
+  .box h1 {
+    margin-top: 5px;
+    font-size: 20px;
   }
