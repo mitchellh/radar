@@ -2,33 +2,21 @@
 
 * Source: [http://github.com/mitchellh/radar](http://github.com/mitchellh/radar)
 * IRC: `#vagrant` on Freenode
-* User Guide: [http://mitchellh.github.com/radar/file.user_guide.html](http://mitchellh.github.com/radar/file.user_guide.html)
-* Documentation: [http://mitchellh.github.com/radar](http://mitchellh.github.com/radar)
+* User Guide: [http://radargem.com/doc/file.user_guide.html](http://radargem.com/doc/file.user_guide.html)
+* Website: [http://radargem.com](http://radargem.com)
 
-Radar is a tool which provides a drop-in solution to catching and reporting
-errors in your Ruby applications in customizable ways.
-
-Radar is not a typical exception notifier such as Hoptoad and Exceptional
-since the former are built with Rails apps in mind, logging to a central
-server. Instead, Radar was initially built for [Vagrant](http://vagrantup.com),
-a command line tool. And instead of solely logging to a central server,
-Radar supports logging in configurable ways (to a file, to a server, to
-a growl notification, etc.)
-
-Radar was built out of the need for an easy automated solution to catching
-exceptions and gathering information, since I noticed that every time a stack
-trace was outputted for [Vagrant](http://vagrantup.com), I was asking the
-user all the same questions which could've easily have been gathered automatically.
-Now, Vagrant users can simply send me the radar output and I don't have to
-ask for any more information 90% of the time.
+Radar is an ultra-configurable exception reporting library for Ruby which
+lets you report errors in your applications any way you want. Read about
+the [rationale behind Radar](http://radargem.com/rationale.html).
 
 ## Brief Feature Breakdown
 
   - Reporters allow Radar to report anywhere: a file, a server, email, etc.
-  - Data extensions to add additional contextual data to exceptions
-  - Matchers to filter exceptions which Radar reports
+  - Data extensions enable you to add additional contextual data to exceptions
+  - Matchers are able to filter which exceptions are reported
+  - Filters remove sensitive data from exceptions
   - Run multiple Radar "applications" side-by-side to catch and report
-    different exceptions to different places
+    different exceptions to different places.
   - Integration with 3rd party software: Rack, Rails 2, Rails 3, and Sinatra.
   - Drop-in replacement and integration with [Hoptoad](http://hoptoadapp.com)
 
@@ -88,7 +76,7 @@ look it up later anywhere in your application:
 ## Documentation and User Guide
 
 For more details on configuring Radar, please view the
-[user guide](http://mitchellh.github.com/radar/file.user_guide.html), which
+[user guide](http://radargem.com/doc/file.user_guide.html), which
 is a detailed overview of Radar and all of its features.
 
 ## Reporting Bugs and Requesting Features
