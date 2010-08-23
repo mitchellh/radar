@@ -126,6 +126,25 @@ class ApplicationTest < Test::Unit::TestCase
           assert_raises(RuntimeError) { @instance.report(Exception.new, :foo => :bar) }
         end
       end
+
+      context "with a rejecter" do
+        setup do
+          @rejecter = Class.new do
+            def matches?(event); event.extra[:foo] == :bar; end
+          end
+
+          @instance.reject @rejecter
+          @instance.reporter { |event| raise "Reported" }
+        end
+
+        should "not report if a rejecter is specified and matches" do
+          assert_nothing_raised { @instance.report(Exception.new, :foo => :bar) }
+        end
+
+        should "report if the rejecter doesn't match" do
+          assert_raises(RuntimeError) { @instance.report(Exception.new) }
+        end
+      end
     end
 
     context "integrations" do
@@ -152,14 +171,14 @@ class ApplicationTest < Test::Unit::TestCase
 
     context "delegation to config" do
       # Test delegating of accessors
-      [:reporters, :data_extensions, :matchers, :filters].each do |attr|
+      [:reporters, :data_extensions, :matchers, :filters, :rejecters].each do |attr|
         should "delegate #{attr}" do
           assert_equal @instance.config.send(attr), @instance.send(attr)
         end
       end
 
       # Test delegating of methods.
-      [:reporter, :data_extension, :match, :filter].each do |method|
+      [:reporter, :data_extension, :match, :filter, :reject].each do |method|
         should "delegate `#{method}` method" do
           @instance.config.expects(method).once
           @instance.send(method)

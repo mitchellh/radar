@@ -108,6 +108,27 @@ class ConfigTest < Test::Unit::TestCase
       end
     end
 
+    context "rejecters" do
+      setup do
+        @rejecter = Class.new do
+          def matches?(event); end
+        end
+      end
+
+      teardown do
+        @instance.rejecters.clear
+      end
+
+      should "initially have no rejecters" do
+        assert @instance.rejecters.empty?
+      end
+
+      should "be able to add rejecters" do
+        @instance.reject @rejecter
+        assert !@instance.rejecters.empty?
+      end
+    end
+
     context "filters" do
       teardown do
         @instance.filters.clear

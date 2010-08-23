@@ -19,8 +19,8 @@ module Radar
     attr_reader :name
     attr_reader :creation_location
 
-    def_delegators :config, :reporters, :data_extensions, :matchers, :filters,
-                            :reporter, :data_extension, :match, :filter
+    def_delegators :config, :reporters, :data_extensions, :matchers, :filters, :rejecters,
+                            :reporter, :data_extension, :match, :filter, :reject
 
     # Looks up an application which was registered with the given name.
     #
@@ -95,6 +95,16 @@ module Radar
     # @param [Exception] exception
     def report(exception, extra=nil)
       data = ExceptionEvent.new(self, exception, extra)
+
+      # If there are rejecters, then verify that they all fail
+      if !config.rejecters.empty?
+        config.rejecters.values.each do |r|
+          if r.call(data)
+            logger.info("Ignoring exception. Matches rejecter: #{r}")
+            return
+          end
+        end
+      end
 
       # If there are matchers, then verify that at least one matches
       # before continuing

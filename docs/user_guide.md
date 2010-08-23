@@ -393,6 +393,25 @@ As you can see, for quick, easy matchers, lambda functions are the way to
 go and provide an easy solution to matching. However, if you need more
 customizability or complex logic, classes are the ideal solution.
 
+### Rejecters
+
+Matchers are useful for setting up a whitelist of exactly what is allowed
+to be reported. Sometimes it is more useful to setup a blacklist, instead
+(or a combination of the both). "Rejecters" is the term given to the blacklist,
+although they use the exact same matchers as above. The only difference is
+that if any of the rejecters match, then the error is not reported.
+
+Another important difference is that rejecters take precedence over matchers.
+This means that even if a matcher would have matched the exception, if
+a rejecter matches it, then the exception will never be reported by Radar.
+
+Using rejecters is the exact same as matchers, and use the exact same
+classes:
+
+    Radar::Application.new(:app) do |app|
+      app.reject :backtrace, "my_file.rb"
+    end
+
 ## Filters
 
 Filters provide a method of filtering the data hash just before it is sent

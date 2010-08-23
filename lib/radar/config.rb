@@ -7,6 +7,7 @@ module Radar
     attr_reader :reporters
     attr_reader :data_extensions
     attr_reader :matchers
+    attr_reader :rejecters
     attr_reader :filters
     attr_accessor :log_location
 
@@ -14,6 +15,7 @@ module Radar
       @reporters       = UseArray.new(&method(:add_reporter))
       @data_extensions = UseArray.new(&method(:add_data_extension))
       @matchers        = UseArray.new(&method(:add_matcher))
+      @rejecters       = UseArray.new(&method(:add_matcher))
       @filters         = UseArray.new(&method(:add_filter))
       @log_location    = nil
 
@@ -84,6 +86,19 @@ module Radar
     # Radar will then use the specified class as the matcher.
     def match(*args, &block)
       @matchers.use(*args, &block)
+    end
+
+    # Adds a rejecter rule to the application. A rejecter is the same as a
+    # matcher, so if you're not familiar with matchers, please read the documentation
+    # above {#match} first. The only difference with a rejecter is that if
+    # any of the rejecters return true, then the exception event is not sent
+    # to reporters.
+    #
+    # Another important note is that rejecters always take precedence over
+    # matchers. So even if a matcher would have matched the exception, if it
+    # matches a rejecter, then it won't continue.
+    def reject(*args, &block)
+      @rejecters.use(*args, &block)
     end
 
     # Adds a filter to the application. Filters provide a method of filtering

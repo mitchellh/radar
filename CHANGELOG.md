@@ -1,5 +1,7 @@
 ## 0.4.0 (unreleased)
 
+  - Added rejecters, which are the opposite as matchers. If any rejecter
+    matches, then the error is not reported.
   - You can now enable reporters, data extensions, etc using the singular
     version: `app.reporter`, `app.data_extension`, etc. [GH-25]
   - Rails 2 integration added.
