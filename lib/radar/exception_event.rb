@@ -27,6 +27,8 @@ module Radar
     #
     # @return [Hash]
     def to_hash
+      return @_to_hash_result if @_to_hash_result
+
       result = { :application => application.to_hash,
         :exception => {
           :klass => exception.class.to_s,
@@ -45,6 +47,8 @@ module Radar
         result = filter.call(result)
       end
 
+      # Cache the resulting hash to it is only generated once.
+      @_to_hash_result = result
       result
     end
 

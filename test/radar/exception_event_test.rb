@@ -55,6 +55,10 @@ class ExceptionEventTest < Test::Unit::TestCase
           @extension.any_instance.stubs(:to_hash).returns(nil)
           assert_nothing_raised { @instance.to_hash }
         end
+
+        should "cache the generated hash" do
+          assert @instance.to_hash.equal?(@instance.to_hash)
+        end
       end
 
       context "filters" do
