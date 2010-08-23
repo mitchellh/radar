@@ -22,6 +22,7 @@ module Radar
 
   module Integration
     autoload :Rack,   'radar/integration/rack'
+    autoload :Rails2, 'radar/integration/rails2'
     autoload :Rails3, 'radar/integration/rails3'
   end
 
