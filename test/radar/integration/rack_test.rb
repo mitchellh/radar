@@ -6,7 +6,7 @@ class RackIntegrationTest < Test::Unit::TestCase
       @klass = Radar::Integration::Rack
     end
 
-    should "not allow integration via the actual integration test" do
+    should "not allow integration via the actual integration" do
       assert_raises(RuntimeError) {
         @klass.integrate!(nil)
       }
