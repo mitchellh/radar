@@ -13,7 +13,8 @@ module Radar
 
   module DataExtensions
     autoload :HostEnvironment, 'radar/data_extensions/host_environment'
-    autoload :Rack, 'radar/data_extensions/rack'
+    autoload :Rack,            'radar/data_extensions/rack'
+    autoload :Rails2,          'radar/data_extensions/rails2'
   end
 
   module Filters

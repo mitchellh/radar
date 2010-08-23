@@ -1,5 +1,7 @@
 ## 0.4.0 (unreleased)
 
+  - Rails 2 integration added.
+  - Sinatra integration documented.
   - Reporters can now take just a block which takes a single parameter
     `event`.
   - Matchers can now take just a block which takes a single parameter `event`. [GH-24]

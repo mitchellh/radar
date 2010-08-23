@@ -2,11 +2,10 @@ require 'radar/integration/rails2/action_controller_rescue'
 
 module Radar
   module Integration
-    # Allows drop-in integration with Rails 3 for Radar. This
-    # basically enables a middleware in your Rails 3 application
-    # which catches any exceptions and adds some additional
-    # information to the exception (such as the rack environment,
-    # request URL, etc.)
+    # Allows drop-in integration with Rails 2 for Radar. This monkeypatches
+    # `ActionController::Base` to capture errors and also enables a data
+    # extension to extract the Rails 2 request information into the exception
+    # event.
     class Rails2
       @@integrated_apps = []
 
@@ -15,7 +14,10 @@ module Radar
         ActionController::Base.send(:include, ActionControllerRescue) if @@integrated_apps.empty?
 
         # Only integrate each application once
-        @@integrated_apps << app if !@@integrated_apps.include?(app)
+        if !@@integrated_apps.include?(app)
+          app.data_extensions.use :rails2
+          @@integrated_apps << app
+        end
       end
 
       # Returns all the Radar applications which have been integrated with

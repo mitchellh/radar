@@ -1,8 +1,12 @@
+require 'radar/data_extensions/request_helper'
+
 module Radar
   module DataExtensions
     # Data extensions which adds information about a rack request,
     # if it exists in the `:rack_request` extra data of the {ExceptionEvent}.
     class Rack
+      include RequestHelper
+
       def initialize(event)
         @event = event
       end
@@ -30,27 +34,6 @@ module Radar
       end
 
       protected
-
-      # Extracts only the HTTP headers from the rack environment,
-      # converting them to the proper HTTP format: `HTTP_CONTENT_TYPE`
-      # to `Content-Type`
-      #
-      # @param [Hash] env
-      # @return [Hash]
-      def extract_http_headers(env)
-        env.inject({}) do |acc, data|
-          k, v = data
-
-          if k =~ /^HTTP_(.+)$/
-            # Convert things like HTTP_CONTENT_TYPE to Content-Type (standard
-            # HTTP header style)
-            k = $1.to_s.split("_").map { |c| c.capitalize }.join("-")
-            acc[k] = v
-          end
-
-          acc
-        end
-      end
 
       # Extracts the rack environment, ignoring HTTP headers and
       # converting the values to strings if they're not an Array
