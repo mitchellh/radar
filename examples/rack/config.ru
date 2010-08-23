@@ -5,7 +5,7 @@ require "radar"
 # Create a Radar::Application, configured to simply log to the
 # STDERR stream.
 app = Radar::Application.new(:rack_example) do |a|
-  a.reporters.use :io, :io_object => STDERR
+  a.reporter :io, :io_object => STDERR
 end
 
 # Use the Radar Rack middleware for the created application,

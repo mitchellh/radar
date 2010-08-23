@@ -39,7 +39,7 @@ ask for any more information 90% of the time.
 Then just begin logging exceptions in your application:
 
     r = Radar::Application.new(:my_application)
-    r.reporters.use :file
+    r.reporter :file
     r.report(exception)
 
 You can also tell Radar to attach itself to Ruby's `at_exit` hook

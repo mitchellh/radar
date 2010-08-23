@@ -40,7 +40,7 @@ remote server, etc.). Radar comes with some built-in reporters. Below, we config
 the application to log errors to a file (by default at `~/.radar/errors/my_application`):
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use :file
+      app.reporter :file
     end
 
 ### Reporting Errors
@@ -116,14 +116,14 @@ of what this means with a few examples:
 Reporters are enabled using the appilication configuration:
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use :file
+      app.reporter :file
     end
 
 And can be configured by passing a block to the reporter, which is yielded with
 the instance of that reporter:
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use :file do |reporter|
+      app.reporter :file do |reporter|
         reporter.output_directory = "~/.radar/exceptions"
       end
     end
@@ -132,8 +132,8 @@ Radar also allows multiple reporters to be used, which are then called
 in the order they are defined when an exception occurs:
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use FileReporter
-      app.reporters.use AnotherReporter
+      app.reporter FileReporter
+      app.reporter AnotherReporter
     end
 
 As you can see from the above examples, a reporter takes both a symbol
@@ -155,7 +155,7 @@ where `timestamp` is the time that the exception occurred and `uniquehash` is th
 The directory where these files will be stored is configurable:
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use :file do |reporter|
+      app.reporter :file do |reporter|
         reporter.output_directory = "~/my_application_errors"
       end
     end
@@ -182,7 +182,7 @@ page.
 any IO object (`stdout`, `stderr`, a net stream, etc.).
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use :io, :io_object => STDOUT
+      app.reporter :io, :io_object => STDOUT
     end
 
 #### LoggerReporter
@@ -193,7 +193,7 @@ existing logging system, or if you simply want a backup for your exceptions (e.g
 report to both a server and a logger).
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use :logger, :log_object => Logger.new(STDOUT), :log_level => :error
+      app.reporter :logger, :log_object => Logger.new(STDOUT), :log_level => :error
     end
 
 `log_level` will default to `:error` if not specified.
@@ -206,7 +206,7 @@ or Rails application, then the reporter will automatically add request informati
 to the Hoptoad notice as well.
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use :hoptoad, :api_key => "your_key_here"
+      app.reporter :hoptoad, :api_key => "your_key_here"
     end
 
 There are many other options which can be set, though `api_key` is the only required
@@ -225,7 +225,7 @@ parameter. Below is an example of a lambda function reporter which simply
 prints out that an error occurred to `stdout`:
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use do |event|
+      app.reporter do |event|
         puts "An exception occurred! Message: #{event.exception.message}"
       end
     end
@@ -239,7 +239,7 @@ And the same example as above except implemented using a class:
     end
 
     Radar::Application.new(:my_application) do |app|
-      app.reporters.use StdoutReporter
+      app.reporter StdoutReporter
     end
 
 ## Data Extensions
@@ -274,7 +274,7 @@ Data extensions are enabled via the application configuration like most other
 things:
 
     Radar::Application.new(:my_application) do |app|
-      app.data_extensions.use UnameExtension
+      app.data_extension UnameExtension
     end
 
 ### Built-In Data Extensions
@@ -408,7 +408,7 @@ The easiest way, if the filtering is really simple, is to just
 use a lambda. Below is a small example:
 
     Radar::Application.new(:my_app) do |app|
-      app.filters.use do |data|
+      app.filter do |data|
         data.delete(:password)
         data
       end
@@ -431,7 +431,7 @@ there is more complex logic in the filtering. The class must respond to
     end
 
     Radar::Application.new(:my_app) do |app|
-      app.filters.use MyPasswordFilter
+      app.filter MyPasswordFilter
     end
 
 This does the same thing, functionally, as the previous lambda example. However,
@@ -447,7 +447,7 @@ data and replaces it with specified text ("[FILTERED]" by default). Below we
 configure the key filter to filter passwords:
 
     Radar::Application.new(:my_app) do |app|
-      app.filters.use :key, :key => :password
+      app.filter :key, :key => :password
     end
 
 Then, assuming an exception is raised at some point and the following event data
@@ -476,7 +476,7 @@ catch any exceptions by the rack application:
     require "radar"
 
     app = Radar::Application.new(:my_app)
-    app.reporters.use :io, :io_object => STDOUT
+    app.reporter :io, :io_object => STDOUT
 
     use Rack::Radar, :application => app
     run YourWebApp

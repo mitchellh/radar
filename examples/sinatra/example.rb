@@ -4,7 +4,7 @@ require "radar"
 require "sinatra"
 
 Radar::Application.new(:sinatra_example) do |a|
-  a.reporters.use :io, :io_object => STDERR
+  a.reporter :io, :io_object => STDERR
 end
 
 class MyApp < Sinatra::Base
