@@ -151,25 +151,19 @@ class ApplicationTest < Test::Unit::TestCase
     end
 
     context "delegation to config" do
-      should "delegate reporters" do
-        assert_equal @instance.config.reporters, @instance.reporters
+      # Test delegating of accessors
+      [:reporters, :data_extensions, :matchers, :filters].each do |attr|
+        should "delegate #{attr}" do
+          assert_equal @instance.config.send(attr), @instance.send(attr)
+        end
       end
 
-      should "delegate data extensions" do
-        assert_equal @instance.config.data_extensions, @instance.data_extensions
-      end
-
-      should "delegate matchers" do
-        assert_equal @instance.config.matchers, @instance.matchers
-      end
-
-      should "delegate filters" do
-        assert_equal @instance.config.filters, @instance.filters
-      end
-
-      should "delegate `match` method" do
-        @instance.config.expects(:match).once
-        @instance.match
+      # Test delegating of methods.
+      [:reporter, :data_extension, :match, :filter].each do |method|
+        should "delegate `#{method}` method" do
+          @instance.config.expects(method).once
+          @instance.send(method)
+        end
       end
     end
 

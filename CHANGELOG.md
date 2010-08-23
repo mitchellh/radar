@@ -1,5 +1,7 @@
 ## 0.4.0 (unreleased)
 
+  - You can now enable reporters, data extensions, etc using the singular
+    version: `app.reporter`, `app.data_extension`, etc. [GH-25]
   - Rails 2 integration added.
   - Sinatra integration documented.
   - Reporters can now take just a block which takes a single parameter

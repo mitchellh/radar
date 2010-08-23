@@ -27,6 +27,11 @@ class ConfigTest < Test::Unit::TestCase
         assert !@instance.reporters.empty?
       end
 
+      should "be able to add reporters using the shortcut singular method" do
+        @instance.reporter @reporter_klass
+        assert !@instance.reporters.empty?
+      end
+
       should "be able to add reporters via built-in symbols" do
         @instance.reporters.use :file
         assert !@instance.reporters.empty?
@@ -58,6 +63,11 @@ class ConfigTest < Test::Unit::TestCase
 
       should "be able to add data extensions" do
         @instance.data_extensions.use @extension
+        assert !@instance.data_extensions.empty?
+      end
+
+      should "be able to add data extensions via the shortcut singular method" do
+        @instance.data_extension @extension
         assert !@instance.data_extensions.empty?
       end
 
@@ -103,6 +113,10 @@ class ConfigTest < Test::Unit::TestCase
         @instance.filters.clear
       end
 
+      should "not have any filters by default" do
+        assert @instance.filters.empty?
+      end
+
       should "raise an ArgumentError if no class or lambda is given" do
         assert_raises(ArgumentError) { @instance.filters.use }
       end
@@ -112,6 +126,11 @@ class ConfigTest < Test::Unit::TestCase
           @instance.filters.use do |foo|
           end
         }
+        assert_equal 1, @instance.filters.length
+      end
+
+      should "be able to add filters using the shortcut singular method" do
+        @instance.filter {}
         assert_equal 1, @instance.filters.length
       end
     end
