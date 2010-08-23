@@ -29,8 +29,9 @@ module Radar
   end
 
   module Matchers
-    autoload :BacktraceMatcher, 'radar/matchers/backtrace_matcher'
-    autoload :ClassMatcher,     'radar/matchers/class_matcher'
+    autoload :BacktraceMatcher,    'radar/matchers/backtrace_matcher'
+    autoload :ClassMatcher,        'radar/matchers/class_matcher'
+    autoload :LocalRequestMatcher, 'radar/matchers/local_request_matcher'
   end
 
   class Reporter

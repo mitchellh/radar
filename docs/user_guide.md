@@ -350,6 +350,25 @@ Examples of each are shown below (in the above order):
     app.match :class, StandardError, :include_subclasses => true
     app.match :class, /.*Error/
 
+#### `:local_request`
+
+A matcher which matches if a web request came from a local address. This
+matcher requires that a remote IP be available at `event.to_hash[:request][:remote_ip]`
+(which is set by the Rack and Rails data extensions if you're using it
+in any framework).
+
+Examples of how it can be used below:
+
+    app.match :local_request
+    app.match :local_request, :remote_ip_getter => Proc.new { |event| event.to_hash[:my_ip] }
+    app.match :local_request, :localhost => /^192\.168\.0\.1$/
+
+Usually the defaults are what you want. Also, this matcher is more useful
+as a rejecter, typically, since you don't want local requests during
+development firing off exception reports:
+
+    app.reject :local_request
+
 ### Custom Matchers
 
 Matchers are simply classes which respond to `matches?` or a lambda function,

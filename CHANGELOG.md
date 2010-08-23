@@ -1,5 +1,7 @@
 ## 0.4.0 (unreleased)
 
+  - Added a `LocalRequestMatcher` to detect local requests for web
+    applications. [GH-27]
   - Added rejecters, which are the opposite as matchers. If any rejecter
     matches, then the error is not reported.
   - You can now enable reporters, data extensions, etc using the singular
