@@ -11,7 +11,7 @@ breakdown of Radar:
   - Matchers to filter exceptions which Radar reports
   - Run multiple Radar "applications" side-by-side to catch and report
     different exceptions to different places
-  - Integration with 3rd party software: Rack, Rails 3.
+  - Integration with frameworks: Rack, Rails 2, Rails 3, and Sinatra.
 
 ## Installation
 
@@ -71,7 +71,7 @@ crashing.
 
 ### Framework Integration
 
-Radar provides framework integration out of the box for Rack, Rails 3, and
+Radar provides framework integration out of the box for Rack, Rails 2, Rails 3, and
 Sinatra. These all require little or no extra configuration to your Radar
 applications.
 
@@ -496,6 +496,24 @@ of only the additional information is shown below:
         "rack_env": { ... }
       }
     }
+
+### Rails 2
+
+Radar can integrate with any Rails 2 application to automatically
+catch any exceptions thrown by actions as well as provide additional
+information capture when the exception is raised. First, add the `radar`
+dependency to your environment (via a `Gemfile` or `environment.rb`) and
+make sure it is installed. Then create an initializer in `config/initializers/radar.rb`
+to create your application:
+
+    Radar::Application.new(:my_app) do |app|
+      # Enable any reporters here and configure the app as usual
+
+      # Integrate with rails 2
+      app.integrate :rails2
+    end
+
+Radar will immediately begin to catch and report any errors.
 
 ### Rails 3
 
