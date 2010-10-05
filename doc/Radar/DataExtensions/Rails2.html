@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta name="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Radar::DataExtensions::Rack</title>
+<title>Class: Radar::DataExtensions::Rails2</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
@@ -26,7 +26,7 @@
     <a href="../../_index.html">Index (R)</a> &raquo; 
     <span class='title'><span class='object_link'><a href="../../Radar.html" title="Radar (module)">Radar</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../DataExtensions.html" title="Radar::DataExtensions (module)">DataExtensions</a></span></span>
      &raquo; 
-    <span class="title">Rack</span>
+    <span class="title">Rails2</span>
   
   
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
@@ -43,7 +43,7 @@
     
     <iframe id="search_frame"></iframe>
     
-    <div id="content"><h1>Class: Radar::DataExtensions::Rack
+    <div id="content"><h1>Class: Radar::DataExtensions::Rails2
   
   
   
@@ -58,7 +58,7 @@
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">Radar::DataExtensions::Rack</li>
+            <li class="next">Radar::DataExtensions::Rails2</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -78,15 +78,17 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/radar/data_extensions/rack.rb</dd>
+    <dd class="r1 last">lib/radar/data_extensions/rails2.rb</dd>
   
 </dl>
 <div class="clear"></div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Data extensions which adds information about a rack request,
-if it exists in the <code>:rack_request</code> extra data of the <span class='object_link'><a href="../ExceptionEvent.html" title="Radar::ExceptionEvent (class)">ExceptionEvent</a></span>.</p>
+    <p>Takes a <code>:rails2_request</code> from the <span class='object_link'><a href="../ExceptionEvent.html" title="Radar::ExceptionEvent (class)">ExceptionEvent</a></span> extra data which is
+added by the rails 2 integrator and extracts it into the data hash.</p>
+
+<p><strong>This data extension is automatically enabled by the Rails 2 integrator.</strong></p>
 
   </div>
 </div>
@@ -110,7 +112,7 @@ if it exists in the <code>:rack_request</code> extra data of the <span class='ob
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Rack) <strong>initialize</strong>(event) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Rails2) <strong>initialize</strong>(event) </a>
     
 
     
@@ -125,7 +127,7 @@ if it exists in the <code>:rack_request</code> extra data of the <span class='ob
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of Rack.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Rails2.</p></div></span>
   
 </li>
 
@@ -170,13 +172,13 @@ if it exists in the <code>:rack_request</code> extra data of the <span class='ob
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Radar::DataExtensions::Rack (class)">Rack</a></span></tt>) <strong>initialize</strong>(event) 
+    - (<tt><span class='object_link'><a href="" title="Radar::DataExtensions::Rails2 (class)">Rails2</a></span></tt>) <strong>initialize</strong>(event) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>A new instance of Rack</p>
+    <p>A new instance of Rails2</p>
 
   </div>
 </div>
@@ -188,12 +190,12 @@ if it exists in the <code>:rack_request</code> extra data of the <span class='ob
       <pre class="lines">
 
 
-10
-11
-12</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/data_extensions/rack.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/data_extensions/rails2.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id event'>event</span><span class='rparen'>)</span>
   <span class='ivar'>@event</span> <span class='op'>=</span> <span class='id event'>event</span>
@@ -223,8 +225,6 @@ if it exists in the <code>:rack_request</code> extra data of the <span class='ob
       <pre class="lines">
 
 
-14
-15
 16
 17
 18
@@ -237,37 +237,23 @@ if it exists in the <code>:rack_request</code> extra data of the <span class='ob
 25
 26
 27
-28
-29
-30
-31
-32
-33
-34</pre>
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/data_extensions/rack.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/data_extensions/rails2.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='id to_hash'>to_hash</span>
-  <span class='id result'>result</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id request'>request</span> <span class='op'>=</span> <span class='ivar'>@event</span><span class='period'>.</span><span class='id extra'>extra</span><span class='lbracket'>[</span><span class='symbol'>:rails2_request</span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id request'>request</span>
 
-  <span class='id request'>request</span> <span class='op'>=</span> <span class='ivar'>@event</span><span class='period'>.</span><span class='id extra'>extra</span><span class='lbracket'>[</span><span class='symbol'>:rack_request</span><span class='rbracket'>]</span>
-  <span class='kw'>if</span> <span class='id request'>request</span>
-    <span class='const'>Support</span><span class='op'>::</span><span class='const'>Hash</span><span class='period'>.</span><span class='id deep_merge!'>deep_merge!</span><span class='lparen'>(</span><span class='id result'>result</span><span class='comma'>,</span> <span class='lbrace'>{</span> <span class='symbol'>:request</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
-        <span class='symbol'>:request_method</span> <span class='op'>=&gt;</span> <span class='id request'>request</span><span class='period'>.</span><span class='id request_method'>request_method</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span>
-        <span class='symbol'>:url</span>        <span class='op'>=&gt;</span> <span class='id request'>request</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span>
-        <span class='symbol'>:parameters</span> <span class='op'>=&gt;</span> <span class='id request'>request</span><span class='period'>.</span><span class='id params'>params</span><span class='comma'>,</span>
-        <span class='symbol'>:remote_ip</span>  <span class='op'>=&gt;</span> <span class='id request'>request</span><span class='period'>.</span><span class='id ip'>ip</span>
-      <span class='rbrace'>}</span>
-    <span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>if</span> <span class='ivar'>@event</span><span class='period'>.</span><span class='id extra'>extra</span><span class='lbracket'>[</span><span class='symbol'>:rack_env</span><span class='rbracket'>]</span>
-    <span class='const'>Support</span><span class='op'>::</span><span class='const'>Hash</span><span class='period'>.</span><span class='id deep_merge!'>deep_merge!</span><span class='lparen'>(</span><span class='id result'>result</span><span class='comma'>,</span> <span class='symbol'>:request</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:headers</span> <span class='op'>=&gt;</span> <span class='id extract_http_headers'>extract_http_headers</span><span class='lparen'>(</span><span class='ivar'>@event</span><span class='period'>.</span><span class='id extra'>extra</span><span class='lbracket'>[</span><span class='symbol'>:rack_env</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
-    <span class='const'>Support</span><span class='op'>::</span><span class='const'>Hash</span><span class='period'>.</span><span class='id deep_merge!'>deep_merge!</span><span class='lparen'>(</span><span class='id result'>result</span><span class='comma'>,</span> <span class='symbol'>:request</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:rack_env</span> <span class='op'>=&gt;</span> <span class='id extract_rack_env'>extract_rack_env</span><span class='lparen'>(</span><span class='ivar'>@event</span><span class='period'>.</span><span class='id extra'>extra</span><span class='lbracket'>[</span><span class='symbol'>:rack_env</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-
-  <span class='id result'>result</span>
+  <span class='lbrace'>{</span> <span class='symbol'>:request</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
+      <span class='symbol'>:request_method</span> <span class='op'>=&gt;</span> <span class='id request'>request</span><span class='period'>.</span><span class='id request_method'>request_method</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span>
+      <span class='symbol'>:url</span> <span class='op'>=&gt;</span> <span class='id request'>request</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span>
+      <span class='symbol'>:parameters</span> <span class='op'>=&gt;</span> <span class='id request'>request</span><span class='period'>.</span><span class='id parameters'>parameters</span><span class='comma'>,</span>
+      <span class='symbol'>:remote_ip</span> <span class='op'>=&gt;</span> <span class='id request'>request</span><span class='period'>.</span><span class='id remote_ip'>remote_ip</span><span class='comma'>,</span>
+      <span class='symbol'>:headers</span> <span class='op'>=&gt;</span> <span class='id extract_http_headers'>extract_http_headers</span><span class='lparen'>(</span><span class='id request'>request</span><span class='period'>.</span><span class='id env'>env</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>

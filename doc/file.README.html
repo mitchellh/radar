@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta name="Content-Type" content="text/html; charset=utf-8" />
-<title>Documentation by YARD 0.6.0.rc1</title>
+<title>Documentation by YARD 0.6.1</title>
 <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
@@ -46,37 +46,26 @@
 <ul>
 <li>Source: <a href="http://github.com/mitchellh/radar">http://github.com/mitchellh/radar</a></li>
 <li>IRC: <code>#vagrant</code> on Freenode</li>
-<li>User Guide: <a href="http://mitchellh.github.com/radar/file.user_guide.html">http://mitchellh.github.com/radar/file.user_guide.html</a></li>
-<li>Documentation: <a href="http://mitchellh.github.com/radar">http://mitchellh.github.com/radar</a></li>
+<li>User Guide: <a href="http://radargem.com/doc/file.user_guide.html">http://radargem.com/doc/file.user_guide.html</a></li>
+<li>Website: <a href="http://radargem.com">http://radargem.com</a></li>
 </ul>
 
 
-<p>Radar is a tool which provides a drop-in solution to catching and reporting
-errors in your Ruby applications in customizable ways.</p>
-
-<p>Radar is not a typical exception notifier such as Hoptoad and Exceptional
-since the former are built with Rails apps in mind, logging to a central
-server. Instead, Radar was initially built for <a href="http://vagrantup.com">Vagrant</a>,
-a command line tool. And instead of solely logging to a central server,
-Radar supports logging in configurable ways (to a file, to a server, to
-a growl notification, etc.)</p>
-
-<p>Radar was built out of the need for an easy automated solution to catching
-exceptions and gathering information, since I noticed that every time a stack
-trace was outputted for <a href="http://vagrantup.com">Vagrant</a>, I was asking the
-user all the same questions which could've easily have been gathered automatically.
-Now, Vagrant users can simply send me the radar output and I don't have to
-ask for any more information 90% of the time.</p>
+<p>Radar is an ultra-configurable exception reporting library for Ruby which
+lets you report errors in your applications any way you want. Read about
+the <a href="http://radargem.com/rationale.html">rationale behind Radar</a>.</p>
 
 <h2>Brief Feature Breakdown</h2>
 
 <ul>
 <li>Reporters allow Radar to report anywhere: a file, a server, email, etc.</li>
-<li>Data extensions to add additional contextual data to exceptions</li>
-<li>Matchers to filter exceptions which Radar reports</li>
+<li>Data extensions enable you to add additional contextual data to exceptions</li>
+<li>Matchers are able to filter which exceptions are reported</li>
+<li>Filters remove sensitive data from exceptions</li>
 <li>Run multiple Radar "applications" side-by-side to catch and report
-different exceptions to different places</li>
-<li>Integration with 3rd party software: Rack, Rails 3.</li>
+different exceptions to different places.</li>
+<li>Integration with 3rd party software: Rack, Rails 2, Rails 3, and Sinatra.</li>
+<li>Drop-in replacement and integration with <a href="http://hoptoadapp.com">Hoptoad</a></li>
 </ul>
 
 
@@ -88,7 +77,7 @@ different exceptions to different places</li>
 <p>Then just begin logging exceptions in your application:</p>
 
 <pre class="code"><span class='id r'>r</span> <span class='op'>=</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:my_application</span><span class='rparen'>)</span>
-<span class='id r'>r</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:file</span>
+<span class='id r'>r</span><span class='period'>.</span><span class='id reporter'>reporter</span> <span class='symbol'>:file</span>
 <span class='id r'>r</span><span class='period'>.</span><span class='id report'>report</span><span class='lparen'>(</span><span class='id exception'>exception</span><span class='rparen'>)</span>
 </pre>
 
@@ -141,7 +130,7 @@ look it up later anywhere in your application:</p>
 <h2>Documentation and User Guide</h2>
 
 <p>For more details on configuring Radar, please view the
-<a href="http://mitchellh.github.com/radar/file.user_guide.html">user guide</a>, which
+<a href="http://radargem.com/doc/file.user_guide.html">user guide</a>, which
 is a detailed overview of Radar and all of its features.</p>
 
 <h2>Reporting Bugs and Requesting Features</h2>
@@ -174,9 +163,9 @@ a link to your fork or a gist with a patch.</li>
 </div></div>
     
     <div id="footer">
-  Generated on Sat Aug 21 21:49:20 2010 by 
+  Generated on Tue Oct  5 13:56:07 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.0.rc1 (ruby-1.9.2).
+  0.6.1 (ruby-1.9.2).
 </div>
 
   </body>

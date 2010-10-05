@@ -1,0 +1,1711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Radar::Reporter::HoptoadReporter</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (H)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Radar.html" title="Radar (module)">Radar</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Reporter.html" title="Radar::Reporter (class)">Reporter</a></span></span>
+     &raquo; 
+    <span class="title">HoptoadReporter</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Radar::Reporter::HoptoadReporter
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Radar::Reporter::HoptoadReporter</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/radar/reporter/hoptoad_reporter.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Reports exceptions to the Hoptoad server (http://hoptoadapp.com). Enabling
+this in your Radar application is easy:</p>
+
+<pre class="code"><span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:hoptoad</span><span class='comma'>,</span> <span class='symbol'>:api_key</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hoptoad-api-key</span><span class='tstring_end'>&quot;</span></span>
+</pre>
+
+<p>The API key is your project's API key which can be found on the Hoptoad
+website. There are many additional options which can be set, but the most
+useful are probably <code>project_root</code> and <code>environment_name</code>. These will be
+auto-detected in a Rails application but for all others, its helpful
+to set them:</p>
+
+<pre class="code"><span class='id app'>app</span><span class='period'>.</span><span class='id reporters'>reporters</span><span class='period'>.</span><span class='id use'>use</span> <span class='symbol'>:hoptoad</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id r'>r</span><span class='op'>|</span>
+  <span class='id r'>r</span><span class='period'>.</span><span class='id api_key'>api_key</span>          <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>api-key</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id r'>r</span><span class='period'>.</span><span class='id project_root'>project_root</span>     <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>../../</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>__FILE__</span><span class='rparen'>)</span>
+  <span class='id r'>r</span><span class='period'>.</span><span class='id environment_name'>environment_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>development</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+</pre>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="API_VERSION-constant" class="">API_VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2.0</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="NOTICES_URL-constant" class="">NOTICES_URL =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/notifier_api/v2/notices/</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_key-instance_method" title="#api_key (instance method)">- (Object) <strong>api_key</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Options which should be set:.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#environment_name-instance_method" title="#environment_name (instance method)">- (Object) <strong>environment_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute environment_name.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#headers-instance_method" title="#headers (instance method)">- (Object) <strong>headers</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute headers.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#host-instance_method" title="#host (instance method)">- (Object) <strong>host</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The rest can probably be left alone:
+HTTP settings.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#http_open_timeout-instance_method" title="#http_open_timeout (instance method)">- (Object) <strong>http_open_timeout</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute http_open_timeout.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#http_read_timeout-instance_method" title="#http_read_timeout (instance method)">- (Object) <strong>http_read_timeout</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute http_read_timeout.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notifier_name-instance_method" title="#notifier_name (instance method)">- (Object) <strong>notifier_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Notifier information.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notifier_url-instance_method" title="#notifier_url (instance method)">- (Object) <strong>notifier_url</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute notifier_url.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notifier_version-instance_method" title="#notifier_version (instance method)">- (Object) <strong>notifier_version</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute notifier_version.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project_root-instance_method" title="#project_root (instance method)">- (Object) <strong>project_root</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute project_root.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#proxy_host-instance_method" title="#proxy_host (instance method)">- (Object) <strong>proxy_host</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Proxy settings.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#proxy_pass-instance_method" title="#proxy_pass (instance method)">- (Object) <strong>proxy_pass</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute proxy_pass.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#proxy_port-instance_method" title="#proxy_port (instance method)">- (Object) <strong>proxy_port</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute proxy_port.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#proxy_user-instance_method" title="#proxy_user (instance method)">- (Object) <strong>proxy_user</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute proxy_user.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#secure-instance_method" title="#secure (instance method)">- (Object) <strong>secure</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute secure.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#event_xml-instance_method" title="#event_xml (instance method)">- (Object) <strong>event_xml</strong>(event) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Converts an event to the properly formatted XML for transmission
+to Hoptoad.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (HoptoadReporter) <strong>initialize</strong>(opts = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of HoptoadReporter.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#report-instance_method" title="#report (instance method)">- (Object) <strong>report</strong>(event) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#request_info-instance_method" title="#request_info (instance method)">- (Object) <strong>request_info</strong>(event) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns information about the request based on the event, such
+as URL, controller, action, parameters, etc.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#url-instance_method" title="#url (instance method)">- (Object) <strong>url</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns a URI object pointed to the proper endpoint for the
+Hoptoad API.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#xml_vars_for_hash-instance_method" title="#xml_vars_for_hash (instance method)">- (Object) <strong>xml_vars_for_hash</strong>(builder, hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Turns a hash into the proper XML vars.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Radar::Reporter::HoptoadReporter (class)">HoptoadReporter</a></span></tt>) <strong>initialize</strong>(opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of HoptoadReporter</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 56</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='lparen'>(</span><span class='id opts'>opts</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span><span class='id v'>v</span><span class='op'>|</span>
+    <span class='id send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id v'>v</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@project_root</span>      <span class='op'>||=</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rails</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id root'>root</span><span class='period'>.</span><span class='id to_s'>to_s</span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/not/set</span><span class='tstring_end'>'</span></span>
+  <span class='ivar'>@environment_name</span>  <span class='op'>||=</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rails</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id env'>env</span><span class='period'>.</span><span class='id to_s'>to_s</span>  <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>radar</span><span class='tstring_end'>'</span></span>
+
+  <span class='ivar'>@host</span>              <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>hoptoadapp.com</span><span class='tstring_end'>'</span></span>
+  <span class='ivar'>@headers</span>           <span class='op'>||=</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Content-type</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text/xml</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Accept</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text/xml, application/xml</span><span class='tstring_end'>'</span></span> <span class='rbrace'>}</span>
+  <span class='ivar'>@secure</span>            <span class='op'>||=</span> <span class='kw'>false</span>
+  <span class='ivar'>@http_open_timeout</span> <span class='op'>||=</span> <span class='int'>2</span>
+  <span class='ivar'>@http_read_timeout</span> <span class='op'>||=</span> <span class='int'>5</span>
+
+  <span class='ivar'>@notifier_name</span>     <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Radar</span><span class='tstring_end'>&quot;</span></span>
+  <span class='ivar'>@notifier_version</span>  <span class='op'>||=</span> <span class='const'>Radar</span><span class='op'>::</span><span class='const'>VERSION</span>
+  <span class='ivar'>@notifier_url</span>      <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://radargem.com</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="api_key=-instance_method"></span>
+      <span id="api_key-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="api_key-instance_method">
+  
+    - (<tt>Object</tt>) <strong>api_key</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Options which should be set:</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id api_key'>api_key</span>
+  <span class='ivar'>@api_key</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="environment_name=-instance_method"></span>
+      <span id="environment_name-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="environment_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>environment_name</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute environment_name</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id environment_name'>environment_name</span>
+  <span class='ivar'>@environment_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="headers=-instance_method"></span>
+      <span id="headers-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="headers-instance_method">
+  
+    - (<tt>Object</tt>) <strong>headers</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute headers</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='id headers'>headers</span>
+  <span class='ivar'>@headers</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="host=-instance_method"></span>
+      <span id="host-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="host-instance_method">
+  
+    - (<tt>Object</tt>) <strong>host</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The rest can probably be left alone:
+HTTP settings</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id host'>host</span>
+  <span class='ivar'>@host</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="http_open_timeout=-instance_method"></span>
+      <span id="http_open_timeout-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="http_open_timeout-instance_method">
+  
+    - (<tt>Object</tt>) <strong>http_open_timeout</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute http_open_timeout</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id http_open_timeout'>http_open_timeout</span>
+  <span class='ivar'>@http_open_timeout</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="http_read_timeout=-instance_method"></span>
+      <span id="http_read_timeout-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="http_read_timeout-instance_method">
+  
+    - (<tt>Object</tt>) <strong>http_read_timeout</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute http_read_timeout</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 43</span>
+
+<span class='kw'>def</span> <span class='id http_read_timeout'>http_read_timeout</span>
+  <span class='ivar'>@http_read_timeout</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="notifier_name=-instance_method"></span>
+      <span id="notifier_name-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="notifier_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>notifier_name</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Notifier information. This defaults to Radar information.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='id notifier_name'>notifier_name</span>
+  <span class='ivar'>@notifier_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="notifier_url=-instance_method"></span>
+      <span id="notifier_url-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="notifier_url-instance_method">
+  
+    - (<tt>Object</tt>) <strong>notifier_url</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute notifier_url</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='id notifier_url'>notifier_url</span>
+  <span class='ivar'>@notifier_url</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="notifier_version=-instance_method"></span>
+      <span id="notifier_version-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="notifier_version-instance_method">
+  
+    - (<tt>Object</tt>) <strong>notifier_version</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute notifier_version</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id notifier_version'>notifier_version</span>
+  <span class='ivar'>@notifier_version</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="project_root=-instance_method"></span>
+      <span id="project_root-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="project_root-instance_method">
+  
+    - (<tt>Object</tt>) <strong>project_root</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute project_root</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id project_root'>project_root</span>
+  <span class='ivar'>@project_root</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="proxy_host=-instance_method"></span>
+      <span id="proxy_host-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="proxy_host-instance_method">
+  
+    - (<tt>Object</tt>) <strong>proxy_host</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Proxy settings</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id proxy_host'>proxy_host</span>
+  <span class='ivar'>@proxy_host</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="proxy_pass=-instance_method"></span>
+      <span id="proxy_pass-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="proxy_pass-instance_method">
+  
+    - (<tt>Object</tt>) <strong>proxy_pass</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute proxy_pass</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id proxy_pass'>proxy_pass</span>
+  <span class='ivar'>@proxy_pass</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="proxy_port=-instance_method"></span>
+      <span id="proxy_port-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="proxy_port-instance_method">
+  
+    - (<tt>Object</tt>) <strong>proxy_port</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute proxy_port</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id proxy_port'>proxy_port</span>
+  <span class='ivar'>@proxy_port</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="proxy_user=-instance_method"></span>
+      <span id="proxy_user-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="proxy_user-instance_method">
+  
+    - (<tt>Object</tt>) <strong>proxy_user</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute proxy_user</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 48</span>
+
+<span class='kw'>def</span> <span class='id proxy_user'>proxy_user</span>
+  <span class='ivar'>@proxy_user</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="secure=-instance_method"></span>
+      <span id="secure-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="secure-instance_method">
+  
+    - (<tt>Object</tt>) <strong>secure</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute secure</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id secure'>secure</span>
+  <span class='ivar'>@secure</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="event_xml-instance_method">
+  
+    - (<tt>Object</tt>) <strong>event_xml</strong>(event) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Converts an event to the properly formatted XML for transmission
+to Hoptoad.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 97</span>
+
+<span class='kw'>def</span> <span class='id event_xml'>event_xml</span><span class='lparen'>(</span><span class='id event'>event</span><span class='rparen'>)</span>
+  <span class='id request_data'>request_data</span> <span class='op'>=</span> <span class='id request_info'>request_info</span><span class='lparen'>(</span><span class='id event'>event</span><span class='rparen'>)</span>
+
+  <span class='id builder'>builder</span> <span class='op'>=</span> <span class='const'>Builder</span><span class='op'>::</span><span class='const'>XmlMarkup</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='id builder'>builder</span><span class='period'>.</span><span class='id instruct!'>instruct!</span>
+  <span class='id xml'>xml</span> <span class='op'>=</span> <span class='id builder'>builder</span><span class='period'>.</span><span class='id notice'>notice</span><span class='lparen'>(</span><span class='symbol'>:version</span> <span class='op'>=&gt;</span> <span class='const'>API_VERSION</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id notice'>notice</span><span class='op'>|</span>
+    <span class='id notice'>notice</span><span class='period'>.</span><span class='id tag!'>tag!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>api-key</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id api_key'>api_key</span><span class='rparen'>)</span>
+
+    <span class='id notice'>notice</span><span class='period'>.</span><span class='id notifier'>notifier</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id notifier'>notifier</span><span class='op'>|</span>
+      <span class='id notifier'>notifier</span><span class='period'>.</span><span class='id name'>name</span><span class='lparen'>(</span><span class='id notifier_name'>notifier_name</span><span class='rparen'>)</span>
+      <span class='id notifier'>notifier</span><span class='period'>.</span><span class='id version'>version</span><span class='lparen'>(</span><span class='id notifier_version'>notifier_version</span><span class='rparen'>)</span>
+      <span class='id notifier'>notifier</span><span class='period'>.</span><span class='id url'>url</span><span class='lparen'>(</span><span class='id notifier_url'>notifier_url</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+    <span class='id notice'>notice</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id error'>error</span><span class='op'>|</span>
+      <span class='id error'>error</span><span class='period'>.</span><span class='id tag!'>tag!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>class</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id event'>event</span><span class='period'>.</span><span class='id exception'>exception</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rparen'>)</span>
+      <span class='id error'>error</span><span class='period'>.</span><span class='id message'>message</span><span class='lparen'>(</span><span class='id event'>event</span><span class='period'>.</span><span class='id exception'>exception</span><span class='period'>.</span><span class='id message'>message</span><span class='rparen'>)</span>
+      <span class='id error'>error</span><span class='period'>.</span><span class='id backtrace'>backtrace</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id backtrace'>backtrace</span><span class='op'>|</span>
+        <span class='id event'>event</span><span class='period'>.</span><span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id entry'>entry</span><span class='op'>|</span>
+          <span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id line'>line</span><span class='lparen'>(</span><span class='symbol'>:number</span> <span class='op'>=&gt;</span> <span class='id entry'>entry</span><span class='period'>.</span><span class='id line'>line</span><span class='comma'>,</span> <span class='symbol'>:file</span> <span class='op'>=&gt;</span> <span class='id entry'>entry</span><span class='period'>.</span><span class='id file'>file</span><span class='comma'>,</span> <span class='symbol'>:method</span> <span class='op'>=&gt;</span> <span class='id entry'>entry</span><span class='period'>.</span><span class='id method'>method</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id request_data'>request_data</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+      <span class='id notice'>notice</span><span class='period'>.</span><span class='id request'>request</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id request'>request</span><span class='op'>|</span>
+        <span class='id request'>request</span><span class='period'>.</span><span class='id url'>url</span><span class='lparen'>(</span><span class='id request_data'>request_data</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='id request'>request</span><span class='period'>.</span><span class='id component'>component</span><span class='lparen'>(</span><span class='id request_data'>request_data</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='id request'>request</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='id request_data'>request_data</span><span class='lbracket'>[</span><span class='symbol'>:action</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+        <span class='kw'>if</span> <span class='op'>!</span><span class='id request_data'>request_data</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+          <span class='id request'>request</span><span class='period'>.</span><span class='id params'>params</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id params'>params</span><span class='op'>|</span>
+            <span class='id xml_vars_for_hash'>xml_vars_for_hash</span><span class='lparen'>(</span><span class='id params'>params</span><span class='comma'>,</span> <span class='id request_data'>request_data</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+
+        <span class='kw'>if</span> <span class='op'>!</span><span class='id request_data'>request_data</span><span class='lbracket'>[</span><span class='symbol'>:session</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+          <span class='id request'>request</span><span class='period'>.</span><span class='id session'>session</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id session'>session</span><span class='op'>|</span>
+            <span class='id xml_vars_for_hash'>xml_vars_for_hash</span><span class='lparen'>(</span><span class='id session'>session</span><span class='comma'>,</span> <span class='id request_data'>request_data</span><span class='lbracket'>[</span><span class='symbol'>:session</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+
+        <span class='kw'>if</span> <span class='op'>!</span><span class='id request_data'>request_data</span><span class='lbracket'>[</span><span class='symbol'>:cgi_data</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+          <span class='id request'>request</span><span class='period'>.</span><span class='id tag!'>tag!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cgi-data</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id cgi'>cgi</span><span class='op'>|</span>
+            <span class='id xml_vars_for_hash'>xml_vars_for_hash</span><span class='lparen'>(</span><span class='id cgi'>cgi</span><span class='comma'>,</span> <span class='id request_data'>request_data</span><span class='lbracket'>[</span><span class='symbol'>:cgi_data</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id notice'>notice</span><span class='period'>.</span><span class='id tag!'>tag!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>server-environment</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id env'>env</span><span class='op'>|</span>
+      <span class='id env'>env</span><span class='period'>.</span><span class='id tag!'>tag!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>project-root</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id project_root'>project_root</span><span class='rparen'>)</span>
+      <span class='id env'>env</span><span class='period'>.</span><span class='id tag!'>tag!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>environment-name</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id environment_name'>environment_name</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id xml'>xml</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="report-instance_method">
+  
+    - (<tt>Object</tt>) <strong>report</strong>(event) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 75</span>
+
+<span class='kw'>def</span> <span class='id report'>report</span><span class='lparen'>(</span><span class='id event'>event</span><span class='rparen'>)</span>
+  <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`api_key` is required.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id api_key'>api_key</span>
+
+  <span class='id http'>http</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='const'>Proxy</span><span class='lparen'>(</span><span class='id proxy_host'>proxy_host</span><span class='comma'>,</span> <span class='id proxy_port'>proxy_port</span><span class='comma'>,</span> <span class='id proxy_user'>proxy_user</span><span class='comma'>,</span> <span class='id proxy_pass'>proxy_pass</span><span class='rparen'>)</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id url'>url</span><span class='period'>.</span><span class='id host'>host</span><span class='comma'>,</span> <span class='id url'>url</span><span class='period'>.</span><span class='id port'>port</span><span class='rparen'>)</span>
+  <span class='id http'>http</span><span class='period'>.</span><span class='id read_timeout'>read_timeout</span> <span class='op'>=</span> <span class='id http_read_timeout'>http_read_timeout</span>
+  <span class='id http'>http</span><span class='period'>.</span><span class='id open_timeout'>open_timeout</span> <span class='op'>=</span> <span class='id http_open_timeout'>http_open_timeout</span>
+  <span class='id http'>http</span><span class='period'>.</span><span class='id use_ssl'>use_ssl</span>      <span class='op'>=</span> <span class='id secure'>secure</span>
+
+  <span class='id response'>response</span> <span class='op'>=</span> <span class='kw'>begin</span>
+               <span class='id http'>http</span><span class='period'>.</span><span class='id post'>post</span><span class='lparen'>(</span><span class='id url'>url</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='id event_xml'>event_xml</span><span class='lparen'>(</span><span class='id event'>event</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id headers'>headers</span><span class='rparen'>)</span>
+             <span class='kw'>rescue</span> <span class='const'>TimeoutError</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
+               <span class='id event'>event</span><span class='period'>.</span><span class='id application'>application</span><span class='period'>.</span><span class='id logger'>logger</span><span class='period'>.</span><span class='id error'>error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_content'>: POST timeout.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+               <span class='kw'>nil</span>
+             <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id response'>response</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTPSuccess</span><span class='rparen'>)</span>
+    <span class='id event'>event</span><span class='period'>.</span><span class='id application'>application</span><span class='period'>.</span><span class='id logger'>logger</span><span class='period'>.</span><span class='id error'>error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_content'>: Failed to send: </span><span class='embexpr_beg'>#{</span><span class='id response'>response</span><span class='period'>.</span><span class='id body'>body</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="request_info-instance_method">
+  
+    - (<tt>Object</tt>) <strong>request_info</strong>(event) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns information about the request based on the event, such
+as URL, controller, action, parameters, etc.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 167</span>
+
+<span class='kw'>def</span> <span class='id request_info'>request_info</span><span class='lparen'>(</span><span class='id event'>event</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='ivar'>@_request_info</span> <span class='kw'>if</span> <span class='ivar'>@_request_info</span>
+
+  <span class='comment'># Use the hash of the event so that if any filters deleted data, it is properly
+</span>  <span class='comment'># removed.
+</span>  <span class='id hash'>hash</span> <span class='op'>=</span> <span class='id event'>event</span><span class='period'>.</span><span class='id to_hash'>to_hash</span><span class='period'>.</span><span class='id dup'>dup</span>
+  <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:request</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:request</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:rack_env</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='ivar'>@_request_info</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='kw'>if</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:request</span><span class='rbracket'>]</span>
+    <span class='ivar'>@_request_info</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span>        <span class='op'>=</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:request</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span>
+    <span class='ivar'>@_request_info</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:request</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:rack_env</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>action_dispatch.request.parameters</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||</span>
+      <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:request</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span> <span class='op'>||</span>
+      <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='ivar'>@_request_info</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@_request_info</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>controller</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='ivar'>@_request_info</span><span class='lbracket'>[</span><span class='symbol'>:action</span><span class='rbracket'>]</span>     <span class='op'>=</span> <span class='ivar'>@_request_info</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>action</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='ivar'>@_request_info</span><span class='lbracket'>[</span><span class='symbol'>:cgi_data</span><span class='rbracket'>]</span>   <span class='op'>=</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:request</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:rack_env</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:request</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:headers</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='ivar'>@_request_info</span><span class='lbracket'>[</span><span class='symbol'>:session</span><span class='rbracket'>]</span>    <span class='op'>=</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:request</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:rack_env</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rack.session</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@_request_info</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="url-instance_method">
+  
+    - (<tt>Object</tt>) <strong>url</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns a URI object pointed to the proper endpoint for the
+Hoptoad API.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160
+161
+162
+163</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 158</span>
+
+<span class='kw'>def</span> <span class='id url'>url</span>
+  <span class='id protocol'>protocol</span> <span class='op'>=</span> <span class='id secure'>secure</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>https</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>http</span><span class='tstring_end'>'</span></span>
+  <span class='id port'>port</span>     <span class='op'>=</span> <span class='id secure'>secure</span> <span class='op'>?</span> <span class='int'>443</span> <span class='op'>:</span> <span class='int'>80</span>
+
+  <span class='const'>URI</span><span class='period'>.</span><span class='id parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id protocol'>protocol</span><span class='rbrace'>}</span><span class='tstring_content'>://</span><span class='embexpr_beg'>#{</span><span class='id host'>host</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id port'>port</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='const'>NOTICES_URL</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="xml_vars_for_hash-instance_method">
+  
+    - (<tt>Object</tt>) <strong>xml_vars_for_hash</strong>(builder, hash) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Turns a hash into the proper XML vars</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195
+196
+197
+198
+199
+200
+201</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/reporter/hoptoad_reporter.rb', line 193</span>
+
+<span class='kw'>def</span> <span class='id xml_vars_for_hash'>xml_vars_for_hash</span><span class='lparen'>(</span><span class='id builder'>builder</span><span class='comma'>,</span> <span class='id hash'>hash</span><span class='rparen'>)</span>
+  <span class='id hash'>hash</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span><span class='id v'>v</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id v'>v</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+      <span class='id builder'>builder</span><span class='period'>.</span><span class='id var'>var</span><span class='lparen'>(</span><span class='symbol'>:key</span> <span class='op'>=&gt;</span> <span class='id k'>k</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id b'>b</span><span class='op'>|</span> <span class='id xml_vars_for_hash'>xml_vars_for_hash</span><span class='lparen'>(</span><span class='id b'>b</span><span class='comma'>,</span> <span class='id v'>v</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='kw'>else</span>
+      <span class='id builder'>builder</span><span class='period'>.</span><span class='id var'>var</span><span class='lparen'>(</span><span class='id v'>v</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='symbol'>:key</span> <span class='op'>=&gt;</span> <span class='id k'>k</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Tue Oct  5 13:56:08 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

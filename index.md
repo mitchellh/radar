@@ -21,7 +21,7 @@ Then define a Radar application as early as possible in your own application:
 
 {% highlight ruby %}
 Radar::Application.new(:my_app) do |app|
-  app.reporters.use :file
+  app.reporter :file
   app.rescue_at_exit!
 end
 {% endhighlight %}

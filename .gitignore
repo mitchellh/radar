@@ -1,5 +1,5 @@
 .bundle
 .yardoc
-doc/
+_site
 test.rb
-_site/*
+pkg/
