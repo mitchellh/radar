@@ -305,8 +305,8 @@ Matchers are enabled in the application configuration:
       app.match :backtrace, /file.rb$/
     end
 
-As you can see, multiple matchers may be enabled. In this case, as long as at
-least one matches, then the exception will be reported. The first argument to
+As you can see, multiple matchers may be enabled. In this case, as long as **at
+least one** matches, then the exception will be reported. The first argument to
 {Radar::Config#match match} is a symbol or class of a matcher. If it is a symbol,
 the symbol is constantized and expects to exist under the `Radar::Matchers` namespace.
 If it is a class, that class will be used as the matcher. Any additional arguments
@@ -314,6 +314,9 @@ are passed directly into the initializer of the matcher. For more information
 on writing a custom matcher, see the section below.
 
 If no matchers are specified (the default), then all exceptions are caught.
+
+If you want to **match multiple as an `AND` expression**, then see the `:multi`
+built-in matcher in the section below.
 
 ### Built-in Matchers
 
@@ -368,6 +371,26 @@ as a rejecter, typically, since you don't want local requests during
 development firing off exception reports:
 
     app.reject :local_request
+
+#### `:multi`
+
+A matcher which is somewhat of a meta-matcher. If matches only if all the
+matchers defined within it successfully match. Confusing? An example explains
+it best:
+
+    app.match :multi do |m|
+      m.match :class, StandardError
+      m.reject :local_request
+    end
+
+The above would only match if the class of the exception is a `StandardError`
+**and** it is _not_ a local request. This allows the opposite of the default
+behavior for applications, which take a stance towards an `OR` expression
+of all the matchers.
+
+The `m` variable in the above example is a {Radar::Config} object,
+which allows for `match`, `reject`, etc. Indeed, you can even nest `:multi`
+matchers, though of course its unnecessary, simply possible.
 
 ### Custom Matchers
 

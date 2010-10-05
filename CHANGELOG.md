@@ -1,5 +1,7 @@
 ## 0.5.0 (unreleased)
 
+  - New `MultiMatcher` allows for `AND` statements of matchers. (e.g. If matcher
+    A _and_ matcher B match, instead of the default `OR` behavior).
   - Added `ExceptionEvent#match?` which accepts any valid matcher and returns
     a boolean whether that event matches or not.
 
