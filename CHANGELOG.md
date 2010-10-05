@@ -1,4 +1,4 @@
-## 0.4.0 (unreleased)
+## 0.4.0 (October 5, 2010)
 
   - Added a `LocalRequestMatcher` to detect local requests for web
     applications. [GH-27]
