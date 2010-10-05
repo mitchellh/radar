@@ -204,6 +204,30 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#rejecters-instance_method" title="#rejecters (instance method)">- (Object) <strong>rejecters</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute rejecters.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#reporters-instance_method" title="#reporters (instance method)">- (Object) <strong>reporters</strong> </a>
     
 
@@ -239,6 +263,48 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#data_extension-instance_method" title="#data_extension (instance method)">- (Object) <strong>data_extension</strong>(*args, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a data extension to the application.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter-instance_method" title="#filter (instance method)">- (Object) <strong>filter</strong>(*args, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a filter to the application.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#initialize-instance_method" title="#initialize (instance method)">- (Config) <strong>initialize</strong> </a>
     
 
@@ -262,7 +328,7 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#match-instance_method" title="#match (instance method)">- (Object) <strong>match</strong>(matcher, *args) </a>
+      <a href="#match-instance_method" title="#match (instance method)">- (Object) <strong>match</strong>(*args, &amp;block) </a>
     
 
     
@@ -276,6 +342,48 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
 
   
     <span class="summary_desc"><div class='inline'><p>Adds a matcher rule to the application.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reject-instance_method" title="#reject (instance method)">- (Object) <strong>reject</strong>(*args, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a rejecter rule to the application.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reporter-instance_method" title="#reporter (instance method)">- (Object) <strong>reporter</strong>(*args, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a reporter to the application.</p></div></span>
   
 </li>
 
@@ -307,7 +415,6 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
       <pre class="lines">
 
 
-13
 14
 15
 16
@@ -315,15 +422,18 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
 18
 19
 20
-21</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span>
   <span class='ivar'>@reporters</span>       <span class='op'>=</span> <span class='const'>UseArray</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id method'>method</span><span class='lparen'>(</span><span class='symbol'>:add_reporter</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='ivar'>@data_extensions</span> <span class='op'>=</span> <span class='const'>UseArray</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id method'>method</span><span class='lparen'>(</span><span class='symbol'>:add_data_extension</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='ivar'>@matchers</span>        <span class='op'>=</span> <span class='const'>UseArray</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id method'>method</span><span class='lparen'>(</span><span class='symbol'>:add_matcher</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='ivar'>@rejecters</span>       <span class='op'>=</span> <span class='const'>UseArray</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id method'>method</span><span class='lparen'>(</span><span class='symbol'>:add_matcher</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='ivar'>@filters</span>         <span class='op'>=</span> <span class='const'>UseArray</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id method'>method</span><span class='lparen'>(</span><span class='symbol'>:add_filter</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='ivar'>@log_location</span>    <span class='op'>=</span> <span class='kw'>nil</span>
 
@@ -402,12 +512,12 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
       <pre class="lines">
 
 
-10
 11
-12</pre>
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 11</span>
 
 <span class='kw'>def</span> <span class='id filters'>filters</span>
   <span class='ivar'>@filters</span>
@@ -441,12 +551,12 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
       <pre class="lines">
 
 
-11
 12
-13</pre>
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id log_location'>log_location</span>
   <span class='ivar'>@log_location</span>
@@ -489,6 +599,45 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
 
 <span class='kw'>def</span> <span class='id matchers'>matchers</span>
   <span class='ivar'>@matchers</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="rejecters-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="rejecters-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rejecters</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute rejecters</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 10</span>
+
+<span class='kw'>def</span> <span class='id rejecters'>rejecters</span>
+  <span class='ivar'>@rejecters</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -542,9 +691,120 @@ see <span class='object_link'><a href="Application.html#config-instance_method" 
     
     
       <div class="method_details first">
-  <p class="signature first" id="match-instance_method">
+  <p class="signature first" id="data_extension-instance_method">
   
-    - (<tt>Object</tt>) <strong>match</strong>(matcher, *args) 
+    - (<tt>Object</tt>) <strong>data_extension</strong>(*args, &amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a data extension to the application. By default, the exception
+data generated by Radar is quite lean and only includes the basic
+information about the application and exception. Through the use
+of data extensions, you can add any sort of information to the
+exception data that you want.</p>
+
+<p>Built-in data extensions can be enabled via a symbol:</p>
+
+<pre class="code"><span class='id config'>config</span><span class='period'>.</span><span class='id data_extension'>data_extension</span> <span class='symbol'>:host_environment</span>
+</pre>
+
+<p>Custom data extensions can be enabled via a class:</p>
+
+<pre class="code"><span class='id config'>config</span><span class='period'>.</span><span class='id data_extension'>data_extension</span> <span class='const'>MyCustomExtension</span>
+</pre>
+
+<p>Any arguments given will be passed on to the data extension class.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id data_extension'>data_extension</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@data_extensions</span><span class='period'>.</span><span class='id use'>use</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="filter-instance_method">
+  
+    - (<tt>Object</tt>) <strong>filter</strong>(*args, &amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a filter to the application. Filters provide a method of filtering
+the exception data just prior to the data being sent to the reporters.
+This enables you to filter out sensitive information such as passwords,
+or even just to remove unnecessary keys.</p>
+
+<p>Built-in filters can be enabled using a symbol shortcut:</p>
+
+<pre class="code"><span class='id config'>config</span><span class='period'>.</span><span class='id filter'>filter</span> <span class='symbol'>:key</span><span class='comma'>,</span> <span class='symbol'>:key</span> <span class='op'>=&gt;</span> <span class='symbol'>:password</span>
+</pre>
+
+<p>Custom filters can be enabled using a class:</p>
+
+<pre class="code"><span class='id config'>config</span><span class='period'>.</span><span class='id filter'>filter</span> <span class='const'>MyCustomFilter</span>
+</pre>
+
+<p>Or simple filters can be created using lambda functions:</p>
+
+<pre class="code"><span class='id config'>config</span><span class='period'>.</span><span class='id filter'>filter</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id data'>data</span><span class='op'>|</span>
+  <span class='comment'># do something with the data and return it
+</span>  <span class='id data'>data</span>
+<span class='kw'>end</span>
+</pre>
+
+<p>Any arguments given will be passed on to the filter class.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 125</span>
+
+<span class='kw'>def</span> <span class='id filter'>filter</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@filters</span><span class='period'>.</span><span class='id use'>use</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="match-instance_method">
+  
+    - (<tt>Object</tt>) <strong>match</strong>(*args, &amp;block) 
   
 
   
@@ -561,7 +821,7 @@ symbol for the name:</p>
 </pre>
 
 <p>This will cause Radar to search for a class named "ClassMatcher"
-under the namespace <span class='object_link'><a href="Matchers.html" title="Radar::Matchers (module)">Radar::Matchers</a></span>.</p>
+under the namespace <span class='object_link'><a href="Matchers.html" title="Radar::Matchers (module)">Matchers</a></span>.</p>
 
 <p>A second option is to use a class itself:</p>
 
@@ -580,15 +840,119 @@ under the namespace <span class='object_link'><a href="Matchers.html" title="Rad
       <pre class="lines">
 
 
-41
-42
-43</pre>
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 87</span>
 
-<span class='kw'>def</span> <span class='id match'>match</span><span class='lparen'>(</span><span class='id matcher'>matcher</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span>
-  <span class='ivar'>@matchers</span><span class='period'>.</span><span class='id use'>use</span><span class='lparen'>(</span><span class='id matcher'>matcher</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id match'>match</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@matchers</span><span class='period'>.</span><span class='id use'>use</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reject-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reject</strong>(*args, &amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a rejecter rule to the application. A rejecter is the same as a
+matcher, so if you're not familiar with matchers, please read the documentation
+above <span class='object_link'><a href="#match-instance_method" title="Radar::Config#match (method)">#match</a></span> first. The only difference with a rejecter is that if
+any of the rejecters return true, then the exception event is not sent
+to reporters.</p>
+
+<p>Another important note is that rejecters always take precedence over
+matchers. So even if a matcher would have matched the exception, if it
+matches a rejecter, then it won't continue.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 100</span>
+
+<span class='kw'>def</span> <span class='id reject'>reject</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@rejecters</span><span class='period'>.</span><span class='id use'>use</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reporter-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reporter</strong>(*args, &amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a reporter to the application. Unlike most exception notifiers,
+Radar on its own doesn't actually do anything with the exception data
+once it has processed it. Instead, it is up to reporters to take the
+exception data and do something with it. Using this method, you can
+enable reporters.</p>
+
+<p>Built-in reporters can be accessed via a symbol:</p>
+
+<pre class="code"><span class='id config'>config</span><span class='period'>.</span><span class='id reporter'>reporter</span> <span class='symbol'>:file</span>
+</pre>
+
+<p>Custom reporters can be accessed via a class:</p>
+
+<pre class="code"><span class='id config'>config</span><span class='period'>.</span><span class='id reporter'>reporter</span> <span class='const'>MyCustomReporter</span>
+</pre>
+
+<p>And for simple reporters, you may even just use a block:</p>
+
+<pre class="code"><span class='id config'>config</span><span class='period'>.</span><span class='id reporter'>reporter</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id event'>event</span><span class='op'>|</span>
+  <span class='comment'># Do something with the event
+</span><span class='kw'>end</span>
+</pre>
+
+<p>Any arguments other than the first, including any given blocks,
+are passed on to the reporter class.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/config.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id reporter'>reporter</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@reporters</span><span class='period'>.</span><span class='id use'>use</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -600,9 +964,9 @@ under the namespace <span class='object_link'><a href="Matchers.html" title="Rad
 </div>
     
     <div id="footer">
-  Generated on Sat Aug 21 21:49:20 2010 by 
+  Generated on Tue Oct  5 13:56:07 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.0.rc1 (ruby-1.9.2).
+  0.6.1 (ruby-1.9.2).
 </div>
 
   </body>

@@ -2,3 +2,4 @@ _site
 .yardoc/*
 .bundle/
 test.rb
+pkg/

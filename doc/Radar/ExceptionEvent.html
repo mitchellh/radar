@@ -121,6 +121,30 @@ raised.</p>
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#backtrace-instance_method" title="#backtrace (instance method)">- (Object) <strong>backtrace</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute backtrace.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#exception-instance_method" title="#exception (instance method)">- (Object) <strong>exception</strong> </a>
     
 
@@ -315,20 +339,22 @@ another.</p></div></span>
       <pre class="lines">
 
 
-14
 15
 16
 17
 18
-19</pre>
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id application'>application</span><span class='comma'>,</span> <span class='id exception'>exception</span><span class='comma'>,</span> <span class='id extra'>extra</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@application</span> <span class='op'>=</span> <span class='id application'>application</span>
-  <span class='ivar'>@exception</span> <span class='op'>=</span> <span class='id exception'>exception</span>
-  <span class='ivar'>@extra</span> <span class='op'>=</span> <span class='id extra'>extra</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@exception</span>   <span class='op'>=</span> <span class='id exception'>exception</span>
+  <span class='ivar'>@backtrace</span>   <span class='op'>=</span> <span class='const'>Backtrace</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id exception'>exception</span><span class='period'>.</span><span class='id backtrace'>backtrace</span><span class='rparen'>)</span>
+  <span class='ivar'>@extra</span>       <span class='op'>=</span> <span class='id extra'>extra</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@occurred_at</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id now'>now</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -374,6 +400,45 @@ another.</p></div></span>
 
 <span class='kw'>def</span> <span class='id application'>application</span>
   <span class='ivar'>@application</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="backtrace-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="backtrace-instance_method">
+  
+    - (<tt>Object</tt>) <strong>backtrace</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute backtrace</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 11</span>
+
+<span class='kw'>def</span> <span class='id backtrace'>backtrace</span>
+  <span class='ivar'>@backtrace</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -482,12 +547,12 @@ another.</p></div></span>
       <pre class="lines">
 
 
-11
-12
-13</pre>
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id occurred_at'>occurred_at</span>
   <span class='ivar'>@occurred_at</span>
@@ -514,7 +579,7 @@ another.</p></div></span>
 </p><div class="docstring">
   <div class="discussion">
     <p>A hash of information about this exception event. This includes
-<span class='object_link'><a href="Application.html#to_hash-instance_method" title="Radar::Application#to_hash (method)">Radar::Application#to_hash</a></span> as well as information about the exception.
+<span class='object_link'><a href="Application.html#to_hash-instance_method" title="Radar::Application#to_hash (method)">Application#to_hash</a></span> as well as information about the exception.
 This also includes any <span class='object_link'><a href="Config.html#data_extensions-instance_method" title="Radar::Config#data_extensions (method)">data_extensions</a></span> if
 specified.</p>
 
@@ -541,8 +606,6 @@ specified.</p>
       <pre class="lines">
 
 
-27
-28
 29
 30
 31
@@ -561,17 +624,25 @@ specified.</p>
 44
 45
 46
-47</pre>
+47
+48
+49
+50
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id to_hash'>to_hash</span>
+  <span class='kw'>return</span> <span class='ivar'>@_to_hash_result</span> <span class='kw'>if</span> <span class='ivar'>@_to_hash_result</span>
+
   <span class='id result'>result</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='symbol'>:application</span> <span class='op'>=&gt;</span> <span class='id application'>application</span><span class='period'>.</span><span class='id to_hash'>to_hash</span><span class='comma'>,</span>
     <span class='symbol'>:exception</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
       <span class='symbol'>:klass</span> <span class='op'>=&gt;</span> <span class='id exception'>exception</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span>
       <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='id exception'>exception</span><span class='period'>.</span><span class='id message'>message</span><span class='comma'>,</span>
-      <span class='symbol'>:backtrace</span> <span class='op'>=&gt;</span> <span class='id exception'>exception</span><span class='period'>.</span><span class='id backtrace'>backtrace</span><span class='comma'>,</span>
+      <span class='symbol'>:backtrace</span> <span class='op'>=&gt;</span> <span class='id backtrace'>backtrace</span><span class='comma'>,</span>
       <span class='symbol'>:uniqueness_hash</span> <span class='op'>=&gt;</span> <span class='id uniqueness_hash'>uniqueness_hash</span>
     <span class='rbrace'>}</span><span class='comma'>,</span>
     <span class='symbol'>:occurred_at</span> <span class='op'>=&gt;</span> <span class='id occurred_at'>occurred_at</span><span class='period'>.</span><span class='id to_i'>to_i</span>
@@ -585,6 +656,8 @@ specified.</p>
     <span class='id result'>result</span> <span class='op'>=</span> <span class='id filter'>filter</span><span class='period'>.</span><span class='id call'>call</span><span class='lparen'>(</span><span class='id result'>result</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
+  <span class='comment'># Cache the resulting hash to it is only generated once.
+</span>  <span class='ivar'>@_to_hash_result</span> <span class='op'>=</span> <span class='id result'>result</span>
   <span class='id result'>result</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -626,12 +699,12 @@ specified.</p>
       <pre class="lines">
 
 
-52
-53
-54</pre>
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id to_json'>to_json</span>
   <span class='id to_hash'>to_hash</span><span class='period'>.</span><span class='id to_json'>to_json</span>
@@ -677,12 +750,12 @@ backtrace and class and generating the SHA1 hash of those concatenated.</p>
       <pre class="lines">
 
 
-61
-62
-63</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'lib/radar/exception_event.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id uniqueness_hash'>uniqueness_hash</span>
   <span class='const'>Digest</span><span class='op'>::</span><span class='const'>SHA1</span><span class='period'>.</span><span class='id hexdigest'>hexdigest</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id exception'>exception</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_content'>-</span><span class='embexpr_beg'>#{</span><span class='id exception'>exception</span><span class='period'>.</span><span class='id backtrace'>backtrace</span> <span class='kw'>rescue</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>blank</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -697,9 +770,9 @@ backtrace and class and generating the SHA1 hash of those concatenated.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Aug 21 21:49:21 2010 by 
+  Generated on Tue Oct  5 13:56:08 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.0.rc1 (ruby-1.9.2).
+  0.6.1 (ruby-1.9.2).
 </div>
 
   </body>
