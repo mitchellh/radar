@@ -30,6 +30,24 @@ class ExceptionEventTest < Test::Unit::TestCase
       assert_equal :bar, @instance.extra[:foo]
     end
 
+    context "checking matcher" do
+      should "return true if matches" do
+        result = @instance.match? do |event|
+          event.exception.message == @instance.exception.message
+        end
+
+        assert result
+      end
+
+      should "return false if matching fails" do
+        result = @instance.match? do |event|
+          event.exception.message == "Don't match me"
+        end
+
+        assert !result
+      end
+    end
+
     context "to_hash" do
       context "data extensions" do
         setup do

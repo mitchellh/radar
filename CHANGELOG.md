@@ -1,6 +1,7 @@
 ## 0.5.0 (unreleased)
 
-
+  - Added `ExceptionEvent#match?` which accepts any valid matcher and returns
+    a boolean whether that event matches or not.
 
 ## 0.4.0 (October 5, 2010)
 

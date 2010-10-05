@@ -20,6 +20,19 @@ module Radar
       @occurred_at = Time.now
     end
 
+    # Checks if this event matches the given matcher. This can be a
+    # class or symbol representing the matcher. If a block is given, without
+    # any matcher specified, then that proc will be used as the matcher. If
+    # a class is given, in addition to a block, then the block will be passed
+    # to the initializer of the matcher class.
+    #
+    # @return [Boolean]
+    def match?(*args, &block)
+      c = Config.new
+      c.match(*args, &block)
+      c.matchers.values.first.call(self)
+    end
+
     # A hash of information about this exception event. This includes
     # {Application#to_hash} as well as information about the exception.
     # This also includes any {Config#data_extensions data_extensions} if
