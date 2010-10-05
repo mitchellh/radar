@@ -1,3 +1,3 @@
 module Radar
-  VERSION = "0.4.0" if !defined?(Radar::VERSION)
+  VERSION = "0.5.0.dev" if !defined?(Radar::VERSION)
 end
