@@ -18,7 +18,7 @@ class RackIntegrationTest < Test::Unit::TestCase
       require 'rack'
       @klass = Rack::Radar
       @rack_app = mock("rack_app")
-      @application = Radar::Application.new(:app, false)
+      @application = Radar::Application.new(:app, :register => false)
     end
 
     should "raise an exception if no application is specified" do

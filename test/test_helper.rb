@@ -11,7 +11,7 @@ class Test::Unit::TestCase
   # Returns a real {Radar::ExceptionEvent} object with a newly created
   # {Radar::Application} and a valid (has a backtrace) exception.
   def create_exception_event(extra=nil)
-    application = Radar::Application.new(:foo, false)
+    application = Radar::Application.new(:foo, :register => false)
     exception = nil
 
     begin

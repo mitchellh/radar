@@ -16,6 +16,7 @@ module Radar
     @@registered = {}                 # Hash of registered applications
     @@mutex = Mutex.new               # Mutex used to lock certain actions on applications.
 
+    attr_reader :parent               # Parent application, if there is one (routes have a parent)
     attr_reader :name                 # The name of the application
     attr_reader :creation_location    # The location where the application was created, in the code
     attr_reader :routes               # An array of all the defined routes on this application
@@ -47,9 +48,11 @@ module Radar
     # @param [Boolean] register Registers the application globally
     #   so it can be accessed via {find}. Name must be unique in this case.
     # @return [Application]
-    def initialize(name, register=true)
+    def initialize(name, options=nil)
+      options = { :register => true, :parent => nil }.merge(options || {})
+
       @@mutex.synchronize do
-        if register
+        if options[:register]
           raise ApplicationAlreadyExists.new("'#{name}' already defined at '#{self.class.find(name).creation_location}'") if self.class.find(name)
           @@registered[name] = self
         end
@@ -57,6 +60,7 @@ module Radar
 
       @name = name
       @creation_location = caller.first
+      @parent = options[:parent]
       @routes = []
       yield self if block_given?
     end
@@ -161,9 +165,19 @@ module Radar
 
       # Create a new application with the given name, making sure to
       # _not_ register it, since this is not a top-level application.
-      app = self.class.new(name, false, &block)
+      app = self.class.new(name, { :register => false, :parent => self }, &block)
       routes.push(app)
       app
+    end
+
+    # A method used by {ExceptionEvent} to get all the inherited values
+    # of the {Config::UseArray} with the given name.
+    #
+    # @return [Config::UseArray]
+    def inherited_use_array(name)
+      current = config.send(name)
+      return current if !parent
+      current.merge(parent.config.send(name))
     end
 
     # Converts application to a serialization-friendly hash.

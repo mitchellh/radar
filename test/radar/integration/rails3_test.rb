@@ -5,7 +5,7 @@ class Rails3IntegrationTest < Test::Unit::TestCase
   context "rails3 integration class" do
     setup do
       @klass = Radar::Integration::Rails3
-      @app = Radar::Application.new(:app, false)
+      @app = Radar::Application.new(:app, :register => false)
     end
 
     teardown do

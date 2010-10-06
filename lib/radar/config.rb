@@ -194,13 +194,15 @@ module Radar
     #
     class UseArray
       extend Forwardable
-      def_delegators :@_array, :empty?, :length, :clear
+      attr_reader :array
+
+      def_delegators :@array, :empty?, :length, :clear
 
       # Initializes the UseArray with the given block used to generate
       # the value created for the {#use} method. The block given determines
       # how the {#use} method stores the key/value.
       def initialize(*args, &block)
-        @_array = []
+        @array = []
         @_use_block = block || Proc.new { |key, *args| [key, key] }
       end
 
@@ -214,7 +216,7 @@ module Radar
       # given object (by key).
       def insert(key, *args, &block)
         args.push(block) if block
-        @_array.insert(index(key), @_use_block.call(*args))
+        @array.insert(index(key), @_use_block.call(*args))
       end
       alias_method :insert_before, :insert
 
@@ -236,7 +238,7 @@ module Radar
 
       # Delete the object with the given key or index.
       def delete(key)
-        @_array.delete_at(index(key))
+        @array.delete_at(index(key))
       end
 
       # Returns the value for the given key. If the key is an integer,
@@ -244,7 +246,7 @@ module Radar
       # the given key and return the index of it.
       def index(key)
         return key if key.is_a?(Integer)
-        @_array.each_with_index do |data, i|
+        @array.each_with_index do |data, i|
           return i if data[0] == key
         end
 
@@ -253,10 +255,21 @@ module Radar
 
       # Returns the values of this array.
       def values
-        @_array.inject([]) do |acc, data|
+        @array.inject([]) do |acc, data|
           acc << data[1]
           acc
         end
+      end
+
+      # Merges one {UseArray} with another and return a new instance with
+      # the values merged.
+      #
+      # @param [UseArray] other
+      # @return [UseArray]
+      def merge(other)
+        result = UseArray.new(&@_use_block)
+        result.array.push(*(array + other.array))
+        result
       end
     end
   end

@@ -4,7 +4,7 @@ class ApplicationTest < Test::Unit::TestCase
   context "application class" do
     setup do
       @klass = Radar::Application
-      @instance = @klass.new("bar", false)
+      @instance = @klass.new("bar", :register => false)
     end
 
     context "initializing" do
@@ -24,7 +24,7 @@ class ApplicationTest < Test::Unit::TestCase
 
       should "allow creation of unregistered applications" do
         registered = @klass.new("foo")
-        instance = @klass.new("foo", false)
+        instance = @klass.new("foo", :register => false)
         assert @klass.find("foo").equal?(registered)
       end
 
@@ -49,6 +49,11 @@ class ApplicationTest < Test::Unit::TestCase
       should "have no routes when initialized" do
         instance = @klass.new("foo")
         assert instance.routes.empty?
+      end
+
+      should "be able to set the parent" do
+        instance = @klass.new(:foo, :parent => 7)
+        assert_equal 7, instance.parent
       end
     end
 
@@ -232,10 +237,15 @@ class ApplicationTest < Test::Unit::TestCase
         assert @instance.routes.empty?
       end
 
-      should "return a new application which isn't registered and add it to the routes list" do
+      should "return a new application which isn't registered" do
         app = @instance.route
         assert app.is_a?(Radar::Application)
         assert !app.equal?(@instance)
+        assert app.parent.equal?(@instance)
+      end
+
+      should "add the application to the routes" do
+        app = @instance.route
         assert_equal [app], @instance.routes
       end
 
@@ -279,6 +289,26 @@ class ApplicationTest < Test::Unit::TestCase
           @instance.config.expects(method).once
           @instance.send(method)
         end
+      end
+    end
+
+    context "inherited config values" do
+      setup do
+        @instance.filter do; end
+
+        @route = @instance.route do |a|
+          a.filter do; end
+        end
+      end
+
+      should "return just the values if no ancestors" do
+        result = @instance.inherited_use_array(:filters)
+        assert_equal 1, result.length
+      end
+
+      should "return inherited values merged with ancestors" do
+        result = @route.inherited_use_array(:filters)
+        assert_equal 2, result.length
       end
     end
 

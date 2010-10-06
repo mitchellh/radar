@@ -229,5 +229,15 @@ class ConfigTest < Test::Unit::TestCase
     should "return the numeric index untouched if given" do
       assert_equal 12, @instance.index(12)
     end
+
+    should "be able to merge multiple use arrays with the merge method" do
+      other = @klass.new
+
+      @instance.use(:foo)
+      other.use(:bar)
+
+      merged = @instance.merge(other)
+      assert_equal [:foo, :bar], merged.values
+    end
   end
 end

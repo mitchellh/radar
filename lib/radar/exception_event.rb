@@ -52,11 +52,11 @@ module Radar
         :occurred_at => occurred_at.to_i
       }
 
-      application.config.data_extensions.values.each do |extension|
+      application.inherited_use_array(:data_extensions).values.each do |extension|
         Support::Hash.deep_merge!(result, extension.new(self).to_hash || {})
       end
 
-      application.config.filters.values.each do |filter|
+      application.inherited_use_array(:filters).values.each do |filter|
         result = filter.call(result)
       end
 
