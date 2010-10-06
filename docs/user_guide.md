@@ -525,6 +525,55 @@ Then before it is sent to reporters it will be filtered into this:
 There are many options which can be sent to `KeyFilter`, please see the
 class documentation for more details.
 
+## Routes
+
+Radar introduces a new concept to exception reporting libraries named "routes."
+They are just like routes in a web application or routes for directions while
+driving. Routes are a way to handle certain exception events different from
+the rest. A couple real world use cases are shown below:
+
+* While all errors should be reported to a log, really important errors should
+  be emailed to the development team as well.
+* A certain library's errors should be sent to its own distinct log to make
+  investigation of any errors easier to follow.
+
+Defining a route is easy, and happens directly in the application configuration:
+
+    Radar::Application.new(:my_app) do |app|
+      app.reject :local_request
+
+      app.route do |r|
+        r.match :class, ReallyImportantError
+        r.reporter :email
+      end
+
+      app.route do |r|
+        r.match :backtrace, "my_library.rb"
+        r.reporter :log, :log_object => Logger.new(STDERR)
+      end
+    end
+
+In the above application, the behavior is as follows:
+
+* Before even being routed, any exceptions which are from local web
+  requests will be discarded. Since the `app.reject :local_request` is
+  in the outermost scope, this is checked before routing is done.
+* The first defined route will match only `ReallyImportantError`s (that aren't
+  local requests, remember!) and report it using email.
+* The second defined route will match only exceptions with `my_library.rb` in the
+  backtrace and report it to `STDERR`.
+
+And the important points to gain from this example are the following:
+
+* Routes are only executed if the exception passes all the matchers
+  in the outer scope. So in the above case, the `local_request` check
+  happens before attempting to dispatch to any routes.
+* The `r` variable passed into the blocks for the routes is a full-fledged
+  {Radar::Application}, distinct from the top-level application. Therefore,
+  you can call any methods you would normally call on an application variable.
+* As many routes as you want may be defined. Routes may even be nested, if
+  this makes things easier for you.
+
 ## Integration with Other Software
 
 ### Rack
