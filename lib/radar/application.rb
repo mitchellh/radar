@@ -13,11 +13,12 @@ module Radar
   class Application
     extend Forwardable
 
-    @@registered = {}
-    @@mutex = Mutex.new
+    @@registered = {}                 # Hash of registered applications
+    @@mutex = Mutex.new               # Mutex used to lock certain actions on applications.
 
-    attr_reader :name
-    attr_reader :creation_location
+    attr_reader :name                 # The name of the application
+    attr_reader :creation_location    # The location where the application was created, in the code
+    attr_reader :routes               # An array of all the defined routes on this application
 
     def_delegators :config, :reporters, :data_extensions, :matchers, :filters, :rejecters,
                             :reporter, :data_extension, :match, :filter, :reject
@@ -56,6 +57,7 @@ module Radar
 
       @name = name
       @creation_location = caller.first
+      @routes = []
       yield self if block_given?
     end
 
@@ -123,6 +125,11 @@ module Radar
       config.reporters.values.each do |reporter|
         reporter.call(data)
       end
+
+      # Report the exception to each of the routes
+      routes.each do |route|
+        route.report(exception, extra)
+      end
     end
 
     # Hooks this application into the `at_exit` handler so that
@@ -138,6 +145,25 @@ module Radar
     def integrate(integrator, *args, &block)
       integrator = Support::Inflector.constantize("Radar::Integration::#{Support::Inflector.camelize(integrator)}") if !integrator.is_a?(Class)
       integrator.integrate!(self, *args, &block)
+    end
+
+    # Creates a new route within the application. A route is a new, self-contained
+    # {Application} instance which can have its own set of matchers, reporters,
+    # etc. but {#report} is invoked at the same time as the parent application.
+    # An optional name can be given to the route which will assist in viewing log
+    # files of the application.
+    #
+    # @param [String] name Name of the route.
+    # @return [Application]
+    def route(name=nil, &block)
+      block = Proc.new {} if !block_given?
+      name ||= "route_#{routes.length}"
+
+      # Create a new application with the given name, making sure to
+      # _not_ register it, since this is not a top-level application.
+      app = self.class.new(name, false, &block)
+      routes.push(app)
+      app
     end
 
     # Converts application to a serialization-friendly hash.

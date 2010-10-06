@@ -2,6 +2,8 @@ require 'radar/version'
 require 'radar/error'
 require 'radar/integration/rails3/railtie' if defined?(Rails::Railtie)
 
+# The main Radar module. All behavior related to Radar exists under this
+# namespace, except for the Rack middleware which is located under {Rack::Radar}.
 module Radar
   autoload :Application,    'radar/application'
   autoload :Backtrace,      'radar/backtrace'

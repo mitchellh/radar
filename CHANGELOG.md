@@ -1,5 +1,7 @@
 ## 0.5.0 (unreleased)
 
+  - **Routing**: True routing is now available. Different exceptions can report
+    differently and so on. See user guide for details.
   - Creating unregistered applications now properly works.
   - New `MultiMatcher` allows for `AND` statements of matchers. (e.g. If matcher
     A _and_ matcher B match, instead of the default `OR` behavior).

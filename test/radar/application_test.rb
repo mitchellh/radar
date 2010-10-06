@@ -40,6 +40,16 @@ class ApplicationTest < Test::Unit::TestCase
           assert instance.is_a?(@klass)
         end
       end
+
+      should "maintain the creation location of the application" do
+        instance = @klass.new("foo")
+        assert instance.creation_location =~ /application_test\.rb:#{__LINE__ - 1}/
+      end
+
+      should "have no routes when initialized" do
+        instance = @klass.new("foo")
+        assert instance.routes.empty?
+      end
     end
 
     context "configuration" do
@@ -105,6 +115,63 @@ class ApplicationTest < Test::Unit::TestCase
         end
       end
 
+      context "with routes" do
+        should "call report on each route of the application" do
+          reached = false
+          app = @instance.route do |a|
+            a.reporter do |event|
+              reached = true
+            end
+          end
+
+          @instance.report(Exception.new)
+          assert reached
+        end
+
+        should "respect any data extensions in the parent" do
+          extension = Class.new do
+            def initialize(event); @event = event; end
+
+            def to_hash
+              { :foo => :bar }
+            end
+          end
+
+          @instance.data_extension(extension)
+
+          # Define the route and the outer variable to store the result
+          result = nil
+          app = @instance.route do |a|
+            a.reporter do |event|
+              result = event.to_hash
+            end
+          end
+
+          @instance.report(Exception.new)
+          assert result
+          assert_equal :bar, result[:foo]
+        end
+
+        should "respect any filters in the parent" do
+          @instance.filter do |data|
+            data[:foo] = :bar
+            data
+          end
+
+          # Define the route and the outer variable to store the result
+          result = nil
+          app = @instance.route do |a|
+            a.reporter do |event|
+              result = event.to_hash
+            end
+          end
+
+          @instance.report(Exception.new)
+          assert result
+          assert_equal :bar, result[:foo]
+        end
+      end
+
       context "with a matcher" do
         setup do
           @matcher = Class.new do
@@ -157,6 +224,34 @@ class ApplicationTest < Test::Unit::TestCase
       should "integrate with specified classes" do
         Radar::Integration::Rack.expects(:integrate!).with(@instance)
         @instance.integrate(Radar::Integration::Rack)
+      end
+    end
+
+    context "routes" do
+      should "have no routes initially" do
+        assert @instance.routes.empty?
+      end
+
+      should "return a new application which isn't registered and add it to the routes list" do
+        app = @instance.route
+        assert app.is_a?(Radar::Application)
+        assert !app.equal?(@instance)
+        assert_equal [app], @instance.routes
+      end
+
+      should "yield instance of the application if block is given" do
+        outer = nil
+        app = @instance.route do |a|
+          outer = a
+        end
+
+        assert app.equal?(outer)
+      end
+
+      should "be able to name the routes" do
+        app = @instance.route("foo")
+        assert_equal "foo", app.name
+        assert !@klass.find(app.name)
       end
     end
 
