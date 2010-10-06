@@ -34,6 +34,9 @@ app tells Radar to catch any application-crashing exceptions as well.
 
 Radar is customizable in almost every way:
 
+* **Routes** allow you to handle certain exception events differently
+  from the rest. Report really important errors via email, but the rest
+  via a service, for example.
 * **Reporters** allow you to configure where Radar sends exceptions to:
   a file, a server, email, Hoptoad, etc. Anywhere you want!
 * **Data Extensions** enable you to add more information to exception

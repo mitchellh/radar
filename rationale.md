@@ -20,6 +20,11 @@ same problems Radar hopes to resolve:
   exception reporting in desktop applications as well.
 * No backup plans. What if their services are down? There is no way to
   log the same exception data to a file for example, as well.
+* No special cases. You can't treat certain exceptions differently from
+  others. For example: If you turn on email notification for exceptions,
+  _all_ exceptions are sending emails, when you really only care about
+  certain kinds. This sort of customization isn't possible with other
+  exception reporting libraries.
 
 The above are the major points. There are other minor areas where Radar
 improves upon these libraries as well, but for the purpose of this page,
@@ -46,6 +51,10 @@ the mentioned problems:
   can report errors for any sort of applications, or even just libraries.
 * A Radar application can have multiple **reporters**, so if one fails,
   the others still likely work, and provide a nice backup solution.
+* **Routes** can be used to treat certain exception events differently.
+  So if you have that really rare important exception come up, you can
+  report it via SMS, email, whatever, while all the rest of the exceptions
+  just got to a service.
 
 ## Get Started!
 
