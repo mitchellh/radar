@@ -120,6 +120,12 @@ class ApplicationTest < Test::Unit::TestCase
         end
       end
 
+      should "store the exception as the last reported" do
+        exception = Exception.new
+        @instance.report(exception)
+        assert @instance.last_reported.equal?(exception)
+      end
+
       context "with routes" do
         should "call report on each route of the application" do
           reached = false

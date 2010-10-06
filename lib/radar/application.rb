@@ -20,6 +20,7 @@ module Radar
     attr_reader :name                 # The name of the application
     attr_reader :creation_location    # The location where the application was created, in the code
     attr_reader :routes               # An array of all the defined routes on this application
+    attr_reader :last_reported        # The exception instance that was reported last (most recently)
 
     def_delegators :config, :reporters, :data_extensions, :matchers, :filters, :rejecters,
                             :reporter, :data_extension, :match, :filter, :reject
@@ -124,6 +125,10 @@ module Radar
         end
       end
 
+      # Mark this as the last reported exception, before the reporting actually
+      # happens
+      @last_reported = exception
+
       # Report the exception to each of the reporters
       logger.info "Invoking reporters for exception: #{exception.class}"
       config.reporters.values.each do |reporter|
@@ -140,7 +145,7 @@ module Radar
     # application crashing exceptions are properly reported.
     def rescue_at_exit!
       logger.info "Attached to application exit."
-      at_exit { report($!) if $! }
+      at_exit { report($!) if $! && !last_reported.equal?($!) }
     end
 
     # Integrate this application with some external system, such as

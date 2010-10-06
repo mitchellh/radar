@@ -1,5 +1,6 @@
 ## 0.5.0 (unreleased)
 
+  - `at_exit` reporting will not report an exception twice if it was just reported. [GH-29]
   - **Routing**: True routing is now available. Different exceptions can report
     differently and so on. See user guide for details.
   - Creating unregistered applications now properly works.
