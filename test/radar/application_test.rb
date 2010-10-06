@@ -23,8 +23,9 @@ class ApplicationTest < Test::Unit::TestCase
       end
 
       should "allow creation of unregistered applications" do
+        registered = @klass.new("foo")
         instance = @klass.new("foo", false)
-        assert_nil @klass.find("foo")
+        assert @klass.find("foo").equal?(registered)
       end
 
       should "raise an exception if duplicate name is used" do

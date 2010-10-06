@@ -43,16 +43,20 @@ module Radar
     #
     # @param [String] name Application name. This must be unique for
     #   any given application or an exception will be raised.
+    # @param [Boolean] register Registers the application globally
+    #   so it can be accessed via {find}. Name must be unique in this case.
     # @return [Application]
     def initialize(name, register=true)
       @@mutex.synchronize do
-        raise ApplicationAlreadyExists.new("'#{name}' already defined at '#{self.class.find(name).creation_location}'") if self.class.find(name)
-
-        @name = name
-        @creation_location = caller.first
-        yield self if block_given?
-        @@registered[name] = self if register
+        if register
+          raise ApplicationAlreadyExists.new("'#{name}' already defined at '#{self.class.find(name).creation_location}'") if self.class.find(name)
+          @@registered[name] = self
+        end
       end
+
+      @name = name
+      @creation_location = caller.first
+      yield self if block_given?
     end
 
     # Configures the application by returning the configuration
