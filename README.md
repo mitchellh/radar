@@ -15,9 +15,10 @@ the [rationale behind Radar](http://radargem.com/rationale.html).
   - Data extensions enable you to add additional contextual data to exceptions
   - Matchers are able to filter which exceptions are reported
   - Filters remove sensitive data from exceptions
-  - Run multiple Radar "applications" side-by-side to catch and report
-    different exceptions to different places.
-  - Integration with 3rd party software: Rack, Rails 2, Rails 3, and Sinatra.
+  - Routes allow different exceptions events to be handled differently
+  - Run multiple Radar "applications" side-by-side, so your application and
+    libraries can all have Radar integrated and running together in harmony
+  - Integration with 3rd party software: Rack, Rails 2, Rails 3, and Sinatra
   - Drop-in replacement and integration with [Hoptoad](http://hoptoadapp.com)
 
 ## Quick Start
